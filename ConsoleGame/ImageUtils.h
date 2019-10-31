@@ -1,13 +1,5 @@
 #include <Windows.h>
 
-typedef struct {
-	int width, height;
-}IMAGE_SIZE;
-
-typedef struct {
-	int x, y;
-}OFFSET;
-
 HWND getConsoleWindowHandle() {
 	WCHAR title[2048] = { 0 };
 	GetConsoleTitle(title, 2048);
@@ -35,7 +27,7 @@ void GetBMP(HDC hdc, HDC memdc, HBITMAP image) {
 	DeleteDC(bitmapDC);
 }
 
-void paintImage(IMAGE_SIZE size, OFFSET offset, char* fileName) {
+void paintImage(int width, int height, int xOffset, int yOffset, char* fileName) {
 	int dpi;
 	HBITMAP image;
 	HWND hWnd = getConsoleWindowHandle();
@@ -44,10 +36,8 @@ void paintImage(IMAGE_SIZE size, OFFSET offset, char* fileName) {
 
 	image = (HBITMAP)LoadImage(NULL, (LPCWSTR)fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
-	int width = size.width;
-	int height = size.height;
-	int xOffset = offset.x * -1;
-	int yOffset = offset.y * -1;
+	xOffset *= -1;
+	yOffset *= -1;
 
 	HDC hdc = GetDC(hWnd);
 	HDC memdc = CreateCompatibleDC(hdc);
@@ -62,14 +52,4 @@ void paintImage(IMAGE_SIZE size, OFFSET offset, char* fileName) {
 	DeleteDC(memdc);
 	DeleteObject(bitmap);
 	ReleaseDC(hWnd, hdc);
-}
-
-IMAGE_SIZE Size(int width, int height) {
-	IMAGE_SIZE size = { width, height };
-	return size;
-}
-
-OFFSET Offset(int x, int y) {
-	OFFSET offset = { x, y };
-	return offset;
 }
