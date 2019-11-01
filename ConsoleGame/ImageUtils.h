@@ -35,9 +35,6 @@ inline void paintImage(int width, int height, int xOffset, int yOffset, wchar_t*
 	int dpi = getDPI(hWnd);
 	const HBITMAP image = (HBITMAP)LoadImage(NULL, (LPCWSTR)fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
-	xOffset *= -1;
-	yOffset *= -1;
-
 	const HDC hdc = GetDC(hWnd);
 	const HDC memdc = CreateCompatibleDC(hdc);
 
@@ -46,8 +43,8 @@ inline void paintImage(int width, int height, int xOffset, int yOffset, wchar_t*
 
 	getBMP(hdc, memdc, image);
 
-	StretchBlt(hdc, 0, 0, CONSOLE_WIDTH * RESOLUTION_SCALE, CONSOLE_HEIGHT * RESOLUTION_SCALE,
-		memdc, xOffset, yOffset, CONSOLE_WIDTH, CONSOLE_HEIGHT, SRCCOPY);
+	StretchBlt(hdc, xOffset, yOffset, CONSOLE_WIDTH * RESOLUTION_SCALE, CONSOLE_HEIGHT * RESOLUTION_SCALE,
+		memdc, 0, 0, CONSOLE_WIDTH, CONSOLE_HEIGHT, SRCCOPY);
 
 	DeleteDC(memdc);
 	DeleteObject(bitmap);
