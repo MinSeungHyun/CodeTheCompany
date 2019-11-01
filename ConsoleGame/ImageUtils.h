@@ -1,4 +1,6 @@
 #include <Windows.h>
+#include "Initial.h"
+#define RESOLUTION_SCALE 16
 
 HWND getConsoleWindowHandle() {
 	WCHAR title[2048] = { 0 };
@@ -47,7 +49,8 @@ void paintImage(int width, int height, int xOffset, int yOffset, char* fileName)
 
 	GetBMP(hdc, memdc, image);
 
-	StretchBlt(hdc, 0, 0, width * 16, height * 16, memdc, xOffset, yOffset, width, height, SRCCOPY);
+	StretchBlt(hdc, 0, 0, CONSOLE_WIDTH * RESOLUTION_SCALE, CONSOLE_HEIGHT * RESOLUTION_SCALE,
+		memdc, xOffset, yOffset, CONSOLE_WIDTH, CONSOLE_HEIGHT, SRCCOPY);
 
 	DeleteDC(memdc);
 	DeleteObject(bitmap);
