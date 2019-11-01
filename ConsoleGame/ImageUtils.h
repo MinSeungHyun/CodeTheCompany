@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include "Initial.h"
+#include "Initializer.h"
 #define RESOLUTION_SCALE 16
 
 HWND getConsoleWindowHandle() {

@@ -20,9 +20,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Initial.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -30,6 +27,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ImageUtils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Initializer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

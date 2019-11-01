@@ -23,7 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageUtils.h" />
-    <ClInclude Include="Initial.h" />
+    <ClInclude Include="Initializer.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
