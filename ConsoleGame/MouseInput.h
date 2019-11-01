@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "Utils.h"
 
-int hasInput() {
+inline int hasInput() {
 	INPUT_RECORD input_record;
 	DWORD input_count;
 
@@ -11,7 +11,7 @@ int hasInput() {
 	return input_count;
 }
 
-int getInput(COORD* pos) {
+inline int getInput(COORD* pos) {
 	INPUT_RECORD input_record;
 	DWORD input_count;
 
@@ -31,7 +31,7 @@ int getInput(COORD* pos) {
 	return 0;
 }
 
-int isMouseClicked(COORD* position) {
+inline int isMouseClicked(COORD* position) {
 	if (hasInput() && getInput(position)) {
 		return 1;
 	}
