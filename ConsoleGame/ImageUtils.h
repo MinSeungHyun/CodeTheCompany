@@ -11,14 +11,6 @@ inline HWND getConsoleWindowHandle() {
 	return hWnd;
 }
 
-inline int getDPI(HWND hWnd) {
-	const HMODULE user32 = GetModuleHandle(TEXT("user32"));
-	const FARPROC func = GetProcAddress(user32, "GetDpiForWindow");
-	if (func == NULL)
-		return 96;
-	return ((UINT(__stdcall*)(HWND))func)(hWnd);
-}
-
 inline void getBMP(HDC hdc, HDC memdc, HBITMAP image) {
 	BITMAP bitmap;
 	const HDC bitmapDC = CreateCompatibleDC(hdc);
@@ -32,7 +24,6 @@ inline void getBMP(HDC hdc, HDC memdc, HBITMAP image) {
 
 inline void paintImage(int width, int height, int xOffset, int yOffset, wchar_t* fileName) {
 	const HWND hWnd = getConsoleWindowHandle();
-	int dpi = getDPI(hWnd);
 	const HBITMAP image = (HBITMAP)LoadImage(NULL, (LPCWSTR)fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
 	const HDC hdc = GetDC(hWnd);
