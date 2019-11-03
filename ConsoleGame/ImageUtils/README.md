@@ -1,18 +1,18 @@
 # ImageUtils
-* ÀÌ¹ÌÁö Ãâ·ÂÀ» µµ¿ÍÁÖ±â À§ÇÑ À¯Æ¿¸®Æ¼
-* Æ÷Åä¼¥, ÀÏ·¯½ºÆ® °°Àº ÇÁ·Î±×·¥ÀÇ ·¹ÀÌ¾î °³³äÀ» »ı°¢ÇÏ¸é ÆíÇÔ
+* ì´ë¯¸ì§€ ì¶œë ¥ì„ ë„ì™€ì£¼ê¸° ìœ„í•œ ìœ í‹¸ë¦¬í‹°
+* í¬í† ìƒµ, ì¼ëŸ¬ìŠ¤íŠ¸ ê°™ì€ í”„ë¡œê·¸ë¨ì˜ ë ˆì´ì–´ ê°œë…ì„ ìƒê°í•˜ë©´ í¸í•¨
 
-## »ç¿ë¹ı
-1. 3°³ÀÇ ÆÄÀÏÀ» ¸ğµÎ ÀÚ½ÅÀÇ ÇÁ·ÎÁ§Æ®¿¡ Ãß°¡ÇÑ´Ù.
-2. 
+## ì‚¬ìš©ë²•
+1. 3ê°œì˜ íŒŒì¼ì„ ëª¨ë‘ ìì‹ ì˜ í”„ë¡œì íŠ¸ì— ì¶”ê°€í•œë‹¤.
+2. ImageLayerImple.hë¥¼ ìˆ˜ì •í•œë‹¤.
 	```c 
 	//ImageLayerImple.h
-	#define CONSOLE_WIDTH 180 //ÀÚ½ÅÀÇ ÄÜ¼Ö »çÀÌÁî¿¡ ¸Â°Ô ¼³Á¤ÇÑ´Ù
+	#define CONSOLE_WIDTH 180 //ìì‹ ì˜ ì½˜ì†” ì‚¬ì´ì¦ˆì— ë§ê²Œ ì„¤ì •í•œë‹¤
 	#define CONSOLE_HEIGHT 48
 	```
 
-## »ç¿ë ¿¹½Ã
-* ÀÌ¹ÌÁö ¶ç¿ì±â
+## ì‚¬ìš© ì˜ˆì‹œ
+* ì´ë¯¸ì§€ ë„ìš°ê¸°
 	```c
 	#include <stdio.h>
 	#include "ImageLayer.h"
@@ -21,15 +21,15 @@
 		Sleep(500);
 
 		ImageLayer imageLayer = DEFAULT_IMAGE_LAYER;
-		imageLayer.initialize(&imageLayer); //ÃÊ±âÈ­
+		imageLayer.initialize(&imageLayer); //ì´ˆê¸°í™”
 
 		Image images[3] = {
-			{L"sample2.bmp", 0, 0}, //¹®ÀÚ¿­ ¾Õ¿¡  LÀ» ²À ºÙ¿©Áà¾ß ÇÑ´Ù.
+			{L"sample2.bmp", 0, 0}, //ë¬¸ìì—´ ì•ì—  Lì„ ê¼­ ë¶™ì—¬ì¤˜ì•¼ í•œë‹¤.
 			{L"sample.bmp", 500, 500},
 			{L"sample.bmp", 200, 200}
-		};  //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
+		};  //ë°°ì—´ì˜ ì²« ì›ì†Œê°€ ê°€ì¥ ì•„ë˜ ê·¸ë ¤ì§„ë‹¤.
 
-		imageLayer.imageCount = 3; //images ¹è¿­ÀÇ Å©±âº¸´Ù ÀÛ°Å³ª °°¾Æ¾ß ÇÑ´Ù.
+		imageLayer.imageCount = 3; //images ë°°ì—´ì˜ í¬ê¸°ë³´ë‹¤ ì‘ê±°ë‚˜ ê°™ì•„ì•¼ í•œë‹¤.
 		imageLayer.images = images;
 
 		imageLayer.renderAll(&imageLayer);
@@ -38,7 +38,7 @@
 	}
 	```
 
-2. ÀÌ¹ÌÁö ¶ç¿ì°í ¿òÁ÷ÀÌ±â
+2. ì´ë¯¸ì§€ ë„ìš°ê³  ì›€ì§ì´ê¸°
 	```c
     #include <stdio.h>
     #include "ImageLayer.h"
@@ -58,7 +58,7 @@
 	    imageLayer.imageCount = 3;
 	    imageLayer.images = images;
         
-        //¹İº¹¹® ¾È¿¡¼­ ÀÌ¹ÌÁöÀÇ À§Ä¡¸¦ Á¶Á¤ÇÑ ´ÙÀ½ renderAll()
+        //ë°˜ë³µë¬¸ ì•ˆì—ì„œ ì´ë¯¸ì§€ì˜ ìœ„ì¹˜ë¥¼ ì¡°ì •í•œ ë‹¤ìŒ renderAll()
 	    for(int i = 0; i < 1000; i += 3) {
 		    imageLayer.images[0].x = i;
 		    imageLayer.images[1].y = i;
@@ -71,4 +71,4 @@
 	```
 
 ---
-¿À·ù°¡ ÀÖ°Å³ª °ÇÀÇ»çÇ×ÀÌ ÀÖÀ» ½Ã issue ¿Ã·ÁÁÖ¼¼¿ä.
+ì˜¤ë¥˜ê°€ ìˆê±°ë‚˜ ê±´ì˜ì‚¬í•­ì´ ìˆì„ ì‹œ issue ì˜¬ë ¤ì£¼ì„¸ìš”.
