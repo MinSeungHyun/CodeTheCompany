@@ -38,7 +38,7 @@
 	}
 	```
 
-2. 이미지 띄우고 움직이기
+* 이미지 띄우고 움직이기
 	```c
     #include <stdio.h>
     #include "ImageLayer.h"
