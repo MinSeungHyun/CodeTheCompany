@@ -1,7 +1,9 @@
 #pragma once
 #include <Windows.h>
 #include "ImageLayer.h"
-#include "Initializer.h"
+
+#define CONSOLE_WIDTH 180
+#define CONSOLE_HEIGHT 48
 
 #define RESOLUTION_SCALE 16
 #define WINDOW_WIDTH (CONSOLE_WIDTH * RESOLUTION_SCALE)
