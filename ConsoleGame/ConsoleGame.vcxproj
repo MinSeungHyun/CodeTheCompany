@@ -22,10 +22,16 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ImageUtils.h" />
+    <ClInclude Include="DefaultImageLayer.h" />
+    <ClInclude Include="ImageLayer.h" />
+    <ClInclude Include="ImageLayerImpl.h" />
     <ClInclude Include="Initializer.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="clicked.bmp" />
+    <Image Include="non_clicked.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
