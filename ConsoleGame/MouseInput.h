@@ -37,3 +37,10 @@ inline int isMouseClicked(COORD* position) {
 	}
 	return 0;
 }
+
+inline COORD getMousePosition() {
+	POINT cursorPosition;
+	GetCursorPos(&cursorPosition);
+	ScreenToClient(WINDOW_HANDLE, &cursorPosition);
+	return Coord(cursorPosition.x * 2, cursorPosition.y);
+}
