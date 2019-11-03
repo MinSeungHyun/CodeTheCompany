@@ -9,6 +9,12 @@
 inline void getHandle() {
 	CONSOLE_INPUT = GetStdHandle(STD_INPUT_HANDLE);
 	CONSOLE_OUTPUT = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	WCHAR title[2048] = { 0 };
+	GetConsoleTitle(title, 2048);
+	const HWND hWnd = FindWindow(NULL, title);
+	SetConsoleTitle(title);
+	WINDOW_HANDLE = hWnd;
 }
 
 inline void clearCursor() {
