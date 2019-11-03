@@ -29,22 +29,17 @@
     <ClInclude Include="Initializer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ImageLayerImpl.h">
+    <ClInclude Include="ImageUtils\ImageLayer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ImageLayer.h">
+    <ClInclude Include="ImageUtils\ImageLayerImpl.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultImageLayer.h">
+    <ClInclude Include="ImageUtils\ImageLayerInterface.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="clicked.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="non_clicked.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
+    <None Include="ImageUtils\README.md" />
   </ItemGroup>
 </Project>
