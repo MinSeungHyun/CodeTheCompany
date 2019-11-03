@@ -1,16 +1,16 @@
 # ImageUtils
 * 이미지 출력을 도와주기 위한 유틸리티
 * 포토샵, 일러스트 같은 프로그램의 레이어 개념을 생각하면 편함
+* Visual Studio로는 테스트 되었지만 다른 IDE는 아직 안해봤습니다.
 
 ## 사용법
-1. 3개의 파일을 모두 자신의 프로젝트에 추가한다.
+1. 3개의 파일을 모두 자신의 프로젝트에 추가한다. (헤더파일, 이미지, 메인 파일이 모두 같은 폴더에 있어야 함)
 2. ImageLayerImple.h를 수정한다.
 	```c 
 	//ImageLayerImple.h
-	#define CONSOLE_WIDTH 180 //자신의 콘솔 사이즈에 맞게 설정한다
+	#define CONSOLE_WIDTH 180 //자신의 콘솔 사이즈에 맞게 설정한다.
 	#define CONSOLE_HEIGHT 48
 	```
-
 ## 사용 예시
 * 이미지 띄우기
 	```c
@@ -24,8 +24,8 @@
 		imageLayer.initialize(&imageLayer); //초기화
 
 		Image images[3] = {
-			{L"sample2.bmp", 0, 0}, //문자열 앞에  L을 꼭 붙여줘야 한다.
-			{L"sample.bmp", 500, 500},
+			{L"sample2.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표}
+			{L"sample.bmp", 500, 500}, //문자열 앞에  L을 꼭 붙여줘야 한다.
 			{L"sample.bmp", 200, 200}
 		};  //배열의 첫 원소가 가장 아래 그려진다.
 
