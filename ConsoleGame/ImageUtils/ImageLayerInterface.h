@@ -10,6 +10,7 @@ typedef struct _ImageLayer {
 	//¸â¹ö º¯¼ö
 	Image* images;
 	int imageCount;
+	UINT transparentColor;
 
 	HWND _windowHandle;
 	HDC _consoleDC;

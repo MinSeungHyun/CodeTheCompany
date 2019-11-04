@@ -1,4 +1,5 @@
 #pragma once
+#pragma comment (lib, "Msimg32.lib")
 #include <Windows.h>
 #include "ImageLayer.h"
 
@@ -42,8 +43,9 @@ inline void putBitmapToBackDC(HDC backDC, Image image) {
 	DeleteDC(bitmapDC);
 }
 
-inline void applyToConsoleDC(HDC consoleDC, HDC srcDC) {
-	BitBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, srcDC, 0, 0, SRCCOPY);
+inline void applyToConsoleDC(HDC consoleDC, HDC srcDC, UINT transparentColor) {
+	TransparentBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 
+		srcDC, 0, 0,WINDOW_WIDTH, WINDOW_HEIGHT, transparentColor);
 }
 
 inline void _initialize(ImageLayer* self) {
@@ -58,6 +60,6 @@ inline void _renderAll(ImageLayer* self) {
 		putBitmapToBackDC(backDC, self->images[i]);
 	}
 
-	applyToConsoleDC(self->_consoleDC, backDC);
+	applyToConsoleDC(self->_consoleDC, backDC, self->transparentColor);
 	DeleteDC(backDC);
 }
