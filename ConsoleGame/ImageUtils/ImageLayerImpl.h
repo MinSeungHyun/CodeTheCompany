@@ -35,9 +35,9 @@ inline void putBitmapToBackDC(HDC backDC, Image image) {
 	SelectObject(bitmapDC, bitmap);
 
 	const Size bitmapSize = getBitmapSize(bitmap);
-	StretchBlt(backDC, image.x, image.y, bitmapSize.width * 16, bitmapSize.height * 16,
+	StretchBlt(backDC, image.x, image.y, bitmapSize.width * RESOLUTION_SCALE, bitmapSize.height * RESOLUTION_SCALE,
 		bitmapDC, 0, 0, bitmapSize.width, bitmapSize.height, SRCCOPY);
-
+	
 	DeleteObject(bitmap);
 	DeleteDC(bitmapDC);
 }
