@@ -21,14 +21,6 @@ inline Size getBitmapSize(HBITMAP bitmap) {
 	return bitmapSize;
 }
 
-inline HWND getConsoleWindowHandle() {
-	WCHAR title[2048] = { 0 };
-	GetConsoleTitle(title, 2048);
-	const HWND hWnd = FindWindow(NULL, title);
-	SetConsoleTitle(title);
-	return hWnd;
-}
-
 inline HDC createNewBackDC(HDC compatibleDC) {
 	const HDC backDC = CreateCompatibleDC(compatibleDC);
 	const HBITMAP backBitmap = CreateCompatibleBitmap(compatibleDC, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -45,7 +37,7 @@ inline void putBitmapToBackDC(HDC backDC, Image image) {
 	const Size bitmapSize = getBitmapSize(bitmap);
 	StretchBlt(backDC, image.x, image.y, bitmapSize.width * 16, bitmapSize.height * 16,
 		bitmapDC, 0, 0, bitmapSize.width, bitmapSize.height, SRCCOPY);
-	
+
 	DeleteObject(bitmap);
 	DeleteDC(bitmapDC);
 }
@@ -55,7 +47,7 @@ inline void applyToConsoleDC(HDC consoleDC, HDC srcDC) {
 }
 
 inline void _initialize(ImageLayer* self) {
-	self->_windowHandle = getConsoleWindowHandle();
+	self->_windowHandle = GetConsoleWindow();
 	self->_consoleDC = GetDC(self->_windowHandle);
 }
 
