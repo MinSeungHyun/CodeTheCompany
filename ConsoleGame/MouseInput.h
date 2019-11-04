@@ -19,5 +19,5 @@ inline COORD getMousePosition() {
 	POINT cursorPosition;
 	GetCursorPos(&cursorPosition);
 	ScreenToClient(WINDOW_HANDLE, &cursorPosition);
-	return Coord(cursorPosition.x * 2, cursorPosition.y * 2);
+	return (COORD) { cursorPosition.x * 2, cursorPosition.y * 2 };
 }
