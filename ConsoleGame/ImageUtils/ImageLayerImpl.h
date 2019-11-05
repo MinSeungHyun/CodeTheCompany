@@ -30,22 +30,22 @@ inline HDC createNewBackDC(HDC compatibleDC) {
 	return backDC;
 }
 
-inline void putBitmapToBackDC(HDC backDC, Image image) {
+inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	const HDC bitmapDC = CreateCompatibleDC(backDC);
 	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCWSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	SelectObject(bitmapDC, bitmap);
 
 	const Size bitmapSize = getBitmapSize(bitmap);
-	StretchBlt(backDC, image.x, image.y, bitmapSize.width * RESOLUTION_SCALE, bitmapSize.height * RESOLUTION_SCALE,
-		bitmapDC, 0, 0, bitmapSize.width, bitmapSize.height, SRCCOPY);
+	TransparentBlt(backDC, image.x, image.y, bitmapSize.width * RESOLUTION_SCALE, bitmapSize.height * RESOLUTION_SCALE,
+		bitmapDC, 0, 0, bitmapSize.width, bitmapSize.height, transparentColor);
 	
 	DeleteObject(bitmap);
 	DeleteDC(bitmapDC);
 }
 
-inline void applyToConsoleDC(HDC consoleDC, HDC srcDC, UINT transparentColor) {
-	TransparentBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 
-		srcDC, 0, 0,WINDOW_WIDTH, WINDOW_HEIGHT, transparentColor);
+inline void applyToConsoleDC(HDC consoleDC, HDC srcDC) {
+	BitBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 
+		srcDC, 0, 0, SRCCOPY);
 }
 
 inline void _initialize(ImageLayer* self) {
@@ -57,9 +57,9 @@ inline void _renderAll(ImageLayer* self) {
 	const HDC backDC = createNewBackDC(self->_consoleDC);
 
 	for (int i = 0; i < self->imageCount; i++) {
-		putBitmapToBackDC(backDC, self->images[i]);
+		putBitmapToBackDC(backDC, self->images[i], self->transparentColor);
 	}
 
-	applyToConsoleDC(self->_consoleDC, backDC, self->transparentColor);
+	applyToConsoleDC(self->_consoleDC, backDC);
 	DeleteDC(backDC);
 }
