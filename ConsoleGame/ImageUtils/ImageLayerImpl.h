@@ -35,16 +35,19 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCWSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	SelectObject(bitmapDC, bitmap);
 
+	int scale = image.scale;
+	if (scale == 0) scale = 16;
+
 	const Size bitmapSize = getBitmapSize(bitmap);
-	TransparentBlt(backDC, image.x, image.y, bitmapSize.width * RESOLUTION_SCALE, bitmapSize.height * RESOLUTION_SCALE,
+	TransparentBlt(backDC, image.x, image.y, bitmapSize.width * scale, bitmapSize.height * scale,
 		bitmapDC, 0, 0, bitmapSize.width, bitmapSize.height, transparentColor);
-	
+
 	DeleteObject(bitmap);
 	DeleteDC(bitmapDC);
 }
 
 inline void applyToConsoleDC(HDC consoleDC, HDC srcDC) {
-	BitBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 
+	BitBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 		srcDC, 0, 0, SRCCOPY);
 }
 

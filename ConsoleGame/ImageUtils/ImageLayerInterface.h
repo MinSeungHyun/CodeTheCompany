@@ -4,6 +4,7 @@
 typedef struct {
 	unsigned short* fileName;
 	int x, y;
+	int scale;
 }Image;
 
 typedef struct _ImageLayer {
