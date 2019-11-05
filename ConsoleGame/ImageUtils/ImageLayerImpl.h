@@ -35,7 +35,7 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCWSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	SelectObject(bitmapDC, bitmap);
 
-	int scale = image.scale;
+	double scale = image.scale;
 	if (scale == 0) scale = 16;
 
 	const Size bitmapSize = getBitmapSize(bitmap);
