@@ -70,5 +70,19 @@
     }
 	```
 
+## 고급 사용법
+1. 이미지 출력이 되지 않으면 이미지 이름 앞에 붙는  L을 지우고 해보세요.
+
+2. 기본적으로 검정색(RGB(0, 0, 0))이 투명색으로 설정 되있는데 투명색을 수정하고 싶다면
+```layer.transparentColor = RGB(0, 0, 0); //자신이 원하는 색``` 으로 설정하면 됩니다.
+
+3. 이미지 사이즈가 너무 크거나 작으면 
+```c
+//ImageLayerImpl.h 에서 아래 3개의 값을 잘 조절하면 됩니다.
+#define CONSOLE_WIDTH 180
+#define CONSOLE_HEIGHT 48
+#define RESOLUTION_SCALE 16
+```
+
 ---
 오류가 있거나 건의사항이 있을 시 issue 올려주세요.
