@@ -1,4 +1,5 @@
-# ImageUtils
+## ImageUtils
+* 다운로드 주소 : http://bitly.kr/rfsK78G 
 * 이미지 출력을 도와주기 위한 유틸리티
 * 포토샵, 일러스트 같은 프로그램의 레이어 개념을 생각하면 편함
 * Visual Studio로는 테스트 되었지만 다른 IDE는 아직 안해봤습니다.
