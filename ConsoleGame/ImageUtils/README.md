@@ -24,10 +24,10 @@
 		imageLayer.initialize(&imageLayer); //초기화
 
 		Image images[3] = {
-			{L"sample2.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표}
+			{L"sample2.bmp", 0, 0, 2}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)} 
 			{L"sample.bmp", 500, 500}, //문자열 앞에  L을 꼭 붙여줘야 한다.
 			{L"sample.bmp", 200, 200}
-		};  //배열의 첫 원소가 가장 아래 그려진다.
+		}; //배열의 첫 원소가 가장 아래 그려진다.
 
 		imageLayer.imageCount = 3; //images 배열의 크기보다 작거나 같아야 한다.
 		imageLayer.images = images;
@@ -75,14 +75,6 @@
 
 2. 기본적으로 검정색(RGB(0, 0, 0))이 투명색으로 설정 되있는데 투명색을 수정하고 싶다면
 ```layer.transparentColor = RGB(0, 0, 0); //자신이 원하는 색``` 으로 설정하면 됩니다.
-
-3. 이미지 사이즈가 너무 크거나 작으면 
-```c
-//ImageLayerImpl.h 에서 아래 3개의 값을 잘 조절하면 됩니다.
-#define CONSOLE_WIDTH 180
-#define CONSOLE_HEIGHT 48
-#define RESOLUTION_SCALE 16
-```
 
 ---
 오류가 있거나 건의사항이 있을 시 issue 올려주세요.
