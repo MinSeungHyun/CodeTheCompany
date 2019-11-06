@@ -56,13 +56,68 @@ inline void _initialize(ImageLayer* self) {
 	self->_consoleDC = GetDC(self->_windowHandle);
 }
 
-inline void _renderAll(ImageLayer* self) {
+inline HDC getRenderedBackDC(ImageLayer* self) {
 	const HDC backDC = createNewBackDC(self->_consoleDC);
 
 	for (int i = 0; i < self->imageCount; i++) {
 		putBitmapToBackDC(backDC, self->images[i], self->transparentColor);
 	}
+	return backDC;
+}
 
+inline void _renderAll(ImageLayer* self) {
+	const HDC backDC = getRenderedBackDC(self);
 	applyToConsoleDC(self->_consoleDC, backDC);
+	DeleteDC(backDC);
+}
+
+inline BLENDFUNCTION getBlendFunction() {
+	BLENDFUNCTION bf;
+	bf.AlphaFormat = AC_SRC_ALPHA;
+	bf.BlendFlags = 0;
+	bf.BlendOp = AC_SRC_OVER;
+	bf.SourceConstantAlpha = 0;
+	return bf;
+}
+
+inline void _renderAndFadeIn(ImageLayer* self) {
+	const HDC consoleDC = self->_consoleDC;
+	const HDC backDC = getRenderedBackDC(self);
+
+	const HBRUSH blackBrush = CreateSolidBrush(RGB(0, 0, 0));
+	SelectObject(consoleDC, blackBrush);
+
+	BLENDFUNCTION bf = getBlendFunction();
+	bf.SourceConstantAlpha = 12;
+	
+	Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	for (int i = 0; i < 20; i++) {
+		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
+			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
+	}
+	applyToConsoleDC(consoleDC, backDC);
+	DeleteDC(backDC);
+}
+
+inline void _renderAndFadeOut(ImageLayer* self) {
+	const HDC consoleDC = self->_consoleDC;
+	const HDC backDC = getRenderedBackDC(self);
+	applyToConsoleDC(consoleDC, backDC);
+
+	const HBRUSH blackBrush = CreateSolidBrush(RGB(0, 0, 0));
+	SelectObject(consoleDC, blackBrush);
+
+	BLENDFUNCTION bf = getBlendFunction();
+
+	for (int i = 255; i > 0; i-=20) {
+		Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		bf.SourceConstantAlpha = i;
+		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
+			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
+		Sleep(100);
+	}
+	Rectangle(consoleDC, 0, 0,WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	DeleteObject(blackBrush);
 	DeleteDC(backDC);
 }
