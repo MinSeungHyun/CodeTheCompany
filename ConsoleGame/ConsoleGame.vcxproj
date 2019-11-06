@@ -22,40 +22,15 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ButtonUtils\Button.h" />
-    <ClInclude Include="ButtonUtils\ButtonImpl.h" />
-    <ClInclude Include="ButtonUtils\ButtonInterface.h" />
     <ClInclude Include="ImageUtils\ImageLayer.h" />
     <ClInclude Include="ImageUtils\ImageLayerImpl.h" />
     <ClInclude Include="ImageUtils\ImageLayerInterface.h" />
     <ClInclude Include="Initializer.h" />
     <ClInclude Include="MouseInput.h" />
-    <ClInclude Include="resources.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ImageUtils\README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resources\background\budongsan_inside_background.bmp" />
-    <Image Include="resources\background\story_1.bmp" />
-    <Image Include="resources\background\story_2.bmp" />
-    <Image Include="resources\background\story_3.bmp" />
-    <Image Include="resources\button\budongsan_button.bmp" />
-    <Image Include="resources\button\budongsan_button_clicked.bmp" />
-    <Image Include="resources\button\budongsan_button_hover.bmp" />
-    <Image Include="resources\button\goback_button.bmp" />
-    <Image Include="resources\button\goback_button_clicked.bmp" />
-    <Image Include="resources\button\goback_button_hover.bmp" />
-    <Image Include="resources\button\quest_button.bmp" />
-    <Image Include="resources\button\quest_button_click.bmp" />
-    <Image Include="resources\button\quest_button_hover.bmp" />
-    <Image Include="resources\button\setting_button.bmp" />
-    <Image Include="resources\button\setting_button_clicked.bmp" />
-    <Image Include="resources\button\setting_button_hover.bmp" />
-    <Image Include="resources\button\start button.bmp" />
-    <Image Include="resources\button\start button_clicked.bmp" />
-    <Image Include="resources\button\start button_hover.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
