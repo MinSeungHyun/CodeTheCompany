@@ -12,7 +12,9 @@
 	#define CONSOLE_WIDTH 180 //자신의 콘솔 사이즈에 맞게 설정한다.
 	#define CONSOLE_HEIGHT 48
 	```
+
 ## 사용 예시
+**동시에 여러개의  ImageLayer를 사용하지 말아주세요.**
 * 이미지 띄우기
 	```c
 	#include <stdio.h>
@@ -75,7 +77,9 @@
 1. 이미지 출력이 되지 않으면 이미지 이름 앞에 붙는  L을 지우고 해보세요.
 
 2. 기본적으로 검정색(RGB(0, 0, 0))이 투명색으로 설정 되있는데 투명색을 수정하고 싶다면
-```layer.transparentColor = RGB(0, 0, 0); //자신이 원하는 색``` 으로 설정하면 됩니다.
+```imageLayer.transparentColor = RGB(0, 0, 0); //자신이 원하는 색``` 으로 설정하면 됩니다.
+3. ```imageLayer.fadeIn(&imageLayer);``` 으로 fade in, <br>
+    ```imageLayer.fadeOut(&imageLayer);```으로 fade out 할 수 있습니다.
 
 ---
 오류가 있거나 건의사항이 있을 시 issue 올려주세요.

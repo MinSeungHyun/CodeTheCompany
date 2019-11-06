@@ -38,8 +38,79 @@
     <ClInclude Include="ImageUtils\ImageLayerInterface.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonUtils\ButtonInterface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUtils\ButtonImpl.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUtils\Button.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resources.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ImageUtils\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\background\budongsan_inside_background.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\background\story_1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\background\story_2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\background\story_3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\budongsan_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\budongsan_button_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\budongsan_button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\goback_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\goback_button_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\goback_button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\quest_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\quest_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\quest_button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\setting_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\setting_button_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\setting_button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\start button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\start button_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\button\start button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>
