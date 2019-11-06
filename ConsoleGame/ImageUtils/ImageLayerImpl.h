@@ -35,7 +35,7 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	SelectObject(bitmapDC, bitmap);
 
 	double scale = image.scale;
-	if (scale == 0) scale = 16;
+	if (scale == 0) scale = RESOLUTION_SCALE;
 
 	const Size bitmapSize = getBitmapSize(bitmap);
 	TransparentBlt(backDC, image.x, image.y, bitmapSize.width * scale, bitmapSize.height * scale,
