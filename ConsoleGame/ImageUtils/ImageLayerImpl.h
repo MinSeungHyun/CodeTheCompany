@@ -109,12 +109,12 @@ inline void _renderAndFadeOut(ImageLayer* self) {
 
 	BLENDFUNCTION bf = getBlendFunction();
 
-	for (int i = 255; i > 0; i -= 20) {
+	for (int i = 255; i > 0; i -= 60) {
 		Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		bf.SourceConstantAlpha = i;
 		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
-		Sleep(100);
+		Sleep(200);
 	}
 	Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
