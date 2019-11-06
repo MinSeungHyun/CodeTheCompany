@@ -18,7 +18,6 @@ inline Size getBitmapSize(HBITMAP bitmap) {
 	BITMAP tmpBitmap;
 	GetObject(bitmap, sizeof(BITMAP), &tmpBitmap);
 	const Size bitmapSize = { tmpBitmap.bmWidth, tmpBitmap.bmHeight };
-	//free(&tmpBitmap);
 	return bitmapSize;
 }
 
@@ -89,13 +88,14 @@ inline void _renderAndFadeIn(ImageLayer* self) {
 
 	BLENDFUNCTION bf = getBlendFunction();
 	bf.SourceConstantAlpha = 12;
-	
+
 	Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	for (int i = 0; i < 20; i++) {
 		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
 	}
 	applyToConsoleDC(consoleDC, backDC);
+	DeleteObject(blackBrush);
 	DeleteDC(backDC);
 }
 
@@ -109,14 +109,14 @@ inline void _renderAndFadeOut(ImageLayer* self) {
 
 	BLENDFUNCTION bf = getBlendFunction();
 
-	for (int i = 255; i > 0; i-=20) {
+	for (int i = 255; i > 0; i -= 20) {
 		Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		bf.SourceConstantAlpha = i;
 		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
 		Sleep(100);
 	}
-	Rectangle(consoleDC, 0, 0,WINDOW_WIDTH, WINDOW_HEIGHT);
+	Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	DeleteObject(blackBrush);
 	DeleteDC(backDC);
