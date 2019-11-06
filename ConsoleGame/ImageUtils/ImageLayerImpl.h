@@ -45,7 +45,7 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	DeleteDC(bitmapDC);
 }
 
-inline void applyToConsoleDC(HDC consoleDC, HDC srcDC) {
+inline void applyToDC(HDC consoleDC, HDC srcDC) {
 	BitBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 		srcDC, 0, 0, SRCCOPY);
 }
@@ -66,7 +66,7 @@ inline HDC getRenderedBackDC(ImageLayer* self) {
 
 inline void _renderAll(ImageLayer* self) {
 	const HDC backDC = getRenderedBackDC(self);
-	applyToConsoleDC(self->_consoleDC, backDC);
+	applyToDC(self->_consoleDC, backDC);
 	DeleteDC(backDC);
 }
 
@@ -94,7 +94,7 @@ inline void _renderAndFadeIn(ImageLayer* self) {
 		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
 	}
-	applyToConsoleDC(consoleDC, backDC);
+	applyToDC(consoleDC, backDC);
 	DeleteObject(blackBrush);
 	DeleteDC(backDC);
 }
@@ -102,22 +102,20 @@ inline void _renderAndFadeIn(ImageLayer* self) {
 inline void _renderAndFadeOut(ImageLayer* self) {
 	const HDC consoleDC = self->_consoleDC;
 	const HDC backDC = getRenderedBackDC(self);
-	applyToConsoleDC(consoleDC, backDC);
+	applyToDC(consoleDC, backDC);
 
-	const HBRUSH blackBrush = CreateSolidBrush(RGB(0, 0, 0));
-	SelectObject(consoleDC, blackBrush);
-
+	const HDC blackDC = createNewBackDC(consoleDC);
 	BLENDFUNCTION bf = getBlendFunction();
 
-	for (int i = 255; i > 0; i -= 60) {
-		Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	for (int i = 255; i >= 0; i -= 20) {
 		bf.SourceConstantAlpha = i;
+		applyToDC(consoleDC, blackDC);
 		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
-		Sleep(200);
+		Sleep(100);
 	}
-	Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	applyToDC(consoleDC, blackDC);
 
-	DeleteObject(blackBrush);
 	DeleteDC(backDC);
+	DeleteDC(blackDC);
 }
