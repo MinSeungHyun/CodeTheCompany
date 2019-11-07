@@ -7,6 +7,6 @@ typedef struct _Button {
 	int _width, _height;
 	COORD _start, _end;
 
-	int (*isHovered)(struct _Button*);
+	int (*isHovered)(struct _Button*, COORD);
 	void (*initialize)(struct _Button*);
 }Button;

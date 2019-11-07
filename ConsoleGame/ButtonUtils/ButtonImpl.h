@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
 #include "Button.h"
-#include "../MouseInput.h"
 
 inline void getButtonSize(unsigned short* fileName, int* width, int* height) {
 	const HBITMAP hbitmap = (HBITMAP)LoadImage(NULL, (LPCWSTR)fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
@@ -11,11 +10,9 @@ inline void getButtonSize(unsigned short* fileName, int* width, int* height) {
 	*height = bitmap.bmHeight;
 }
 
-inline int _isHovered(Button* self) {
+inline int _isHovered(Button* self, COORD mousePosition) {
 	const int startX = self->_start.X, startY = self->_start.Y;
 	const int endX = self->_end.X, endY = self->_end.Y;
-
-	const COORD mousePosition = getMousePosition();
 
 	if (mousePosition.X >= startX && mousePosition.X <= endX
 		&& mousePosition.Y >= startY && mousePosition.Y <= endY) {
