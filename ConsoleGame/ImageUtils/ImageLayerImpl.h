@@ -79,9 +79,10 @@ inline BLENDFUNCTION getBlendFunction() {
 	return bf;
 }
 
-inline void _renderAndFadeIn(ImageLayer* self) {
+inline void _renderAndFadeIn(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	const HDC consoleDC = self->_consoleDC;
 	const HDC backDC = getRenderedBackDC(self);
+	if (applyToBackDC != NULL) applyToBackDC(backDC);
 
 	const HBRUSH blackBrush = CreateSolidBrush(RGB(0, 0, 0));
 	SelectObject(consoleDC, blackBrush);
@@ -99,9 +100,10 @@ inline void _renderAndFadeIn(ImageLayer* self) {
 	DeleteDC(backDC);
 }
 
-inline void _renderAndFadeOut(ImageLayer* self) {
+inline void _renderAndFadeOut(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	const HDC consoleDC = self->_consoleDC;
 	const HDC backDC = getRenderedBackDC(self);
+	if (applyToBackDC != NULL) applyToBackDC(backDC);
 	applyToDC(consoleDC, backDC);
 
 	const HDC blackDC = createNewBackDC(consoleDC);
