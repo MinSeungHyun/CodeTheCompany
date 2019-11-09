@@ -183,7 +183,7 @@ void printText(HDC hdc, int x, int y, int size, COLORREF textColor, int align, L
 	SetTextColor(hdc, textColor);
 	SetTextAlign(hdc, align);
 
-	TextOut(hdc, x, y, text, lstrlen(text));
+	TextOut(hdc, x * RESOLUTION_MULTIPLIER, y * RESOLUTION_MULTIPLIER, text, lstrlen(text));
 
 	PAINTSTRUCT paint;
 	EndPaint(WINDOW_HANDLE, &paint);
