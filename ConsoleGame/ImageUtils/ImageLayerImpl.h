@@ -6,13 +6,22 @@
 #define CONSOLE_WIDTH 180
 #define CONSOLE_HEIGHT 48
 
-#define RESOLUTION_SCALE 16
-#define WINDOW_WIDTH (CONSOLE_WIDTH * RESOLUTION_SCALE)
-#define WINDOW_HEIGHT (CONSOLE_HEIGHT * RESOLUTION_SCALE*2)
+#define DEFAULT_RESOLUTION_SCALE 16
+double RESOLUTION_MULTIPLIER = 1;
+int WINDOW_WIDTH = 0;
+int WINDOW_HEIGHT = 0;
 
 typedef struct {
 	int width, height;
 }Size;
+
+inline int getDPI(HWND hWnd) {
+	const HANDLE user32 = GetModuleHandle(TEXT("user32"));
+	const FARPROC func = GetProcAddress(user32, "GetDpiForWindow");
+	if (func == NULL)
+		return 96;
+	return ((UINT(__stdcall*)(HWND))func)(hWnd);
+}
 
 inline Size getBitmapSize(HBITMAP bitmap) {
 	BITMAP tmpBitmap;
@@ -35,10 +44,10 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	SelectObject(bitmapDC, bitmap);
 
 	double scale = image.scale;
-	if (scale == 0) scale = RESOLUTION_SCALE;
+	if (scale == 0) scale = DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER;
 
 	const Size bitmapSize = getBitmapSize(bitmap);
-	TransparentBlt(backDC, image.x, image.y, bitmapSize.width * scale, bitmapSize.height * scale,
+	TransparentBlt(backDC, image.x * RESOLUTION_MULTIPLIER, image.y * RESOLUTION_MULTIPLIER, bitmapSize.width * scale, bitmapSize.height * scale,
 		bitmapDC, 0, 0, bitmapSize.width, bitmapSize.height, transparentColor);
 
 	DeleteObject(bitmap);
@@ -53,6 +62,11 @@ inline void applyToDC(HDC consoleDC, HDC srcDC) {
 inline void _initialize(ImageLayer* self) {
 	self->_windowHandle = GetConsoleWindow();
 	self->_consoleDC = GetDC(self->_windowHandle);
+
+	const int dpi = getDPI(self->_windowHandle);
+	RESOLUTION_MULTIPLIER = dpi / 192.0;
+	WINDOW_WIDTH = CONSOLE_WIDTH * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER;
+	WINDOW_HEIGHT = CONSOLE_HEIGHT * 2 * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER;
 }
 
 inline HDC getRenderedBackDC(ImageLayer* self) {
