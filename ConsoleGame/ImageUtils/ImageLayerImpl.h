@@ -46,8 +46,12 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	double scale = image.scale;
 	if (scale == 0) scale = DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER;
 
+	const int x = (int)(image.x * RESOLUTION_MULTIPLIER);
+	const int y = (int)(image.y * RESOLUTION_MULTIPLIER);
 	const Size bitmapSize = getBitmapSize(bitmap);
-	TransparentBlt(backDC, image.x * RESOLUTION_MULTIPLIER, image.y * RESOLUTION_MULTIPLIER, bitmapSize.width * scale, bitmapSize.height * scale,
+	const int width = (int)(bitmapSize.width * scale);
+	const int height = (int)(bitmapSize.height * scale);
+	TransparentBlt(backDC, x, y, width, height,
 		bitmapDC, 0, 0, bitmapSize.width, bitmapSize.height, transparentColor);
 
 	DeleteObject(bitmap);
@@ -65,8 +69,8 @@ inline void _initialize(ImageLayer* self) {
 
 	const int dpi = getDPI(self->_windowHandle);
 	RESOLUTION_MULTIPLIER = dpi / 192.0;
-	WINDOW_WIDTH = CONSOLE_WIDTH * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER;
-	WINDOW_HEIGHT = CONSOLE_HEIGHT * 2 * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER;
+	WINDOW_WIDTH = (int)(CONSOLE_WIDTH * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER);
+	WINDOW_HEIGHT = (int)(CONSOLE_HEIGHT * 2 * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER);
 }
 
 inline HDC getRenderedBackDC(ImageLayer* self) {

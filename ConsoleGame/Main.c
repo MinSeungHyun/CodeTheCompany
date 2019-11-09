@@ -175,7 +175,8 @@ void checkMouseStateThread() {
 }
 
 void printText(HDC hdc, int x, int y, int size, COLORREF textColor, int align, LPCWSTR text) {
-	const HFONT font = CreateFont(size * RESOLUTION_MULTIPLIER, 0, 0, 0, 900, 0, 0, 0, HANGEUL_CHARSET,
+	size = (int)(size * RESOLUTION_MULTIPLIER);
+	const HFONT font = CreateFont(size, 0, 0, 0, 900, 0, 0, 0, HANGEUL_CHARSET,
 		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("µÕ±Ù¸ð²Ã"));
 
 	SelectObject(hdc, font);
@@ -183,7 +184,9 @@ void printText(HDC hdc, int x, int y, int size, COLORREF textColor, int align, L
 	SetTextColor(hdc, textColor);
 	SetTextAlign(hdc, align);
 
-	TextOut(hdc, x * RESOLUTION_MULTIPLIER, y * RESOLUTION_MULTIPLIER, text, lstrlen(text));
+	x = (int)(x * RESOLUTION_MULTIPLIER);
+	y = (int)(y * RESOLUTION_MULTIPLIER);
+	TextOut(hdc, x, y, text, lstrlen(text));
 
 	PAINTSTRUCT paint;
 	EndPaint(WINDOW_HANDLE, &paint);
