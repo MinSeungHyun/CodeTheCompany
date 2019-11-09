@@ -2,7 +2,7 @@
 #include <Windows.h>
 
 typedef struct {
-	wchar_t* fileName;
+	char* fileName;
 	int x, y;
 	double scale;
 }Image;

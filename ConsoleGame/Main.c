@@ -12,11 +12,11 @@ ImageLayer layer;
 
 void initLayer();
 void gotoXY(int, int);
-Button createButton(int, int, wchar_t*, wchar_t*, wchar_t*);
+Button createButton(int, int, char*, char*, char*);
 void onMouseDown();
 void onMouseUp();
 void checkMouseStateThread();
-void printText(HDC, int, int, int, COLORREF, int, LPCWSTR);
+void printText(HDC, int, int, int, COLORREF, int, char*);
 void beginStartScreen();
 void getUserName(char*, char*);
 void beginStoryScreen();
@@ -97,16 +97,12 @@ void getUserName(char* lastName, char* firstName) {
 void printStoryStartText(HDC hdc) {
 	char name[100];
 	sprintf(name, "23살 1인 앱 개발자 %s%s...", lastName, firstName);
-
-	wchar_t wText[100];
-	setlocale(LC_ALL, "");
-	mbstowcs(wText, name, strlen(name) + 1);
-	printText(hdc, 1440, 750, 60, RGB(255, 255, 255), TA_CENTER, (LPCWSTR)wText);
+	printText(hdc, 1440, 750, 60, RGB(255, 255, 255), TA_CENTER, name);
 }
 
 void printStory1Text(HDC hdc) {
-	printText(hdc, 100, 100, 60, RGB(0, 0, 0), TA_LEFT, TEXT("밥 먹고 코딩하는 게 일상이었던 나..."));
-	printText(hdc, 100, 200, 60, RGB(0, 0, 0), TA_LEFT, TEXT("여느 때와 다름없이 오늘도 앱을 개발하고 스토어에 올렸다."));
+	printText(hdc, 100, 100, 60, RGB(0, 0, 0), TA_LEFT, "밥 먹고 코딩하는 게 일상이었던 나...");
+	printText(hdc, 100, 200, 60, RGB(0, 0, 0), TA_LEFT, "여느 때와 다름없이 오늘도 앱을 개발하고 스토어에 올렸다.");
 }
 
 void printStoryAfterText(HDC hdc) {
@@ -125,11 +121,11 @@ void printStory3Text(HDC hdc) {
 }
 
 void beginStoryScreen() {
-	Image images[1] = { {L"", 0, 0} };
+	Image images[1] = { {"", 0, 0} };
 	layer.imageCount = 1;
 	layer.images = images;
 
-	layer.images[0].fileName = L"";
+	layer.images[0].fileName = "";
 	layer.fadeIn(&layer, printStoryStartText);
 	Sleep(2000);
 	layer.fadeOut(&layer, printStoryStartText);
@@ -139,7 +135,7 @@ void beginStoryScreen() {
 	Sleep(2000);
 	layer.fadeOut(&layer, printStory1Text);
 
-	layer.images[0].fileName = L"";
+	layer.images[0].fileName = "";
 	layer.fadeIn(&layer, printStoryAfterText);
 	Sleep(500);
 	layer.fadeOut(&layer, printStoryAfterText);
@@ -174,7 +170,7 @@ void checkMouseStateThread() {
 	}
 }
 
-void printText(HDC hdc, int x, int y, int size, COLORREF textColor, int align, LPCWSTR text) {
+void printText(HDC hdc, int x, int y, int size, COLORREF textColor, int align, char* text) {
 	size = (int)(size * RESOLUTION_MULTIPLIER);
 	const HFONT font = CreateFont(size, 0, 0, 0, 900, 0, 0, 0, HANGEUL_CHARSET,
 		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("둥근모꼴"));
@@ -194,7 +190,7 @@ void printText(HDC hdc, int x, int y, int size, COLORREF textColor, int align, L
 	DeleteObject(font);
 }
 
-Button createButton(int x, int y, wchar_t* normal, wchar_t* hovered, wchar_t* clicked) {
+Button createButton(int x, int y, char* normal, char* hovered, char* clicked) {
 	Button button = DEFAULT_BUTTON;
 	button.x = x;
 	button.y = y;

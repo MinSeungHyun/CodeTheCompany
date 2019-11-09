@@ -40,7 +40,7 @@ inline HDC createNewBackDC(HDC compatibleDC) {
 
 inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	const HDC bitmapDC = CreateCompatibleDC(backDC);
-	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCWSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	SelectObject(bitmapDC, bitmap);
 
 	double scale = image.scale;

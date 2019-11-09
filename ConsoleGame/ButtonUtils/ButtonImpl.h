@@ -2,8 +2,8 @@
 #include <Windows.h>
 #include "Button.h"
 
-inline void getButtonSize(unsigned short* fileName, int* width, int* height) {
-	const HBITMAP hbitmap = (HBITMAP)LoadImage(NULL, (LPCWSTR)fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+inline void getButtonSize(char* fileName, int* width, int* height) {
+	const HBITMAP hbitmap = (HBITMAP)LoadImage(NULL, (LPCSTR)fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	BITMAP bitmap;
 	GetObject(hbitmap, sizeof(BITMAP), &bitmap);
 	*width = bitmap.bmWidth;

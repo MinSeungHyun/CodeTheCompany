@@ -3,7 +3,7 @@
 
 typedef struct _Button {
 	int x, y;
-	unsigned short* normal, * hovered, * clicked;
+	char* normal, * hovered, * clicked;
 	int _width, _height;
 	COORD _start, _end;
 
