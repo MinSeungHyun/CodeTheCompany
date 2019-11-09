@@ -54,8 +54,8 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	DeleteDC(bitmapDC);
 }
 
-inline void applyToDC(HDC consoleDC, HDC srcDC) {
-	BitBlt(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
+inline void applyToDC(HDC dstDC, HDC srcDC) {
+	BitBlt(dstDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 		srcDC, 0, 0, SRCCOPY);
 }
 
