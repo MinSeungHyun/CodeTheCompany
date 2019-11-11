@@ -72,6 +72,7 @@ void beginStartScreen() {
 		if (isMouseUp) {
 			isMouseUp = 0;
 			if (isStartButtonHovered) {
+				Sleep(100);
 				layer.fadeOut(&layer, NULL);
 				break;
 			}
@@ -142,7 +143,7 @@ void beginStoryScreen() {
 
 	layer.images[0].fileName = FILE_STORY_2;
 	layer.fadeIn(&layer, printStory2Text);
-	Sleep(4000);
+	Sleep(3000);
 	layer.fadeOut(&layer, printStory2Text);
 
 	layer.images[0].fileName = FILE_STORY_3;
