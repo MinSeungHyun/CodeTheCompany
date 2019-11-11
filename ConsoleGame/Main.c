@@ -16,7 +16,7 @@ Button createButton(int, int, char*, char*, char*);
 void onMouseDown();
 void onMouseUp();
 void checkMouseStateThread();
-void printText(HDC, int, int, int, COLORREF, int, char*);
+void printText(HDC, int, int, int, int, COLORREF, int, char*);
 void beginStartScreen();
 void getUserName(char*, char*);
 void beginStoryScreen();
@@ -98,27 +98,27 @@ void getUserName(char* lastName, char* firstName) {
 void printStoryStartText(HDC hdc) {
 	char name[100];
 	sprintf(name, "23살 1인 앱 개발자 %s%s...", lastName, firstName);
-	printText(hdc, 1440, 750, 60, RGB(255, 255, 255), TA_CENTER, name);
+	printText(hdc, 1440, 750, 60, 0, RGB(255, 255, 255), TA_CENTER, name);
 }
 
 void printStory1Text(HDC hdc) {
-	printText(hdc, 100, 100, 60, RGB(0, 0, 0), TA_LEFT, "밥 먹고 코딩하는 게 일상이었던 나...");
-	printText(hdc, 100, 200, 60, RGB(0, 0, 0), TA_LEFT, "여느 때와 다름없이 오늘도 앱을 개발하고 스토어에 올렸다.");
+	printText(hdc, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, "밥 먹고 코딩하는 게 일상이었던 나...");
+	printText(hdc, 100, 200, 60, 0, RGB(0, 0, 0), TA_LEFT, "여느 때와 다름없이 오늘도 앱을 개발하고 스토어에 올렸다.");
 }
 
 void printStoryAfterText(HDC hdc) {
-	printText(hdc, 1440, 750, 60, RGB(255, 255, 255), TA_CENTER, TEXT("한달 후..."));
+	printText(hdc, 1440, 750, 60, 0, RGB(255, 255, 255), TA_CENTER, TEXT("한달 후..."));
 }
 
 void printStory2Text(HDC hdc) {
 	const int x = 2800, y = 1250;
-	printText(hdc, x, y, 60, RGB(0, 0, 0), TA_RIGHT, TEXT("이게 뭐야!!!!"));
-	printText(hdc, x, y + 70, 60, RGB(0, 0, 0), TA_RIGHT, TEXT("평소에는 며칠이 지나도 오르지 않던 다운로드 수 그래프가"));
-	printText(hdc, x, y + 140, 60, RGB(0, 0, 0), TA_RIGHT, TEXT("가파른 상승곡선을 이루고 있었다!!"));
+	printText(hdc, x, y, 60, 0, RGB(0, 0, 0), TA_RIGHT, TEXT("이게 뭐야!!!!"));
+	printText(hdc, x, y + 70, 60, 0, RGB(0, 0, 0), TA_RIGHT, TEXT("평소에는 며칠이 지나도 오르지 않던 다운로드 수 그래프가"));
+	printText(hdc, x, y + 140, 60, 0, RGB(0, 0, 0), TA_RIGHT, TEXT("가파른 상승곡선을 이루고 있었다!!"));
 }
 
 void printStory3Text(HDC hdc) {
-	printText(hdc, 1000, 250, 60, RGB(0, 0, 0), TA_LEFT, TEXT("좋았어 이제 회사를 차려보자!!"));
+	printText(hdc, 1000, 250, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("좋았어 이제 회사를 차려보자!!"));
 }
 
 void beginStoryScreen() {
@@ -171,9 +171,10 @@ void checkMouseStateThread() {
 	}
 }
 
-void printText(HDC hdc, int x, int y, int size, COLORREF textColor, int align, char* text) {
+void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
+	if (weight == 0) weight = 900;
 	size = (int)(size * RESOLUTION_MULTIPLIER);
-	const HFONT font = CreateFont(size, 0, 0, 0, 900, 0, 0, 0, HANGEUL_CHARSET,
+	const HFONT font = CreateFont(size, 0, 0, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
 		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("둥근모꼴"));
 
 	SelectObject(hdc, font);
