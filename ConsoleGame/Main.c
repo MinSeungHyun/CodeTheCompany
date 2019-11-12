@@ -1,7 +1,6 @@
 #include <locale.h>
 #include "Initializer.h"
 #include "resources.h"
-#include "process.h"
 #include "MouseInput.h"
 #include "ImageUtils/ImageLayer.h"
 #include "ButtonUtils/Button.h"
@@ -12,17 +11,11 @@ ImageLayer layer;
 
 void initLayer();
 void gotoXY(int, int);
-Button createButton(int, int, char*, char*, char*);
-void onMouseDown();
-void onMouseUp();
-void checkMouseStateThread();
+Button createButton(int, int, char*, char*, char*, int, void(*onClick)(Button*));
 void printText(HDC, int, int, int, int, COLORREF, int, char*);
 void beginStartScreen();
 void getUserName(char*, char*);
 void beginStoryScreen();
-
-int isMouseDown = 0;
-int isMouseUp = 0;
 
 char lastName[100], firstName[100];
 
@@ -31,8 +24,6 @@ int main() {
 	initLayer();
 	Sleep(300);
 
-	_beginthread(checkMouseStateThread, 0, NULL);
-
 	beginStartScreen();
 	Sleep(200);
 	getUserName(lastName, firstName);
@@ -40,8 +31,16 @@ int main() {
 	beginStoryScreen();
 }
 
+void onButtonClick(Button* clickedButton) {
+	if (clickedButton->normal == FILE_START_BUTTON) {
+		layer.fadeOut(&layer, NULL);
+		stopButtonListener();
+	}
+}
+
 void beginStartScreen() {
-	Button startButton = createButton(1114, 1150, FILE_START_BUTTON, FILE_START_BUTTON_HOVER, FILE_START_BUTTON_CLICK);
+	const Button startButton = createButton(1114, 1150, FILE_START_BUTTON, FILE_START_BUTTON_HOVER, FILE_START_BUTTON_CLICK, 2, onButtonClick);
+	Button buttons[1] = { startButton };
 
 	Image titleImages[3] = {
 		{FILE_TITLE, 0, 0},
@@ -52,34 +51,7 @@ void beginStartScreen() {
 	layer.imageCount = 3;
 	layer.renderAll(&layer);
 
-	COORD mousePosition = { 0, 0 };
-	int isStartButtonHovered = 0;
-	while (1) {
-		mousePosition = getMousePosition();
-		isStartButtonHovered = startButton.isHovered(&startButton, mousePosition);
-
-		if (isStartButtonHovered) {
-			if (isMouseDown) {
-				layer.images[2].fileName = startButton.clicked;
-			}
-			else {
-				layer.images[2].fileName = startButton.hovered;
-			}
-		}
-		else
-			layer.images[2].fileName = startButton.normal;
-
-		if (isMouseUp) {
-			isMouseUp = 0;
-			if (isStartButtonHovered) {
-				Sleep(100);
-				layer.fadeOut(&layer, NULL);
-				break;
-			}
-		}
-
-		layer.renderAll(&layer);
-	}
+	startButtonListener(buttons, 1, &layer);
 }
 
 void getUserName(char* lastName, char* firstName) {
@@ -152,25 +124,6 @@ void beginStoryScreen() {
 	layer.fadeOut(&layer, printStory3Text);
 }
 
-void onMouseDown() {
-	isMouseDown = 1;
-}
-
-void onMouseUp() {
-	isMouseDown = 0;
-	isMouseUp = 1;
-}
-
-void checkMouseStateThread() {
-	while (1) {
-		if (hasInput() && isMouseClicked()) {
-			onMouseDown();
-			while (isMouseClicked());
-			onMouseUp();
-		}
-	}
-}
-
 void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
 	if (weight == 0) weight = 900;
 	size = (int)(size * RESOLUTION_MULTIPLIER);
@@ -192,7 +145,7 @@ void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, 
 	DeleteObject(font);
 }
 
-Button createButton(int x, int y, char* normal, char* hovered, char* clicked) {
+Button createButton(int x, int y, char* normal, char* hovered, char* clicked, int indexOfLayer, void (*onClick)(Button*)) {
 	Button button = DEFAULT_BUTTON;
 	button.x = x;
 	button.y = y;
@@ -200,6 +153,8 @@ Button createButton(int x, int y, char* normal, char* hovered, char* clicked) {
 	button.hovered = hovered;
 	button.clicked = clicked;
 	button.initialize(&button);
+	button.indexOfImageLayer = indexOfLayer;
+	button.onClick = onClick;
 	return button;
 }
 
