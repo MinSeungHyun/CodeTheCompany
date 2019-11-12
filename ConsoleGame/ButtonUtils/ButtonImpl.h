@@ -79,7 +79,7 @@ inline void startButtonListener(Button* buttons, int buttonCount, ImageLayer* la
 			isMouseUp = 0;
 			isMouseUpListened = 1;
 		}
-		
+
 		const int hoveredButtonIndex = getHoveredButtonIndex(buttons, buttonCount);
 		if (hoveredButtonIndex == -1) {
 			for (int i = 0; i < buttonCount; i++)
@@ -89,18 +89,17 @@ inline void startButtonListener(Button* buttons, int buttonCount, ImageLayer* la
 		}
 		const int indexOfLayer = buttons[hoveredButtonIndex].indexOfImageLayer;
 
-		if(isMouseDown) 
+		if (isMouseDown)
 			layer->images[indexOfLayer].fileName = buttons[hoveredButtonIndex].clicked;
-		else 
+		else
 			layer->images[indexOfLayer].fileName = buttons[hoveredButtonIndex].hovered;
 
-		if(isMouseUpListened) {
+		layer->renderAll(layer);
+
+		if (isMouseUpListened) {
 			isMouseUpListened = 0;
-			Sleep(50);
 			buttons[hoveredButtonIndex].onClick(&buttons[hoveredButtonIndex]);
 		}
-
-		layer->renderAll(layer);
 	}
 }
 
