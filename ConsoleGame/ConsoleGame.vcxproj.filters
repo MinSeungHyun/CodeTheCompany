@@ -55,70 +55,175 @@
     <None Include="ImageUtils\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\background\budongsan_inside_background.bmp">
+    <Image Include="resources\story_screen\story_3.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\background\map.bmp">
+    <Image Include="resources\story_screen\story_2.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\background\story_1.bmp">
+    <Image Include="resources\story_screen\story_1.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\background\story_2.bmp">
+    <Image Include="resources\start_screen\title_text.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\background\story_3.bmp">
+    <Image Include="resources\start_screen\start_button.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\background\title.bmp">
+    <Image Include="resources\start_screen\start_button_clicked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\budongsan_button.bmp">
+    <Image Include="resources\start_screen\start_button_hover.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\budongsan_button_clicked.bmp">
+    <Image Include="resources\start_screen\title.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\budongsan_button_hover.bmp">
+    <Image Include="resources\estate\estate_button.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\goback_button.bmp">
+    <Image Include="resources\estate\estate_button_clicked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\goback_button_clicked.bmp">
+    <Image Include="resources\estate\estate_button_hover.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\goback_button_hover.bmp">
+    <Image Include="resources\estate\estate_inside_background.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\quest_button.bmp">
+    <Image Include="resources\estate\estate_item_button_locked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\quest_button_click.bmp">
+    <Image Include="resources\estate\estate_item_button_unlocked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\quest_button_hover.bmp">
+    <Image Include="resources\estate\estate_item_locked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\setting_button.bmp">
+    <Image Include="resources\estate\estate_item_unlocked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\setting_button_clicked.bmp">
+    <Image Include="resources\map_screen\casino.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\setting_button_hover.bmp">
+    <Image Include="resources\map_screen\casino_clicked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\start button.bmp">
+    <Image Include="resources\map_screen\casino_hover.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\start button_clicked.bmp">
+    <Image Include="resources\map_screen\estate.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\button\start button_hover.bmp">
+    <Image Include="resources\map_screen\estate_clicked.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="resources\text\title_text.bmp">
+    <Image Include="resources\map_screen\estate_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\map_screen\first_office.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\map_screen\first_office_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\map_screen\first_office_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\map_screen\map.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\map_screen\mybuilding.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\map_screen\mybuilding_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\map_screen\mybuilding_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\coinblur.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\ctc_bill.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\goback_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\goback_button_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\goback_button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\setting_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\setting_button_clicked.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\other\setting_button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_circle.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp0.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp5.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp6.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp7.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp8.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp9.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_exp10.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\progress_bar\level_money.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\quest\quest_alarm.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\quest\quest_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\quest\quest_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\quest\quest_button_hover.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\quest\quest_close.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\quest\quest_window.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resources\quest\quest_window_missioncomplete.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
