@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <process.h>
 #include "Button.h"
 
 inline void getButtonSize(char* fileName, int* width, int* height) {
@@ -30,4 +31,73 @@ inline void _initializeButton(Button* self) {
 	self->_start.Y = self->y;
 	self->_end.X = self->x + self->_width * 16;
 	self->_end.Y = self->y + self->_height * 16;
+}
+
+inline int getHoveredButtonIndex(Button* buttons, int buttonCount) {
+	COORD mousePosition = { 0,0 };
+	for (int i = 0; i < buttonCount; i++) {
+		mousePosition = getMousePosition();
+		if (buttons[i].isHovered(&buttons[i], mousePosition)) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+int isMouseDown = 0;
+int isMouseUp = 0;
+int isListening = 0;
+
+inline void onMouseDown() {
+	isMouseDown = 1;
+}
+
+inline void onMouseUp() {
+	isMouseDown = 0;
+	isMouseUp = 1;
+}
+
+inline void checkMouseStateThread() {
+	while (isListening) {
+		if (hasInput() && isMouseClicked()) {
+			onMouseDown();
+			while (isMouseClicked());
+			onMouseUp();
+		}
+	}
+}
+
+inline void startButtonListener(Button* buttons, int buttonCount, ImageLayer* layer) {
+	if (isListening) return;
+	isListening = 1;
+
+	_beginthread(checkMouseStateThread, 0, NULL);
+
+	while (isListening) {
+		const int hoveredButtonIndex = getHoveredButtonIndex(buttons, buttonCount);
+		if (hoveredButtonIndex == -1) {
+			for (int i = 0; i < buttonCount; i++)
+				layer->images[buttons[i].indexOfImageLayer].fileName = buttons[i].normal;
+			layer->renderAll(layer);
+			continue;
+		}
+		const int indexOfLayer = buttons[hoveredButtonIndex].indexOfImageLayer;
+
+		if(isMouseDown) 
+			layer->images[indexOfLayer].fileName = buttons[hoveredButtonIndex].clicked;
+		else 
+			layer->images[indexOfLayer].fileName = buttons[hoveredButtonIndex].hovered;
+
+		if(isMouseUp) {
+			isMouseUp = 0;
+			Sleep(50);
+			buttons[hoveredButtonIndex].onClick(&buttons[hoveredButtonIndex]);
+		}
+
+		layer->renderAll(layer);
+	}
+}
+
+inline void stopButtonListener() {
+	isListening = 0;
 }
