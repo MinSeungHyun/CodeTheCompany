@@ -74,6 +74,12 @@ inline void startButtonListener(Button* buttons, int buttonCount, ImageLayer* la
 	_beginthread(checkMouseStateThread, 0, NULL);
 
 	while (isListening) {
+		int isMouseUpListened = 0;
+		if (isMouseUp) {
+			isMouseUp = 0;
+			isMouseUpListened = 1;
+		}
+		
 		const int hoveredButtonIndex = getHoveredButtonIndex(buttons, buttonCount);
 		if (hoveredButtonIndex == -1) {
 			for (int i = 0; i < buttonCount; i++)
@@ -88,8 +94,8 @@ inline void startButtonListener(Button* buttons, int buttonCount, ImageLayer* la
 		else 
 			layer->images[indexOfLayer].fileName = buttons[hoveredButtonIndex].hovered;
 
-		if(isMouseUp) {
-			isMouseUp = 0;
+		if(isMouseUpListened) {
+			isMouseUpListened = 0;
 			Sleep(50);
 			buttons[hoveredButtonIndex].onClick(&buttons[hoveredButtonIndex]);
 		}
