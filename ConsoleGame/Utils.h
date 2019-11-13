@@ -36,3 +36,15 @@ inline char* rtrim(char* str) {
 inline char* trim(char* str) {
 	return ltrim(rtrim(str));
 }
+
+inline int isFileExist(char* fileName) {
+	FILE* file = fopen(fileName, "r");
+	if (file == NULL) return 0;
+	fclose(file);
+	return 1;
+}
+
+inline void makeFileIfNotExist(char* fileName) {
+	if (isFileExist(fileName)) return;
+	fclose(fopen(fileName, "w"));
+}
