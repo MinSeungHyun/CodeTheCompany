@@ -8,3 +8,5 @@
 #define FILE_STORY_1 "resources/story_screen/story_1.bmp"
 #define FILE_STORY_2 "resources/story_screen/story_2.bmp"
 #define FILE_STORY_3 "resources/story_screen/story_3.bmp"
+
+#define FILE_COIN_BLUR "resources/other/coinblur.bmp"
