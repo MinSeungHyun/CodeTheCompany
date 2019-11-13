@@ -1,10 +1,10 @@
-#include <locale.h>
 #include <conio.h>
 #include "Initializer.h"
 #include "resources.h"
 #include "MouseInput.h"
 #include "ImageUtils/ImageLayer.h"
 #include "ButtonUtils/Button.h"
+#include "SaveFileManager.h"
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
@@ -15,7 +15,7 @@ void gotoXY(int, int);
 Button createButton(int, int, char*, char*, char*, int, void(*onClick)(Button*));
 void printText(HDC, int, int, int, int, COLORREF, int, char*);
 void beginStartScreen();
-void getUserName(char*, char*);
+void getUserName();
 void beginStoryScreen();
 
 char lastName[100], firstName[100];
@@ -26,9 +26,14 @@ int main() {
 	Sleep(300);
 
 	beginStartScreen();
-	Sleep(200);
-	getUserName(lastName, firstName);
-	Sleep(1000);
+	Sleep(500);
+
+	if (!isFileExist(DIR_NAME)) {
+		getUserName();
+		Sleep(500);
+	}
+	loadName(lastName, firstName);
+
 	beginStoryScreen();
 }
 
@@ -62,7 +67,7 @@ void initUserNameScreen(const int x) {
 	printText(layer._consoleDC, x, 800, 60, 0, RGB(0, 0, 0), TA_LEFT, "¿Ã∏ß :");
 }
 
-void getUserName(char* lastName, char* firstName) {
+void getUserName() {
 	const int x = 1250;
 
 	Image images[2] = { { FILE_COIN_BLUR, 0, 0 } };
@@ -103,9 +108,8 @@ void getUserName(char* lastName, char* firstName) {
 		i++;
 	}
 	layer.images[0].fileName = "";
-	lastName = trim(lastName);
-	firstName = trim(firstName);
 	layer.renderAll(&layer);
+	saveName(trim(lastName), trim(firstName));
 }
 
 void printStoryStartText(HDC hdc) {

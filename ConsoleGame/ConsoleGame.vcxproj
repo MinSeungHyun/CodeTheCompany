@@ -31,6 +31,7 @@
     <ClInclude Include="Initializer.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="resources.h" />
+    <ClInclude Include="SaveFileManager.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
