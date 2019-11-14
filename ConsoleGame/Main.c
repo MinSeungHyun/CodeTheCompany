@@ -38,8 +38,10 @@ int main() {
 	}
 	loadName(lastName, firstName);
 
-	beginStoryScreen();
-	Sleep(1000);
+	if (!isFileExist(DIR_COMPANY_NAME)) {
+		beginStoryScreen();
+		Sleep(1000);
+	}
 
 	beginMapScreen();
 }
