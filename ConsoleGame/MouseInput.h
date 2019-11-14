@@ -2,6 +2,7 @@
 #include <stdio.h> 
 #include <Windows.h>
 #include "Utils.h"
+#include "ImageUtils/ImageLayer.h"
 
 inline int hasInput() {
 	INPUT_RECORD input_record;
@@ -28,4 +29,18 @@ inline COORD getMousePosition() {
 	GetCursorPos(&cursorPosition);
 	ScreenToClient(WINDOW_HANDLE, &cursorPosition);
 	return (COORD) { (SHORT)cursorPosition.x * 2, (SHORT)cursorPosition.y * 2 };
+}
+
+inline void imagePositionTester(ImageLayer* layer, int testingIndex) {
+	while (1) {
+		if (isMouseClicked()) {
+			const COORD position = getMousePosition();
+			layer->images[testingIndex].x = position.X;
+			layer->images[testingIndex].y = position.Y;
+			layer->renderAll(layer);
+
+			gotoxy((COORD) { 0, 0 });
+			printf("%5d %5d", position.X, position.Y);
+		}
+	}
 }
