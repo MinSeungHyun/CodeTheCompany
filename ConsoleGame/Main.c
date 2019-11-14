@@ -6,7 +6,9 @@
 #include "ButtonUtils/Button.h"
 #include "SaveFileManager.h"
 
+#define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
+#define DEFAULT_MONEY 10000
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
@@ -221,6 +223,66 @@ void getCompanyNameIfNotExist() {
 	saveCompanyName(companyName);
 }
 
+int getLevel(BigInt exp) {
+	return  (int)sqrtl((long double)(exp / 400));
+}
+
+BigInt getExp(int level) {
+	return (BigInt)(400 * (pow(level, 2)));
+}
+
+int getTotalExpForLevel(int level) {
+	return getExp(level + 1) - getExp(level);
+}
+
+BigInt getAchievedExp(BigInt exp) {
+	return exp - getExp(getLevel(exp));
+}
+
+int getProgressFromExp(BigInt exp) {
+	const BigInt totalExp = getTotalExpForLevel(getLevel(exp));
+	const BigInt achievedExp = getAchievedExp(exp);
+	return (int)((long double)achievedExp / totalExp * 10);
+}
+
+void initUserValues(BigInt* money, BigInt* exp, int* level) {
+	if (!isFileExist(DIR_MONEY_AND_EXP))
+		saveMoneyAndExp(DEFAULT_MONEY, 0);
+	loadMoneyAndExp(money, exp);
+	*level = getLevel(*exp);
+
+	char LEVEL_PROGRESS_FILE_NAME[100];
+	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp(*exp));
+
+	const Image levelBackground = { FILE_LEVEL_BACKGROUND, 65, 65 };
+	const Image levelProgress = { LEVEL_PROGRESS_FILE_NAME, 455,65 };
+	const Image moneyBackground = { FILE_MONEY_BACKGROUND, 1250, 65 };
+
+	layer.images[5] = levelBackground;
+	layer.images[6] = levelProgress;
+	layer.images[7] = moneyBackground;
+	layer.imageCount = 8;
+	layer.renderAll(&layer);
+
+	printText(layer._consoleDC, 1450, 90, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
+}
+
+void displayUserValues(int level, BigInt exp, BigInt money) {
+	char LEVEL_PROGRESS_FILE_NAME[100];
+	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp((exp)));
+	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
+	layer.renderAll(&layer);
+
+	char levelString[10];
+	sprintf(levelString, "Lv.%d", level);
+	printText(layer._consoleDC, 242, 125, 100, 0, RGB(0, 0, 0), TA_CENTER, levelString);
+
+	char moneyString[100];
+	sprintf(moneyString, "%lld", money);
+	printText(layer._consoleDC, 1390, 90, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
+	printText(layer._consoleDC, 2080, 100, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
+}
+
 void onButtonInMapClicked(Button* clickedButton) {
 
 }
@@ -234,6 +296,13 @@ void beginMapScreen() {
 	getCompanyNameIfNotExist();
 	char companyName[100];
 	loadCompanyName(companyName);
+
+	BigInt money, exp;
+	int level;
+	initUserValues(&money, &exp, &level);
+	loadMoneyAndExp(&money, &exp);
+	level = getLevel(exp);
+	displayUserValues(level, exp, money);
 }
 
 void initMapScreen(Button* buttons, Image* images) {
