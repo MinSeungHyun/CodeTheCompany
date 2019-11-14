@@ -305,12 +305,17 @@ void beginMapScreen() {
 	displayUserValues(level, exp, money);
 
 	Button levelProgressCollider = createButton(455, 65, FILE_LEVEL_PROGRESS_DEFAULT, NULL, NULL, -1, NULL);
+	int isExpShowed = 0;
 	while (1) {
 		if (levelProgressCollider.isHovered(&levelProgressCollider, getMousePosition())) {
+			if(isExpShowed) continue;
 			printText(layer._consoleDC, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, "10,000/123,456");
+			isExpShowed = 1;
 		}
 		else {
+			if(!isExpShowed) continue;
 			displayUserValues(level, exp, money);
+			isExpShowed = 0;
 		}
 	}
 }
