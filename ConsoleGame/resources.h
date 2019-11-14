@@ -28,5 +28,6 @@
 #define FILE_QUEST_WINDOW_NO_TITLE "resources/quest/quest_window_no_title.bmp"
 
 #define FILE_LEVEL_BACKGROUND "resources/progress_bar/level_background.bmp"
+#define FILE_LEVEL_PROGRESS_DEFAULT "resources/progress_bar/level_progress_0.bmp"
 #define FILE_LEVEL_PROGRESS "resources/progress_bar/level_progress_%d.bmp"
 #define FILE_MONEY_BACKGROUND "resources/progress_bar/money_progress.bmp"
