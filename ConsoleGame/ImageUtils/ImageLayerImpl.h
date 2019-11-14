@@ -112,6 +112,7 @@ inline void _renderAndFadeIn(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	for (int i = 0; i < 20; i++) {
 		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
+		Sleep(30);
 	}
 	applyToDC(consoleDC, backDC);
 	DeleteObject(blackBrush);
@@ -132,7 +133,7 @@ inline void _renderAndFadeOut(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 		applyToDC(consoleDC, blackDC);
 		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
-		Sleep(100);
+		Sleep(60);
 	}
 	applyToDC(consoleDC, blackDC);
 
