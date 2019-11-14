@@ -231,7 +231,7 @@ BigInt getExp(int level) {
 	return (BigInt)(400 * (pow(level, 2)));
 }
 
-int getTotalExpForLevel(int level) {
+BigInt getTotalExpForLevel(int level) {
 	return getExp(level + 1) - getExp(level);
 }
 
