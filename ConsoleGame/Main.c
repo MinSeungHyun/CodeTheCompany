@@ -2,9 +2,11 @@
 #include "Initializer.h"
 #include "resources.h"
 #include "MouseInput.h"
-#include "ImageUtils/ImageLayer.h"
+#include "Utils.h"
 #include "ButtonUtils/Button.h"
 #include "SaveFileManager.h"
+
+#define QUEST_TEXT_COLOR RGB(141,110,99)
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
@@ -14,8 +16,10 @@ void initLayer();
 void gotoXY(int, int);
 Button createButton(int, int, char*, char*, char*, int, void(*onClick)(Button*));
 void printText(HDC, int, int, int, int, COLORREF, int, char*);
+void textPositionTester(int, int, COLORREF, int, char*);
 void beginStartScreen();
 void getUserName();
+void beginMapScreen();
 void beginStoryScreen();
 
 char lastName[100], firstName[100];
@@ -35,6 +39,9 @@ int main() {
 	loadName(lastName, firstName);
 
 	beginStoryScreen();
+	Sleep(1000);
+
+	beginMapScreen();
 }
 
 void onButtonClick(Button* clickedButton) {
@@ -94,7 +101,7 @@ void getUserName() {
 			if (i < -1) i = -1;
 			initUserNameScreen(x);
 		}
-		else if (i >= 6) continue;
+		else if (i >= 6 || input == ' ' || input == '\\') continue;
 		else {
 			editingText[i] = input;
 			if (input >= 128) {
@@ -166,7 +173,87 @@ void beginStoryScreen() {
 	layer.images[0].fileName = FILE_STORY_3;
 	layer.fadeIn(&layer, printStory3Text);
 	Sleep(2000);
-	layer.fadeOut(&layer, printStory3Text);
+	layer.images[0].fileName = "";
+	layer.renderAll(&layer);
+}
+
+void initGetCompanyNameScreen() {
+	layer.images[5] = (Image){ FILE_QUEST_WINDOW_NO_TITLE, 730, 380 };
+	layer.imageCount = 6;
+	layer.renderAll(&layer);
+
+	printText(layer._consoleDC, 1440, 500, 70, 0, QUEST_TEXT_COLOR, TA_CENTER, "회사 이름을 입력해주세요");
+}
+
+void getCompanyNameIfNotExist() {
+	if (isFileExist(DIR_COMPANY_NAME)) return;
+	initGetCompanyNameScreen();
+
+	char companyName[100];
+	int i = 0;
+	while (1) {
+		const int input = _getch();
+
+		if (input == '\r') {
+			break;
+		}
+		if (input == '\b') {
+			if (companyName[i - 1] < -1) i -= 3;
+			else i -= 2;
+			if (i < -1) i = -1;
+		}
+		else if (i >= 30 || input == ' ' || input == '\\') continue;
+		else {
+			companyName[i] = input;
+			if (input >= 128) {
+				companyName[++i] = _getch();
+			}
+		}
+		companyName[i + 1] = '\0';
+		initGetCompanyNameScreen();
+		printText(layer._consoleDC, 1440, 830, 70, 0, QUEST_TEXT_COLOR, TA_CENTER, companyName);
+
+		i++;
+	}
+
+	saveCompanyName(companyName);
+}
+
+void onButtonInMapClicked(Button* clickedButton) {
+
+}
+
+void beginMapScreen() {
+	void initMapScreen(Button*, Image*);
+	Button buttons[4];
+	Image images[10];
+	initMapScreen(buttons, images);
+
+	getCompanyNameIfNotExist();
+	char companyName[100];
+	loadCompanyName(companyName);
+}
+
+void initMapScreen(Button* buttons, Image* images) {
+	const Button firstOffice = createButton(370, 370, FILE_FIRST_OFFICE, FILE_FIRST_OFFICE_HOVER, FILE_FIRST_OFFICE_CLICK, 1, onButtonInMapClicked);
+	const Button myBuilding = createButton(800, 400, FILE_MY_BUILDING, FILE_MY_BUILDING_HOVER, FILE_MY_BUILDING_CLICK, 2, onButtonInMapClicked);
+	const Button estate = createButton(1368, 284, FILE_ESTATE, FILE_ESTATE_HOVER, FILE_ESTATE_CLICK, 3, onButtonInMapClicked);
+	const Button casino = createButton(2094, 688, FILE_CASINO, FILE_CASINO_HOVER, FILE_CASINO_CLICK, 4, onButtonInMapClicked);
+
+	buttons[0] = firstOffice;
+	buttons[1] = myBuilding;
+	buttons[2] = estate;
+	buttons[3] = casino;
+
+	images[0] = (Image){ FILE_MAP, 0, 0 };
+	images[1] = (Image){ firstOffice.normal, firstOffice.x, firstOffice.y };
+	images[2] = (Image){ myBuilding.normal, myBuilding.x,myBuilding.y };
+	images[3] = (Image){ estate.normal, estate.x, estate.y };
+	images[4] = (Image){ casino.normal, casino.x, casino.y };
+
+	layer.images = images;
+	layer.imageCount = 5;
+	layer.fadeIn(&layer, NULL);
 }
 
 void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
@@ -188,6 +275,19 @@ void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, 
 	EndPaint(WINDOW_HANDLE, &paint);
 
 	DeleteObject(font);
+}
+
+void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text) {
+	while (1) {
+		if (isMouseClicked()) {
+			const COORD position = getMousePosition();
+			layer.renderAll(&layer);
+			printText(layer._consoleDC, position.X, position.Y, size, weight, textColor, align, text);
+
+			gotoXY(0, 0);
+			printf("%5d %5d", position.X, position.Y);
+		}
+	}
 }
 
 Button createButton(int x, int y, char* normal, char* hovered, char* clicked, int indexOfLayer, void (*onClick)(Button*)) {

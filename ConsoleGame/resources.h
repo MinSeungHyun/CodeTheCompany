@@ -10,3 +10,19 @@
 #define FILE_STORY_3 "resources/story_screen/story_3.bmp"
 
 #define FILE_COIN_BLUR "resources/other/coinblur.bmp"
+
+#define FILE_MAP "resources/map_screen/map.bmp"
+#define FILE_FIRST_OFFICE "resources/map_screen/first_office.bmp"
+#define FILE_FIRST_OFFICE_HOVER "resources/map_screen/first_office_hover.bmp"
+#define FILE_FIRST_OFFICE_CLICK "resources/map_screen/first_office_clicked.bmp"
+#define FILE_MY_BUILDING "resources/map_screen/mybuilding.bmp"
+#define FILE_MY_BUILDING_HOVER "resources/map_screen/mybuilding_hover.bmp"
+#define FILE_MY_BUILDING_CLICK "resources/map_screen/mybuilding_clicked.bmp"
+#define FILE_ESTATE "resources/map_screen/estate.bmp"
+#define FILE_ESTATE_HOVER "resources/map_screen/estate_hover.bmp"
+#define FILE_ESTATE_CLICK "resources/map_screen/estate_clicked.bmp"
+#define FILE_CASINO "resources/map_screen/casino.bmp"
+#define FILE_CASINO_HOVER "resources/map_screen/casino_hover.bmp"
+#define FILE_CASINO_CLICK "resources/map_screen/casino_clicked.bmp"
+
+#define FILE_QUEST_WINDOW_NO_TITLE "resources/quest/quest_window_no_title.bmp"
