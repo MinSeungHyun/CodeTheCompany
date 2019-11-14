@@ -248,6 +248,24 @@ int getProgressFromExp() {
 	return (int)((long double)achievedExp / totalExp * 10);
 }
 
+void displayUserValues() {
+	char LEVEL_PROGRESS_FILE_NAME[100];
+	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
+	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
+	layer.renderAll(&layer);
+}
+
+void applyUsrValuesToDC(HDC hdc) {
+	char levelString[10];
+	sprintf(levelString, "Lv.%d", level);
+	printText(hdc, 242, 125, 100, 0, RGB(0, 0, 0), TA_CENTER, levelString);
+
+	char moneyString[100];
+	sprintf(moneyString, "%lld", money);
+	printText(hdc, 1390, 90, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
+	printText(hdc, 2080, 100, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
+}
+
 void initUserValues() {
 	if (!isFileExist(DIR_MONEY_AND_EXP))
 		saveMoneyAndExp(DEFAULT_MONEY, 0);
@@ -267,22 +285,8 @@ void initUserValues() {
 	layer.renderAll(&layer);
 
 	printText(layer._consoleDC, 1450, 90, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
-}
 
-void displayUserValues() {
-	char LEVEL_PROGRESS_FILE_NAME[100];
-	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
-	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
-	layer.renderAll(&layer);
-
-	char levelString[10];
-	sprintf(levelString, "Lv.%d", level);
-	printText(layer._consoleDC, 242, 125, 100, 0, RGB(0, 0, 0), TA_CENTER, levelString);
-
-	char moneyString[100];
-	sprintf(moneyString, "%lld", money);
-	printText(layer._consoleDC, 1390, 90, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
-	printText(layer._consoleDC, 2080, 100, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
+	layer.applyToDC = applyUsrValuesToDC;
 }
 
 void onButtonInMapClicked(Button* clickedButton) {
@@ -300,7 +304,6 @@ void beginMapScreen() {
 	loadCompanyName(companyName);
 
 	initUserValues();
-
 	updateUserValues();
 	displayUserValues();
 
