@@ -25,6 +25,8 @@ void beginMapScreen();
 void beginStoryScreen();
 
 char lastName[100], firstName[100];
+BigInt money, userExp;
+int level;
 
 int main() {
 	initialize();
@@ -223,36 +225,36 @@ void getCompanyNameIfNotExist() {
 	saveCompanyName(companyName);
 }
 
-int getLevel(BigInt exp) {
-	return  (int)sqrtl((long double)(exp / 400));
+void updateUserValues() {
+	loadMoneyAndExp(&money, &userExp);
+	level = (int)sqrtl((long double)(userExp / 400));
 }
 
-BigInt getExp(int level) {
+BigInt getExpForLevel(int level) {
 	return (BigInt)(400 * (pow(level, 2)));
 }
 
 BigInt getTotalExpForLevel(int level) {
-	return getExp(level + 1) - getExp(level);
+	return getExpForLevel(level + 1) - getExpForLevel(level);
 }
 
-BigInt getAchievedExp(BigInt exp) {
-	return exp - getExp(getLevel(exp));
+BigInt getAchievedExp() {
+	return userExp - getExpForLevel(level);
 }
 
-int getProgressFromExp(BigInt exp) {
-	const BigInt totalExp = getTotalExpForLevel(getLevel(exp));
-	const BigInt achievedExp = getAchievedExp(exp);
+int getProgressFromExp() {
+	const BigInt totalExp = getTotalExpForLevel(level);
+	const BigInt achievedExp = getAchievedExp();
 	return (int)((long double)achievedExp / totalExp * 10);
 }
 
-void initUserValues(BigInt* money, BigInt* exp, int* level) {
+void initUserValues() {
 	if (!isFileExist(DIR_MONEY_AND_EXP))
 		saveMoneyAndExp(DEFAULT_MONEY, 0);
-	loadMoneyAndExp(money, exp);
-	*level = getLevel(*exp);
+	updateUserValues();
 
 	char LEVEL_PROGRESS_FILE_NAME[100];
-	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp(*exp));
+	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
 
 	const Image levelBackground = { FILE_LEVEL_BACKGROUND, 65, 65 };
 	const Image levelProgress = { LEVEL_PROGRESS_FILE_NAME, 455,65 };
@@ -267,9 +269,9 @@ void initUserValues(BigInt* money, BigInt* exp, int* level) {
 	printText(layer._consoleDC, 1450, 90, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
 }
 
-void displayUserValues(int level, BigInt exp, BigInt money) {
+void displayUserValues() {
 	char LEVEL_PROGRESS_FILE_NAME[100];
-	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp((exp)));
+	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
 	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
 	layer.renderAll(&layer);
 
@@ -297,24 +299,22 @@ void beginMapScreen() {
 	char companyName[100];
 	loadCompanyName(companyName);
 
-	BigInt money, exp;
-	int level;
-	initUserValues(&money, &exp, &level);
-	loadMoneyAndExp(&money, &exp);
-	level = getLevel(exp);
-	displayUserValues(level, exp, money);
+	initUserValues();
+
+	updateUserValues();
+	displayUserValues();
 
 	Button levelProgressCollider = createButton(455, 65, FILE_LEVEL_PROGRESS_DEFAULT, NULL, NULL, -1, NULL);
 	int isExpShowed = 0;
 	while (1) {
 		if (levelProgressCollider.isHovered(&levelProgressCollider, getMousePosition())) {
-			if(isExpShowed) continue;
+			if (isExpShowed) continue;
 			printText(layer._consoleDC, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, "10,000/123,456");
 			isExpShowed = 1;
 		}
 		else {
-			if(!isExpShowed) continue;
-			displayUserValues(level, exp, money);
+			if (!isExpShowed) continue;
+			displayUserValues();
 			isExpShowed = 0;
 		}
 	}
