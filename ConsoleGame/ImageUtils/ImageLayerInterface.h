@@ -21,4 +21,5 @@ typedef struct _ImageLayer {
 	void (*renderAll)(struct _ImageLayer*);
 	void (*fadeIn)(struct _ImageLayer*, void(*applyToBackDC)(HDC));
 	void (*fadeOut)(struct _ImageLayer*, void(*applyToBackDC)(HDC));
+	void (*applyToDC)(HDC);
 }ImageLayer;

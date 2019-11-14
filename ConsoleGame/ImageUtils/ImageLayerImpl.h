@@ -84,6 +84,7 @@ inline HDC getRenderedBackDC(ImageLayer* self) {
 
 inline void _renderAll(ImageLayer* self) {
 	const HDC backDC = getRenderedBackDC(self);
+	if (self->applyToDC != NULL) self->applyToDC(backDC);
 	applyToDC(self->_consoleDC, backDC);
 	DeleteDC(backDC);
 }
