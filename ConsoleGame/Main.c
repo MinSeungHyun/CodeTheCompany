@@ -17,6 +17,7 @@ ImageLayer layer;
 void initLayer();
 void gotoXY(int, int);
 Button createButton(int, int, char*, char*, char*, int, void(*onClick)(Button*));
+Button createCollider(int, int, char*, void(*onHover)(Button*));
 void printText(HDC, int, int, int, int, COLORREF, int, char*);
 void textPositionTester(int, int, COLORREF, int, char*);
 void beginStartScreen();
@@ -248,14 +249,18 @@ int getProgressFromExp() {
 	return (int)((long double)achievedExp / totalExp * 10);
 }
 
-void displayUserValues() {
-	char LEVEL_PROGRESS_FILE_NAME[100];
-	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
-	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
-	layer.renderAll(&layer);
+void displayExpDetail(HDC hdc) {
+	char expText[100];
+	sprintf(expText, "%lld/%lld", getAchievedExp(), getTotalExpForLevel(level));
+	printText(hdc, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, expText);
 }
 
-void applyUsrValuesToDC(HDC hdc) {
+char LEVEL_PROGRESS_FILE_NAME[100];
+int isExpDetailShow = 0;
+void applyUserValuesToDC(HDC hdc) {
+	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
+	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
+
 	char levelString[10];
 	sprintf(levelString, "Lv.%d", level);
 	printText(hdc, 242, 125, 100, 0, RGB(0, 0, 0), TA_CENTER, levelString);
@@ -264,6 +269,11 @@ void applyUsrValuesToDC(HDC hdc) {
 	sprintf(moneyString, "%lld", money);
 	printText(hdc, 1390, 90, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
 	printText(hdc, 2080, 100, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
+
+	if (isExpDetailShow) {
+		displayExpDetail(hdc);
+		isExpDetailShow = 0;
+	}
 }
 
 void initUserValues() {
@@ -286,7 +296,11 @@ void initUserValues() {
 
 	printText(layer._consoleDC, 1450, 90, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
 
-	layer.applyToDC = applyUsrValuesToDC;
+	layer.applyToDC = applyUserValuesToDC;
+}
+
+void onButtonInMapHovered(Button* hoveredButton) {
+	if (hoveredButton->normal == FILE_LEVEL_PROGRESS_DEFAULT) isExpDetailShow = 1;
 }
 
 void onButtonInMapClicked(Button* clickedButton) {
@@ -295,7 +309,7 @@ void onButtonInMapClicked(Button* clickedButton) {
 
 void beginMapScreen() {
 	void initMapScreen(Button*, Image*);
-	Button buttons[4];
+	Button buttons[5];
 	Image images[10];
 	initMapScreen(buttons, images);
 
@@ -305,25 +319,8 @@ void beginMapScreen() {
 
 	initUserValues();
 	updateUserValues();
-	displayUserValues();
 
-	Button levelProgressCollider = createButton(455, 65, FILE_LEVEL_PROGRESS_DEFAULT, NULL, NULL, -1, NULL);
-	int isExpShowed = 0;
-	while (1) {
-		if (levelProgressCollider.isHovered(&levelProgressCollider, getMousePosition())) {
-			if (isExpShowed) continue;
-			updateUserValues();
-			char expText[100];
-			sprintf(expText, "%lld/%lld", getAchievedExp(), getTotalExpForLevel(level));
-			printText(layer._consoleDC, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, expText);
-			isExpShowed = 1;
-		}
-		else {
-			if (!isExpShowed) continue;
-			displayUserValues();
-			isExpShowed = 0;
-		}
-	}
+	startButtonListener(buttons, 5, &layer);
 }
 
 void initMapScreen(Button* buttons, Image* images) {
@@ -331,11 +328,13 @@ void initMapScreen(Button* buttons, Image* images) {
 	const Button myBuilding = createButton(800, 400, FILE_MY_BUILDING, FILE_MY_BUILDING_HOVER, FILE_MY_BUILDING_CLICK, 2, onButtonInMapClicked);
 	const Button estate = createButton(1368, 284, FILE_ESTATE, FILE_ESTATE_HOVER, FILE_ESTATE_CLICK, 3, onButtonInMapClicked);
 	const Button casino = createButton(2094, 688, FILE_CASINO, FILE_CASINO_HOVER, FILE_CASINO_CLICK, 4, onButtonInMapClicked);
+	const Button expDetailCollider = createCollider(455, 65, FILE_LEVEL_PROGRESS_DEFAULT, onButtonInMapHovered);
 
 	buttons[0] = firstOffice;
 	buttons[1] = myBuilding;
 	buttons[2] = estate;
 	buttons[3] = casino;
+	buttons[4] = expDetailCollider;
 
 	images[0] = (Image){ FILE_MAP, 0, 0 };
 	images[1] = (Image){ firstOffice.normal, firstOffice.x, firstOffice.y };
@@ -392,6 +391,20 @@ Button createButton(int x, int y, char* normal, char* hovered, char* clicked, in
 	button.initialize(&button);
 	button.indexOfImageLayer = indexOfLayer;
 	button.onClick = onClick;
+	return button;
+}
+
+Button createCollider(int x, int y, char* normal, void(*onHover)(Button*)) {
+	Button button = DEFAULT_BUTTON;
+	button.x = x;
+	button.y = y;
+	button.normal = normal;
+	button.hovered = NULL;
+	button.clicked = NULL;
+	button.initialize(&button);
+	button.indexOfImageLayer = -1;
+	button.onClick = NULL;
+	button.onHover = onHover;
 	return button;
 }
 
