@@ -288,7 +288,7 @@ void applyUserValuesToDC(HDC hdc) {
 	}
 }
 
-void initUserValues() {
+void initMapUI() {
 	if (!isFileExist(DIR_MONEY_AND_EXP))
 		saveMoneyAndExp(DEFAULT_MONEY, 0);
 	updateUserValues();
@@ -368,7 +368,7 @@ void beginMapScreen() {
 	char companyName[100];
 	loadCompanyName(companyName);
 
-	initUserValues();
+	initMapUI();
 	updateUserValues();
 
 	startButtonListener(buttons, 5, &layer);
@@ -386,7 +386,7 @@ void initMapScreen(Image* images) {
 	buttons[MY_BUILDING_INDEX + offset] = myBuilding;
 	buttons[ESTATE_INDEX + offset] = estate;
 	buttons[CASINO_INDEX + offset] = casino;
-	buttons[EXP_DETAIL_COLLIDER_INDEX] = expDetailCollider;
+	buttons[EXP_DETAIL_COLLIDER_INDEX] = expDetailCollider; 
 
 	updateBuildingState();
 
@@ -436,7 +436,7 @@ void textPositionTester(int size, int weight, COLORREF textColor, int align, cha
 }
 
 Button createButton(int x, int y, char* normal, char* hovered, char* clicked, int indexOfLayer, void (*onClick)(Button*)) {
-	Button button = DEFAULT_BUTTON;
+	Button button = DEFAULT_BUTTON;  
 	button.x = x;
 	button.y = y;
 	button.normal = normal;
@@ -457,7 +457,6 @@ Button createCollider(int x, int y, char* normal, void(*onHover)(Button*)) {
 	button.clicked = NULL;
 	button.initialize(&button);
 	button.indexOfImageLayer = -1;
-	button.onClick = NULL;
 	button.onHover = onHover;
 	return button;
 }
