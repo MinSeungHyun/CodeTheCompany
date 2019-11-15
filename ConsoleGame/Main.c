@@ -184,6 +184,15 @@ void beginStoryScreen() {
 	layer.renderAll(&layer);
 }
 
+#define MAP_INDEX 0
+#define FIRST_OFFICE_INDEX 1
+#define MY_BUILDING_INDEX 2
+#define ESTATE_INDEX 3
+#define CASINO_INDEX 4
+#define LEVEL_BACKGROUND_INDEX 5
+#define LEVEL_PROGRESS_INDEX 6
+#define MONEY_BACKGROUND_INDEX 7
+
 void initGetCompanyNameScreen() {
 	layer.images[5] = (Image){ FILE_QUEST_WINDOW_NO_TITLE, 730, 380 };
 	layer.imageCount = 6;
@@ -259,7 +268,7 @@ int isExpDetailShow = 0;
 void applyUserValuesToDC(HDC hdc) {
 	static char LEVEL_PROGRESS_FILE_NAME[100];
 	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
-	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
+	layer.images[LEVEL_PROGRESS_INDEX].fileName = LEVEL_PROGRESS_FILE_NAME;
 
 	char levelString[10];
 	sprintf(levelString, "Lv.%d", level);
@@ -288,9 +297,9 @@ void initUserValues() {
 	const Image levelProgress = { LEVEL_PROGRESS_FILE_NAME, 455,65 };
 	const Image moneyBackground = { FILE_MONEY_BACKGROUND, 1250, 65 };
 
-	layer.images[5] = levelBackground;
-	layer.images[6] = levelProgress;
-	layer.images[7] = moneyBackground;
+	layer.images[LEVEL_BACKGROUND_INDEX] = levelBackground;
+	layer.images[LEVEL_PROGRESS_INDEX] = levelProgress;
+	layer.images[MONEY_BACKGROUND_INDEX] = moneyBackground;
 	layer.imageCount = 8;
 	layer.renderAll(&layer);
 
@@ -336,11 +345,11 @@ void initMapScreen(Button* buttons, Image* images) {
 	buttons[3] = casino;
 	buttons[4] = expDetailCollider;
 
-	images[0] = (Image){ FILE_MAP, 0, 0 };
-	images[1] = (Image){ firstOffice.normal, firstOffice.x, firstOffice.y };
-	images[2] = (Image){ myBuilding.normal, myBuilding.x,myBuilding.y };
-	images[3] = (Image){ estate.normal, estate.x, estate.y };
-	images[4] = (Image){ casino.normal, casino.x, casino.y };
+	images[MAP_INDEX] = (Image){ FILE_MAP, 0, 0 };
+	images[FIRST_OFFICE_INDEX] = (Image){ firstOffice.normal, firstOffice.x, firstOffice.y };
+	images[MY_BUILDING_INDEX] = (Image){ myBuilding.normal, myBuilding.x,myBuilding.y };
+	images[ESTATE_INDEX] = (Image){ estate.normal, estate.x, estate.y };
+	images[CASINO_INDEX] = (Image){ casino.normal, casino.x, casino.y };
 
 	layer.images = images;
 	layer.imageCount = 5;

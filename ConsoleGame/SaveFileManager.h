@@ -5,6 +5,7 @@
 #define DIR_NAME "saves/name.ctc"
 #define DIR_COMPANY_NAME "saves/company_name.ctc"
 #define DIR_MONEY_AND_EXP "saves/money_exp.ctc"
+#define DIR_BUILDING_STATE "saves/building_state.ctc"
 
 inline void saveName(char* lastName, char* firstName) {
 	_mkdir(DIR_SAVE);
@@ -46,6 +47,20 @@ inline int loadMoneyAndExp(unsigned long long* money, unsigned long long* exp) {
 	FILE* file = fopen(DIR_MONEY_AND_EXP, "r");
 	if (file == NULL) return 0;
 	fscanf(file, "%lld %lld", money, exp);
+	fclose(file);
+	return 1;
+}
+
+inline void saveBuildingState(int firstOffice, int myBuilding, int casino) {
+	FILE* file = fopen(DIR_BUILDING_STATE, "w");
+	fprintf(file, "%d %d %d", firstOffice, myBuilding, casino);
+	fclose(file);
+}
+
+inline int loadBuildingState(int* firstOffice, int* myBuilding, int* casino) {
+	FILE* file = fopen(DIR_BUILDING_STATE, "r");
+	if (file == NULL) return 0;
+	fscanf(file, "%d %d %d", firstOffice, myBuilding, casino);
 	fclose(file);
 	return 1;
 }
