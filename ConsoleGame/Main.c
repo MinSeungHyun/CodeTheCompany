@@ -255,9 +255,9 @@ void displayExpDetail(HDC hdc) {
 	printText(hdc, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, expText);
 }
 
-char LEVEL_PROGRESS_FILE_NAME[100];
 int isExpDetailShow = 0;
 void applyUserValuesToDC(HDC hdc) {
+	static char LEVEL_PROGRESS_FILE_NAME[100];
 	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
 	layer.images[6].fileName = LEVEL_PROGRESS_FILE_NAME;
 
