@@ -9,5 +9,6 @@ typedef struct _Button {
 
 	int (*isHovered)(struct _Button*, COORD);
 	void (*initialize)(struct _Button*);
+	void (*onHover)(struct _Button*);
 	void (*onClick)(struct _Button*);
 }Button;

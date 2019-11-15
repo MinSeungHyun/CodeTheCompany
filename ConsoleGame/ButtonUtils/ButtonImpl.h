@@ -95,6 +95,7 @@ inline void startButtonListener(Button* buttons, int buttonCount, ImageLayer* la
 			layer->images[indexOfLayer].fileName = buttons[hoveredButtonIndex].hovered;
 
 		layer->renderAll(layer);
+		buttons[hoveredButtonIndex].onHover(&buttons[hoveredButtonIndex]);
 
 		if (isMouseUpListened) {
 			isMouseUpListened = 0;
