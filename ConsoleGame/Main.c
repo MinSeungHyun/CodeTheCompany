@@ -28,6 +28,7 @@ void beginStoryScreen();
 char lastName[100], firstName[100];
 BigInt money, userExp;
 int level;
+int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
 int main() {
 	initialize();
@@ -192,6 +193,8 @@ void beginStoryScreen() {
 #define LEVEL_BACKGROUND_INDEX 5
 #define LEVEL_PROGRESS_INDEX 6
 #define MONEY_BACKGROUND_INDEX 7
+#define BUILDING_BUTTON_INDEX_OFFSET (-1)
+#define EXP_DETAIL_COLLIDER_INDEX 4
 
 void initGetCompanyNameScreen() {
 	layer.images[5] = (Image){ FILE_QUEST_WINDOW_NO_TITLE, 730, 380 };
@@ -308,19 +311,58 @@ void initUserValues() {
 	layer.applyToDC = applyUserValuesToDC;
 }
 
+Button buttons[5];
+
+void updateBuildingState() {
+	if (!isFileExist(DIR_BUILDING_STATE)) {
+		saveBuildingState(0, 0, 0);
+	}
+	loadBuildingState(&isFirstOfficeEnabled, &isMyBuildingEnabled, &isCasinoEnabled);
+	const int offset = BUILDING_BUTTON_INDEX_OFFSET;
+
+	if (isFirstOfficeEnabled) {
+		buttons[FIRST_OFFICE_INDEX + offset].normal = FILE_FIRST_OFFICE;
+		buttons[FIRST_OFFICE_INDEX + offset].hovered = FILE_FIRST_OFFICE_HOVER;
+		buttons[FIRST_OFFICE_INDEX + offset].clicked = FILE_FIRST_OFFICE_CLICK;
+	}
+	else {
+		buttons[FIRST_OFFICE_INDEX + offset].normal = FILE_FIRST_OFFICE_LOCKED;
+		buttons[FIRST_OFFICE_INDEX + offset].hovered = FILE_FIRST_OFFICE_LOCKED;
+		buttons[FIRST_OFFICE_INDEX + offset].clicked = FILE_FIRST_OFFICE_LOCKED;
+	}
+	if (isMyBuildingEnabled) {
+		buttons[MY_BUILDING_INDEX + offset].normal = FILE_MY_BUILDING;
+		buttons[MY_BUILDING_INDEX + offset].hovered = FILE_MY_BUILDING_HOVER;
+		buttons[MY_BUILDING_INDEX + offset].clicked = FILE_MY_BUILDING_CLICK;
+	}
+	else {
+		buttons[MY_BUILDING_INDEX + offset].normal = FILE_MY_BUILDING_LOCKED;
+		buttons[MY_BUILDING_INDEX + offset].hovered = FILE_MY_BUILDING_LOCKED;
+		buttons[MY_BUILDING_INDEX + offset].clicked = FILE_MY_BUILDING_LOCKED;
+	}
+	if (isCasinoEnabled) {
+		buttons[CASINO_INDEX + offset].normal = FILE_CASINO;
+		buttons[CASINO_INDEX + offset].hovered = FILE_CASINO_HOVER;
+		buttons[CASINO_INDEX + offset].clicked = FILE_CASINO_CLICK;
+	}
+	else {
+		buttons[CASINO_INDEX + offset].normal = FILE_CASINO_LOCKED;
+		buttons[CASINO_INDEX + offset].hovered = FILE_CASINO_LOCKED;
+		buttons[CASINO_INDEX + offset].clicked = FILE_CASINO_LOCKED;
+	}
+}
+
 void onButtonInMapHovered(Button* hoveredButton) {
 	if (hoveredButton->normal == FILE_LEVEL_PROGRESS_DEFAULT) isExpDetailShow = 1;
 }
 
 void onButtonInMapClicked(Button* clickedButton) {
-
 }
 
 void beginMapScreen() {
-	void initMapScreen(Button*, Image*);
-	Button buttons[5];
+	void initMapScreen(Image*);
 	Image images[10];
-	initMapScreen(buttons, images);
+	initMapScreen(images);
 
 	getCompanyNameIfNotExist();
 	char companyName[100];
@@ -332,24 +374,27 @@ void beginMapScreen() {
 	startButtonListener(buttons, 5, &layer);
 }
 
-void initMapScreen(Button* buttons, Image* images) {
-	const Button firstOffice = createButton(370, 370, FILE_FIRST_OFFICE, FILE_FIRST_OFFICE_HOVER, FILE_FIRST_OFFICE_CLICK, 1, onButtonInMapClicked);
-	const Button myBuilding = createButton(800, 400, FILE_MY_BUILDING, FILE_MY_BUILDING_HOVER, FILE_MY_BUILDING_CLICK, 2, onButtonInMapClicked);
-	const Button estate = createButton(1368, 284, FILE_ESTATE, FILE_ESTATE_HOVER, FILE_ESTATE_CLICK, 3, onButtonInMapClicked);
-	const Button casino = createButton(2094, 688, FILE_CASINO, FILE_CASINO_HOVER, FILE_CASINO_CLICK, 4, onButtonInMapClicked);
+void initMapScreen(Image* images) {
+	const Button firstOffice = createButton(370, 370, FILE_FIRST_OFFICE, FILE_FIRST_OFFICE_HOVER, FILE_FIRST_OFFICE_CLICK, FIRST_OFFICE_INDEX, onButtonInMapClicked);
+	const Button myBuilding = createButton(800, 400, FILE_MY_BUILDING, FILE_MY_BUILDING_HOVER, FILE_MY_BUILDING_CLICK, MY_BUILDING_INDEX, onButtonInMapClicked);
+	const Button estate = createButton(1368, 284, FILE_ESTATE, FILE_ESTATE_HOVER, FILE_ESTATE_CLICK, ESTATE_INDEX, onButtonInMapClicked);
+	const Button casino = createButton(2094, 688, FILE_CASINO, FILE_CASINO_HOVER, FILE_CASINO_CLICK, CASINO_INDEX, onButtonInMapClicked);
 	const Button expDetailCollider = createCollider(455, 65, FILE_LEVEL_PROGRESS_DEFAULT, onButtonInMapHovered);
 
-	buttons[0] = firstOffice;
-	buttons[1] = myBuilding;
-	buttons[2] = estate;
-	buttons[3] = casino;
-	buttons[4] = expDetailCollider;
+	int offset = BUILDING_BUTTON_INDEX_OFFSET;
+	buttons[FIRST_OFFICE_INDEX + offset] = firstOffice;
+	buttons[MY_BUILDING_INDEX + offset] = myBuilding;
+	buttons[ESTATE_INDEX + offset] = estate;
+	buttons[CASINO_INDEX + offset] = casino;
+	buttons[EXP_DETAIL_COLLIDER_INDEX] = expDetailCollider;
+
+	updateBuildingState();
 
 	images[MAP_INDEX] = (Image){ FILE_MAP, 0, 0 };
-	images[FIRST_OFFICE_INDEX] = (Image){ firstOffice.normal, firstOffice.x, firstOffice.y };
-	images[MY_BUILDING_INDEX] = (Image){ myBuilding.normal, myBuilding.x,myBuilding.y };
-	images[ESTATE_INDEX] = (Image){ estate.normal, estate.x, estate.y };
-	images[CASINO_INDEX] = (Image){ casino.normal, casino.x, casino.y };
+	images[FIRST_OFFICE_INDEX] = (Image){ buttons[FIRST_OFFICE_INDEX + offset].normal,firstOffice.x, firstOffice.y };
+	images[MY_BUILDING_INDEX] = (Image){ buttons[MY_BUILDING_INDEX + offset].normal, myBuilding.x,myBuilding.y };
+	images[ESTATE_INDEX] = (Image){ buttons[ESTATE_INDEX + offset].normal, estate.x, estate.y };
+	images[CASINO_INDEX] = (Image){ buttons[CASINO_INDEX + offset].normal, casino.x, casino.y };
 
 	layer.images = images;
 	layer.imageCount = 5;
