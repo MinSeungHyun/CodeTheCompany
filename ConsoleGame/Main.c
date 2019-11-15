@@ -8,7 +8,8 @@
 
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
-#define DEFAULT_MONEY 10000
+#define DEFAULT_MONEY 100000
+#define DEFAULT_MPS 10
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
@@ -26,7 +27,7 @@ void beginMapScreen();
 void beginStoryScreen();
 
 char lastName[100], firstName[100];
-BigInt money, userExp;
+BigInt money, userExp, mps;
 int level;
 int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
@@ -247,6 +248,8 @@ void getCompanyNameIfNotExist() {
 void updateUserValues() {
 	loadMoneyAndExp(&money, &userExp);
 	level = (int)sqrtl((long double)(userExp / 400));
+
+	loadMPS(&mps);
 }
 
 BigInt getExpForLevel(int level) {
@@ -288,6 +291,10 @@ void applyUserValuesToDC(HDC hdc) {
 	printText(hdc, 1390, 90, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
 	printText(hdc, 2080, 100, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
 
+	char mpsString[100];
+	sprintf(mpsString, "%lld¿ø/ÃÊ", mps);
+	printText(hdc, 2080, 200, 40, 300, RGB(255, 255, 255), TA_RIGHT, mpsString);
+
 	if (isExpDetailShow) {
 		displayExpDetail(hdc);
 		isExpDetailShow = 0;
@@ -306,6 +313,8 @@ void onButtonInMapClicked(Button* clickedButton) {
 void initMapUI() {
 	if (!isFileExist(DIR_MONEY_AND_EXP))
 		saveMoneyAndExp(DEFAULT_MONEY, 0);
+	if (!isFileExist(DIR_MPS))
+		saveMPS(DEFAULT_MPS);
 	updateUserValues();
 
 	char LEVEL_PROGRESS_FILE_NAME[100];

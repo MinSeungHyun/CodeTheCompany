@@ -6,6 +6,7 @@
 #define DIR_COMPANY_NAME "saves/company_name.ctc"
 #define DIR_MONEY_AND_EXP "saves/money_exp.ctc"
 #define DIR_BUILDING_STATE "saves/building_state.ctc"
+#define DIR_MPS "saves/mps.ctc"
 
 inline void saveName(char* lastName, char* firstName) {
 	_mkdir(DIR_SAVE);
@@ -61,6 +62,20 @@ inline int loadBuildingState(int* firstOffice, int* myBuilding, int* casino) {
 	FILE* file = fopen(DIR_BUILDING_STATE, "r");
 	if (file == NULL) return 0;
 	fscanf(file, "%d %d %d", firstOffice, myBuilding, casino);
+	fclose(file);
+	return 1;
+}
+
+inline void saveMPS(unsigned long long mps) {
+	FILE* file = fopen(DIR_MPS, "w");
+	fprintf(file, "%lld", mps);
+	fclose(file);
+}
+
+inline int loadMPS(unsigned long long* mps) {
+	FILE* file = fopen(DIR_MPS, "r");
+	if (file == NULL) return 0;
+	fscanf(file, "%lld", mps);
 	fclose(file);
 	return 1;
 }
