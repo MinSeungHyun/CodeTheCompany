@@ -185,6 +185,8 @@ void beginStoryScreen() {
 	layer.renderAll(&layer);
 }
 
+#define MAP_IMAGE_COUNT 10
+#define MAP_BUTTON_COUNT 7
 #define MAP_INDEX 0
 #define FIRST_OFFICE_INDEX 1
 #define MY_BUILDING_INDEX 2
@@ -195,6 +197,10 @@ void beginStoryScreen() {
 #define MONEY_BACKGROUND_INDEX 7
 #define BUILDING_BUTTON_INDEX_OFFSET (-1)
 #define EXP_DETAIL_COLLIDER_INDEX 4
+#define QUEST_BUTTON_INDEX_IN_LAYER 8
+#define QUEST_BUTTON_INDEX_IN_BUTTON 5
+#define SETTING_BUTTON_INDEX_IN_LAYER 9
+#define SETTING_BUTTON_INDEX_IN_BUTTON 6
 
 void initGetCompanyNameScreen() {
 	layer.images[5] = (Image){ FILE_QUEST_WINDOW_NO_TITLE, 730, 380 };
@@ -288,6 +294,15 @@ void applyUserValuesToDC(HDC hdc) {
 	}
 }
 
+Button buttons[MAP_BUTTON_COUNT];
+
+void onButtonInMapHovered(Button* hoveredButton) {
+	if (hoveredButton->normal == FILE_LEVEL_PROGRESS_DEFAULT) isExpDetailShow = 1;
+}
+
+void onButtonInMapClicked(Button* clickedButton) {
+}
+
 void initMapUI() {
 	if (!isFileExist(DIR_MONEY_AND_EXP))
 		saveMoneyAndExp(DEFAULT_MONEY, 0);
@@ -296,22 +311,29 @@ void initMapUI() {
 	char LEVEL_PROGRESS_FILE_NAME[100];
 	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
 
+	const Button questButton = createButton(100, 1200, FILE_QUEST_BUTTON, FILE_QUEST_BUTTON_HOVER, FILE_QUEST_BUTTON_CLICK, QUEST_BUTTON_INDEX_IN_LAYER, onButtonInMapClicked);
+	const Button settingButton = createButton(2600, 65, FILE_SETTING_BUTTON, FILE_SETTING_BUTTON_HOVER, FILE_SETTING_BUTTON_CLICK, SETTING_BUTTON_INDEX_IN_LAYER, onButtonInMapClicked);
+	buttons[QUEST_BUTTON_INDEX_IN_BUTTON] = questButton;
+	buttons[SETTING_BUTTON_INDEX_IN_BUTTON] = settingButton;
+
 	const Image levelBackground = { FILE_LEVEL_BACKGROUND, 65, 65 };
 	const Image levelProgress = { LEVEL_PROGRESS_FILE_NAME, 455,65 };
 	const Image moneyBackground = { FILE_MONEY_BACKGROUND, 1250, 65 };
+	const Image questButtonImage = { questButton.normal, 100, 1200 };
+	const Image settingButtonImage = { settingButton.normal, 2600, 65 };
 
 	layer.images[LEVEL_BACKGROUND_INDEX] = levelBackground;
 	layer.images[LEVEL_PROGRESS_INDEX] = levelProgress;
 	layer.images[MONEY_BACKGROUND_INDEX] = moneyBackground;
-	layer.imageCount = 8;
+	layer.images[QUEST_BUTTON_INDEX_IN_LAYER] = questButtonImage;
+	layer.images[SETTING_BUTTON_INDEX_IN_LAYER] = settingButtonImage;
+	layer.imageCount = MAP_IMAGE_COUNT;
 	layer.renderAll(&layer);
 
 	printText(layer._consoleDC, 1450, 90, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
 
 	layer.applyToDC = applyUserValuesToDC;
 }
-
-Button buttons[5];
 
 void updateBuildingState() {
 	if (!isFileExist(DIR_BUILDING_STATE)) {
@@ -352,16 +374,9 @@ void updateBuildingState() {
 	}
 }
 
-void onButtonInMapHovered(Button* hoveredButton) {
-	if (hoveredButton->normal == FILE_LEVEL_PROGRESS_DEFAULT) isExpDetailShow = 1;
-}
-
-void onButtonInMapClicked(Button* clickedButton) {
-}
-
 void beginMapScreen() {
 	void initMapScreen(Image*);
-	Image images[10];
+	Image images[MAP_IMAGE_COUNT];
 	initMapScreen(images);
 
 	getCompanyNameIfNotExist();
@@ -371,7 +386,7 @@ void beginMapScreen() {
 	initMapUI();
 	updateUserValues();
 
-	startButtonListener(buttons, 5, &layer);
+	startButtonListener(buttons, MAP_BUTTON_COUNT, &layer);
 }
 
 void initMapScreen(Image* images) {
@@ -386,7 +401,7 @@ void initMapScreen(Image* images) {
 	buttons[MY_BUILDING_INDEX + offset] = myBuilding;
 	buttons[ESTATE_INDEX + offset] = estate;
 	buttons[CASINO_INDEX + offset] = casino;
-	buttons[EXP_DETAIL_COLLIDER_INDEX] = expDetailCollider; 
+	buttons[EXP_DETAIL_COLLIDER_INDEX] = expDetailCollider;
 
 	updateBuildingState();
 
@@ -436,7 +451,7 @@ void textPositionTester(int size, int weight, COLORREF textColor, int align, cha
 }
 
 Button createButton(int x, int y, char* normal, char* hovered, char* clicked, int indexOfLayer, void (*onClick)(Button*)) {
-	Button button = DEFAULT_BUTTON;  
+	Button button = DEFAULT_BUTTON;
 	button.x = x;
 	button.y = y;
 	button.normal = normal;

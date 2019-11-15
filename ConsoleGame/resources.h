@@ -32,10 +32,15 @@
 #define FILE_CASINO_CLICK "resources/map_screen/casino_clicked.bmp"
 #define FILE_CASINO_LOCKED "resources/map_screen/casino_locked.bmp"
 
-
 #define FILE_QUEST_WINDOW_NO_TITLE "resources/quest/quest_window_no_title.bmp"
 
 #define FILE_LEVEL_BACKGROUND "resources/progress_bar/level_background.bmp"
 #define FILE_LEVEL_PROGRESS_DEFAULT "resources/progress_bar/level_progress_0.bmp"
 #define FILE_LEVEL_PROGRESS "resources/progress_bar/level_progress_%d.bmp"
 #define FILE_MONEY_BACKGROUND "resources/progress_bar/money_progress.bmp"
+#define FILE_QUEST_BUTTON "resources/quest/quest_button.bmp"
+#define FILE_QUEST_BUTTON_HOVER "resources/quest/quest_button_hover.bmp"
+#define FILE_QUEST_BUTTON_CLICK "resources/quest/quest_button_click.bmp"
+#define FILE_SETTING_BUTTON "resources/other/setting_button.bmp"
+#define FILE_SETTING_BUTTON_HOVER "resources/other/setting_button_hover.bmp"
+#define FILE_SETTING_BUTTON_CLICK "resources/other/setting_button_clicked.bmp"
