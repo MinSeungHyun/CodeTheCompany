@@ -312,7 +312,10 @@ void beginMapScreen() {
 	while (1) {
 		if (levelProgressCollider.isHovered(&levelProgressCollider, getMousePosition())) {
 			if (isExpShowed) continue;
-			printText(layer._consoleDC, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, "10,000/123,456");
+			updateUserValues();
+			char expText[100];
+			sprintf(expText, "%lld/%lld", getAchievedExp(), getTotalExpForLevel(level));
+			printText(layer._consoleDC, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, expText);
 			isExpShowed = 1;
 		}
 		else {
