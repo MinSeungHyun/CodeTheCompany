@@ -57,7 +57,7 @@ inline void onMouseUp() {
 	isMouseUp = 1;
 }
 
-inline void checkMouseStateThread() {
+inline void checkMouseStateThread(void* param) {
 	while (isListening) {
 		if (hasInput() && isMouseClicked()) {
 			onMouseDown();
