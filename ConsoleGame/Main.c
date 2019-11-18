@@ -383,6 +383,11 @@ void updateBuildingState() {
 	}
 }
 
+void onEverySecond(void* cnt) {
+	saveMoneyAndExp(money + mps, userExp);
+	updateUserValues();
+}
+
 void beginMapScreen() {
 	void initMapScreen(Image*);
 	Image images[MAP_IMAGE_COUNT];
@@ -394,6 +399,8 @@ void beginMapScreen() {
 
 	initMapUI();
 	updateUserValues();
+
+	startSecondClock(onEverySecond);
 
 	startButtonListener(buttons, MAP_BUTTON_COUNT, &layer);
 }
