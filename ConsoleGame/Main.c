@@ -23,8 +23,9 @@ void printText(HDC, int, int, int, int, COLORREF, int, char*);
 void textPositionTester(int, int, COLORREF, int, char*);
 void beginStartScreen();
 void getUserName();
-void beginMapScreen();
+void beginMapScreen(int);
 void beginStoryScreen();
+void beginEstateScreen();
 
 char lastName[100], firstName[100];
 BigInt money, userExp, mps;
@@ -50,7 +51,7 @@ int main() {
 		Sleep(1000);
 	}
 
-	beginMapScreen();
+	beginMapScreen(1);
 }
 
 void onButtonClick(Button* clickedButton) {
@@ -308,6 +309,10 @@ void onButtonInMapHovered(Button* hoveredButton) {
 }
 
 void onButtonInMapClicked(Button* clickedButton) {
+	char* clickedButtonName = clickedButton->normal;
+	if (clickedButtonName == FILE_ESTATE) {
+		beginEstateScreen();
+	}
 }
 
 void initMapUI() {
@@ -388,24 +393,7 @@ void onEverySecond(void* cnt) {
 	updateUserValues();
 }
 
-void beginMapScreen() {
-	void initMapScreen(Image*);
-	Image images[MAP_IMAGE_COUNT];
-	initMapScreen(images);
-
-	getCompanyNameIfNotExist();
-	char companyName[100];
-	loadCompanyName(companyName);
-
-	initMapUI();
-	updateUserValues();
-
-	startSecondClock(onEverySecond);
-
-	startButtonListener(buttons, MAP_BUTTON_COUNT, &layer);
-}
-
-void initMapScreen(Image* images) {
+void initMapScreen(Image* images, int isFirstShow) {
 	const Button firstOffice = createButton(370, 370, FILE_FIRST_OFFICE, FILE_FIRST_OFFICE_HOVER, FILE_FIRST_OFFICE_CLICK, FIRST_OFFICE_INDEX, onButtonInMapClicked);
 	const Button myBuilding = createButton(800, 400, FILE_MY_BUILDING, FILE_MY_BUILDING_HOVER, FILE_MY_BUILDING_CLICK, MY_BUILDING_INDEX, onButtonInMapClicked);
 	const Button estate = createButton(1368, 284, FILE_ESTATE, FILE_ESTATE_HOVER, FILE_ESTATE_CLICK, ESTATE_INDEX, onButtonInMapClicked);
@@ -429,7 +417,54 @@ void initMapScreen(Image* images) {
 
 	layer.images = images;
 	layer.imageCount = 5;
-	layer.fadeIn(&layer, NULL);
+	if (isFirstShow) layer.fadeIn(&layer, NULL);
+	else layer.renderAll(&layer);
+}
+
+void beginMapScreen(int isFirstShow) {
+	Image images[MAP_IMAGE_COUNT];
+	initMapScreen(images, isFirstShow);
+
+	getCompanyNameIfNotExist();
+	char companyName[100];
+	loadCompanyName(companyName);
+
+	initMapUI();
+	updateUserValues();
+
+	if (isFirstShow) startSecondClock(onEverySecond);
+
+	startButtonListener(buttons, MAP_BUTTON_COUNT, &layer);
+}
+
+#define BACK_BUTTON_INDEX_OF_LAYER 1
+#define ESTATE_BUTTON_COUNT 1
+#define ESTATE_IMAGE_COUNT 2
+
+void onButtonInEstateClicked(Button* button) {
+	char* clickedButtonName = button->normal;
+	if (clickedButtonName == FILE_BACK_BUTTON) {
+		stopButtonListener();
+		beginMapScreen(0);
+	}
+}
+
+void beginEstateScreen() {
+	stopButtonListener();
+
+	const Button backButton = createButton(100, 1280, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, BACK_BUTTON_INDEX_OF_LAYER, onButtonInEstateClicked);
+	Button buttons[ESTATE_BUTTON_COUNT] = { backButton };
+
+	Image images[ESTATE_IMAGE_COUNT] = {
+		{FILE_ESTATE_BACKGROUND, 0, 0},
+		{backButton.normal, backButton.x, backButton.y}
+	};
+	layer.images = images;
+	layer.imageCount = ESTATE_IMAGE_COUNT;
+	layer.applyToDC = NULL;
+	layer.renderAll(&layer);
+
+	startButtonListener(buttons, 1, &layer);
 }
 
 void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
