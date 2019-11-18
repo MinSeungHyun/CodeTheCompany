@@ -1,5 +1,7 @@
 #pragma once
 #include <Windows.h>
+#include <time.h>
+#include <process.h>
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
@@ -47,4 +49,31 @@ inline int isFileExist(char* fileName) {
 inline void makeFileIfNotExist(char* fileName) {
 	if (isFileExist(fileName)) return;
 	fclose(fopen(fileName, "w"));
+}
+
+inline struct tm* getCurrentTime() {
+	time_t rawTime;
+	time(&rawTime);
+	struct tm* timeInfo = localtime(&rawTime);
+	return timeInfo;
+}
+
+inline int getCurrentSecond() {
+	return getCurrentTime()->tm_sec;
+}
+
+inline void timerThread(void* param) {
+	const _beginthread_proc_type onAlarm = (_beginthread_proc_type)param;
+	int second = 0, cnt = 0;
+	int previousSecond = -1;
+	while (1) {
+		second = getCurrentSecond();
+		if (second != previousSecond)
+			_beginthread(onAlarm, 0, (void*)cnt++);
+		previousSecond = second;
+	}
+}
+
+inline void startSecondClock(_beginthread_proc_type callback) {
+	_beginthread(timerThread, 0, callback);
 }
