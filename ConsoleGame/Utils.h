@@ -2,12 +2,17 @@
 #include <Windows.h>
 #include <time.h>
 #include <process.h>
+#include "ImageUtils/ImageLayer.h"
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
 
 inline void gotoxy(COORD position) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
+}
+
+inline void gotoXY(int x, int y) {
+	gotoxy((COORD) { x, y });
 }
 
 inline char* ltrim(char* str) {
@@ -76,4 +81,25 @@ inline void timerThread(void* param) {
 
 inline void startSecondClock(_beginthread_proc_type callback) {
 	_beginthread(timerThread, 0, callback);
+}
+
+inline void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
+	if (weight == 0) weight = 900;
+	size = (int)(size * RESOLUTION_MULTIPLIER);
+	const HFONT font = CreateFont(size, 0, 0, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
+		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("µÕ±Ù¸ð²Ã"));
+
+	SelectObject(hdc, font);
+	SetBkMode(hdc, TRANSPARENT);
+	SetTextColor(hdc, textColor);
+	SetTextAlign(hdc, align);
+
+	x = (int)(x * RESOLUTION_MULTIPLIER);
+	y = (int)(y * RESOLUTION_MULTIPLIER);
+	TextOut(hdc, x, y, text, lstrlen(text));
+
+	PAINTSTRUCT paint;
+	EndPaint(WINDOW_HANDLE, &paint);
+
+	DeleteObject(font);
 }

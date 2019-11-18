@@ -16,10 +16,6 @@ HWND WINDOW_HANDLE;
 ImageLayer layer;
 
 void initLayer();
-void gotoXY(int, int);
-Button createButton(int, int, char*, char*, char*, int, void(*onClick)(Button*));
-Button createCollider(int, int, char*, void(*onHover)(Button*));
-void printText(HDC, int, int, int, int, COLORREF, int, char*);
 void textPositionTester(int, int, COLORREF, int, char*);
 void beginStartScreen();
 void getUserName();
@@ -467,27 +463,6 @@ void beginEstateScreen() {
 	startButtonListener(buttons, 1, &layer);
 }
 
-void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
-	if (weight == 0) weight = 900;
-	size = (int)(size * RESOLUTION_MULTIPLIER);
-	const HFONT font = CreateFont(size, 0, 0, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
-		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("µÕ±Ù¸ð²Ã"));
-
-	SelectObject(hdc, font);
-	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, textColor);
-	SetTextAlign(hdc, align);
-
-	x = (int)(x * RESOLUTION_MULTIPLIER);
-	y = (int)(y * RESOLUTION_MULTIPLIER);
-	TextOut(hdc, x, y, text, lstrlen(text));
-
-	PAINTSTRUCT paint;
-	EndPaint(WINDOW_HANDLE, &paint);
-
-	DeleteObject(font);
-}
-
 void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text) {
 	while (1) {
 		if (isMouseClicked()) {
@@ -499,36 +474,6 @@ void textPositionTester(int size, int weight, COLORREF textColor, int align, cha
 			printf("%5d %5d", position.X, position.Y);
 		}
 	}
-}
-
-Button createButton(int x, int y, char* normal, char* hovered, char* clicked, int indexOfLayer, void (*onClick)(Button*)) {
-	Button button = DEFAULT_BUTTON;
-	button.x = x;
-	button.y = y;
-	button.normal = normal;
-	button.hovered = hovered;
-	button.clicked = clicked;
-	button.initialize(&button);
-	button.indexOfImageLayer = indexOfLayer;
-	button.onClick = onClick;
-	return button;
-}
-
-Button createCollider(int x, int y, char* normal, void(*onHover)(Button*)) {
-	Button button = DEFAULT_BUTTON;
-	button.x = x;
-	button.y = y;
-	button.normal = normal;
-	button.hovered = NULL;
-	button.clicked = NULL;
-	button.initialize(&button);
-	button.indexOfImageLayer = -1;
-	button.onHover = onHover;
-	return button;
-}
-
-void gotoXY(int x, int y) {
-	gotoxy((COORD) { x, y });
 }
 
 void initLayer() {
