@@ -24,7 +24,7 @@ void beginStoryScreen();
 void beginEstateScreen();
 void beginQuestScreen();
 
-char lastName[100], firstName[100];
+char lastName[100], firstName[100], companyName[100];
 BigInt money, userExp, mps;
 int level;
 int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
@@ -297,6 +297,8 @@ void applyUserValuesToDC(HDC hdc) {
 		displayExpDetail(hdc);
 		isExpDetailShow = 0;
 	}
+
+	printTextWithAngle(hdc, 2000, 1280, 70, 0, -100, RGB(0, 0, 0), TA_CENTER, companyName);
 }
 
 Button buttons[MAP_BUTTON_COUNT];
@@ -427,7 +429,6 @@ void beginMapScreen(int isFirstShow) {
 	initMapScreen(images, isFirstShow);
 
 	getCompanyNameIfNotExist();
-	char companyName[100];
 	loadCompanyName(companyName);
 
 	initMapUI();
