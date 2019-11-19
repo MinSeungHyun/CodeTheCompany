@@ -10,6 +10,7 @@
 #define QUEST_TEXT_COLOR RGB(141,110,99)
 #define DEFAULT_MONEY 100000
 #define DEFAULT_MPS 10
+#define COMPANY_NAME_MAX_LENGTH 20
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
@@ -226,7 +227,7 @@ void getCompanyNameIfNotExist() {
 			else i -= 2;
 			if (i < -1) i = -1;
 		}
-		else if (i >= 30 || input == ' ' || input == '\\') continue;
+		else if (i >= COMPANY_NAME_MAX_LENGTH || input == ' ' || input == '\\') continue;
 		else {
 			companyName[i] = input;
 			if (input >= 128) {
