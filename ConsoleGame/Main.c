@@ -6,6 +6,8 @@
 #include "ButtonUtils/Button.h"
 #include "SaveFileManager.h"
 
+#define ENABLE_DEVELOPMENT_MODE 0
+
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
 #define DEFAULT_MONEY 100000
@@ -35,21 +37,25 @@ int main() {
 	initLayer();
 	Sleep(300);
 
-	beginStartScreen();
-	Sleep(500);
-
-	if (!isFileExist(DIR_NAME)) {
-		getUserName();
+	if (ENABLE_DEVELOPMENT_MODE) {
+		beginMapScreen(0);
+	}
+	else {
+		beginStartScreen();
 		Sleep(500);
-	}
-	loadName(lastName, firstName);
 
-	if (!isFileExist(DIR_COMPANY_NAME)) {
-		beginStoryScreen();
-		Sleep(1000);
-	}
+		if (!isFileExist(DIR_NAME)) {
+			getUserName();
+			Sleep(500);
+		}
+		loadName(lastName, firstName);
 
-	beginMapScreen(1);
+		if (!isFileExist(DIR_COMPANY_NAME)) {
+			beginStoryScreen();
+			Sleep(1000);
+		}
+		beginMapScreen(1);
+	}
 }
 
 void onButtonClick(Button* clickedButton) {
