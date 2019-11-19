@@ -22,6 +22,7 @@ void getUserName();
 void beginMapScreen(int);
 void beginStoryScreen();
 void beginEstateScreen();
+void beginQuestScreen();
 
 char lastName[100], firstName[100];
 BigInt money, userExp, mps;
@@ -309,6 +310,9 @@ void onButtonInMapClicked(Button* clickedButton) {
 	if (clickedButtonName == FILE_ESTATE) {
 		beginEstateScreen();
 	}
+	else if (clickedButtonName == FILE_QUEST_BUTTON) {
+		beginQuestScreen();
+	}
 }
 
 void initMapUI() {
@@ -418,6 +422,7 @@ void initMapScreen(Image* images, int isFirstShow) {
 }
 
 void beginMapScreen(int isFirstShow) {
+	stopButtonListener();
 	Image images[MAP_IMAGE_COUNT];
 	initMapScreen(images, isFirstShow);
 
@@ -440,7 +445,6 @@ void beginMapScreen(int isFirstShow) {
 void onButtonInEstateClicked(Button* button) {
 	char* clickedButtonName = button->normal;
 	if (clickedButtonName == FILE_BACK_BUTTON) {
-		stopButtonListener();
 		beginMapScreen(0);
 	}
 }
@@ -461,6 +465,51 @@ void beginEstateScreen() {
 	layer.renderAll(&layer);
 
 	startButtonListener(buttons, 1, &layer);
+}
+
+#define QUEST_SCREEN_IMAGE_COUNT 7
+#define QUEST_SCREEN_BUTTON_COUNT 1
+
+void getBuildingImages(Image* firstOffice, Image* myBuilding, Image* casino, Image* estate) {
+	if (isFirstOfficeEnabled) *firstOffice = (Image){ FILE_FIRST_OFFICE, 370, 370 };
+	else *firstOffice = (Image){ FILE_FIRST_OFFICE_LOCKED, 370, 370 };
+
+	if (isMyBuildingEnabled) *myBuilding = (Image){ FILE_MY_BUILDING, 800, 400 };
+	else *myBuilding = (Image){ FILE_MY_BUILDING_LOCKED, 800, 400 };
+
+	if (isCasinoEnabled) *casino = (Image){ FILE_CASINO, 2094, 688 };
+	else *casino = (Image){ FILE_CASINO_LOCKED, 2094, 688 };
+
+	*estate = (Image){ FILE_ESTATE, 1368, 284 };
+}
+
+void onButtonInQuestClicked(Button* clickedButton) {
+	char* clickedButtonName = clickedButton->normal;
+	if (clickedButtonName == FILE_BACK_BUTTON) {
+		beginMapScreen(0);
+	}
+}
+
+void beginQuestScreen() {
+	stopButtonListener();
+
+	const Button backButton = createButton(550, 315, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 6, onButtonInQuestClicked);
+	Button buttons[QUEST_SCREEN_BUTTON_COUNT] = { backButton };
+
+	Image firstOffice, myBuilding, casino, estate;
+	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
+
+	Image images[QUEST_SCREEN_IMAGE_COUNT] = {
+		{FILE_MAP, 0, 0}, //0
+		firstOffice, myBuilding, casino, estate, //4
+		{FILE_QUEST_OPEN, 450, 225},
+		{backButton.normal, backButton.x, backButton.y} //6
+	};
+	layer.images = images;
+	layer.applyToDC = NULL;
+	layer.imageCount = QUEST_SCREEN_IMAGE_COUNT;
+
+	startButtonListener(buttons, QUEST_SCREEN_BUTTON_COUNT, &layer);
 }
 
 void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text) {

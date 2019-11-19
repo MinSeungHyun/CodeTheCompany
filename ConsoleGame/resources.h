@@ -49,3 +49,5 @@
 #define FILE_SETTING_BUTTON_CLICK "resources/other/setting_button_clicked.bmp"
 
 #define FILE_ESTATE_BACKGROUND "resources/estate/estate_background.bmp"
+
+#define FILE_QUEST_OPEN "resources/quest/quest_open.bmp"
