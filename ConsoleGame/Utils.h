@@ -83,10 +83,10 @@ inline void startSecondClock(_beginthread_proc_type callback) {
 	_beginthread(timerThread, 0, callback);
 }
 
-inline void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
+inline void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
 	if (weight == 0) weight = 900;
 	size = (int)(size * RESOLUTION_MULTIPLIER);
-	const HFONT font = CreateFont(size, 0, 0, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
+	const HFONT font = CreateFont(size, 0, angle, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
 		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("µÕ±Ù¸ð²Ã"));
 
 	SelectObject(hdc, font);
@@ -102,4 +102,8 @@ inline void printText(HDC hdc, int x, int y, int size, int weight, COLORREF text
 	EndPaint(WINDOW_HANDLE, &paint);
 
 	DeleteObject(font);
+}
+
+inline void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
+	printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
