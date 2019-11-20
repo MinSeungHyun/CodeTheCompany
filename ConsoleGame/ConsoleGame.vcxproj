@@ -25,6 +25,7 @@
     <ClInclude Include="ButtonUtils\Button.h" />
     <ClInclude Include="ButtonUtils\ButtonImpl.h" />
     <ClInclude Include="ButtonUtils\ButtonInterface.h" />
+    <ClInclude Include="Estate.h" />
     <ClInclude Include="ImageUtils\ImageLayer.h" />
     <ClInclude Include="ImageUtils\ImageLayerImpl.h" />
     <ClInclude Include="ImageUtils\ImageLayerInterface.h" />
