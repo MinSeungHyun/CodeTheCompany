@@ -36,6 +36,7 @@ int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
 int main() {
 	initialize();
+	_mkdir(DIR_SAVE);
 	initLayer();
 	initQuests();
 	Sleep(300);
@@ -587,6 +588,8 @@ void beginQuestScreen() {
 	layer.imageCount = 10 + questButtonCount;
 
 	startButtonListener(buttons, BUTTON_COUNT, &layer);
+	free(activeQuestIndex);
+	free(buttons);
 }
 
 void onButtonInQuestDetailClicked(Button* clickedButton) {
