@@ -5,8 +5,9 @@
 #include "Utils.h"
 #include "ButtonUtils/Button.h"
 #include "SaveFileManager.h"
+#include "Quest.h"
 
-#define ENABLE_DEVELOPMENT_MODE 0
+#define ENABLE_DEVELOPMENT_MODE 1
 
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
@@ -35,6 +36,7 @@ int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 int main() {
 	initialize();
 	initLayer();
+	initQuests();
 	Sleep(300);
 
 	if (ENABLE_DEVELOPMENT_MODE) {
@@ -475,9 +477,6 @@ void beginEstateScreen() {
 	startButtonListener(buttons, 1, &layer);
 }
 
-#define QUEST_SCREEN_IMAGE_COUNT 7
-#define QUEST_SCREEN_BUTTON_COUNT 1
-
 void getBuildingImages(Image* firstOffice, Image* myBuilding, Image* casino, Image* estate) {
 	if (isFirstOfficeEnabled) *firstOffice = (Image){ FILE_FIRST_OFFICE, 370, 370 };
 	else *firstOffice = (Image){ FILE_FIRST_OFFICE_LOCKED, 370, 370 };
@@ -500,24 +499,47 @@ void onButtonInQuestClicked(Button* clickedButton) {
 
 void beginQuestScreen() {
 	stopButtonListener();
+	const int activeQuestCount = updateAllQuestsActiveState(level);
+	int questButtonCount = activeQuestCount;
+	if (activeQuestCount > 4) questButtonCount = 4;
 
-	const Button backButton = createButton(550, 315, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 6, onButtonInQuestClicked);
-	Button buttons[QUEST_SCREEN_BUTTON_COUNT] = { backButton };
+	int* activeQuestIndex = (int*)malloc(sizeof(int) * activeQuestCount);
+
+	for (int i = 0, index = 0; i < QUEST_COUNT; i++) {
+		if (quests[i].isActivated) {
+			activeQuestIndex[index] = i;
+			index++;
+		}
+	}
+	const int BUTTON_COUNT = questButtonCount + 1;
+
+	Button* buttons = (Button*)malloc(sizeof(Button) * BUTTON_COUNT);
+
+	const Button backButton = createButton(550, 315, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 7, onButtonInQuestClicked);
+	buttons[0] = backButton;
+	for (int i = 0; i < questButtonCount; i++) {
+		buttons[i + 1] = createButton(736, 551 + 144 * i, FILE_QUEST_ITEM_BUTTON, FILE_QUEST_ITEM_BUTTON_HOVER, FILE_QUEST_ITEM_BUTTON_CLICK, i + 7, onButtonInQuestClicked);
+	}
 
 	Image firstOffice, myBuilding, casino, estate;
 	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
 
-	Image images[QUEST_SCREEN_IMAGE_COUNT] = {
+	Image images[12] = {
 		{FILE_MAP, 0, 0}, //0
 		firstOffice, myBuilding, casino, estate, //4
 		{FILE_QUEST_OPEN, 450, 225},
-		{backButton.normal, backButton.x, backButton.y} //6
+		{FILE_QUEST_ITEMS_FRAME, 720, 535},
+		{backButton.normal, backButton.x, backButton.y} //7
 	};
+	for (int i = 0; i < questButtonCount; i++) {
+		Button tmp = buttons[i + 1];
+		images[i + 7] = (Image){ tmp.normal, tmp.x, tmp.y };
+	}
 	layer.images = images;
 	layer.applyToDC = NULL;
-	layer.imageCount = QUEST_SCREEN_IMAGE_COUNT;
+	layer.imageCount = 8 + questButtonCount;
 
-	startButtonListener(buttons, QUEST_SCREEN_BUTTON_COUNT, &layer);
+	startButtonListener(buttons, BUTTON_COUNT, &layer);
 }
 
 void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text) {

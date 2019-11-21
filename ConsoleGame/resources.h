@@ -51,3 +51,7 @@
 #define FILE_ESTATE_BACKGROUND "resources/estate/estate_background.bmp"
 
 #define FILE_QUEST_OPEN "resources/quest/quest_open.bmp"
+#define FILE_QUEST_ITEMS_FRAME "resources/quest/quest_items_frame.bmp"
+#define FILE_QUEST_ITEM_BUTTON "resources/quest/quest_item_button.bmp"
+#define FILE_QUEST_ITEM_BUTTON_HOVER "resources/quest/quest_item_button_hover.bmp"
+#define FILE_QUEST_ITEM_BUTTON_CLICK "resources/quest/quest_item_button_clicked.bmp"
