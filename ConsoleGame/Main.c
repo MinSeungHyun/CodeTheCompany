@@ -490,6 +490,11 @@ void getBuildingImages(Image* firstOffice, Image* myBuilding, Image* casino, Ima
 	*estate = (Image){ FILE_ESTATE, 1368, 284 };
 }
 
+inline int getQuestButtonY(int index) {
+	return 551 + 144 * index;
+}
+
+int activeQuestCount;
 int questButtonCount;
 int* activeQuestIndex;
 int firstQuestIndex = 0;
@@ -499,6 +504,24 @@ void onButtonInQuestClicked(Button* clickedButton) {
 
 	if (clickedButtonName == FILE_BACK_BUTTON) {
 		beginMapScreen(0);
+	}
+	else if (clickedButtonName == FILE_SCROLL_UP_BUTTON) {
+		if (firstQuestIndex > 0)
+			firstQuestIndex--;
+	}
+	else if (clickedButtonName == FILE_SCROLL_DOWN_BUTTON) {
+		if (firstQuestIndex + 4 < activeQuestCount)
+			firstQuestIndex++;
+	}
+	else if (clickedButtonName) {
+		for (int i = 0; i < questButtonCount; i++) {
+			if (clickedButton->y == getQuestButtonY(i)) {
+				const int questIndex = firstQuestIndex + i;
+				stopButtonListener();
+				printf("%s", quests[questIndex].title);
+				break;
+			}
+		}
 	}
 }
 
@@ -516,7 +539,7 @@ void applyToDcInQuestScreen(HDC hdc) {
 
 void beginQuestScreen() {
 	stopButtonListener();
-	const int activeQuestCount = updateAllQuestsActiveState(level);
+	activeQuestCount = updateAllQuestsActiveState(level);
 	questButtonCount = activeQuestCount;
 	if (activeQuestCount > 4) questButtonCount = 4;
 
@@ -528,33 +551,39 @@ void beginQuestScreen() {
 			index++;
 		}
 	}
-	const int BUTTON_COUNT = questButtonCount + 1;
+	const int BUTTON_COUNT = questButtonCount + 3;
 
 	Button* buttons = (Button*)malloc(sizeof(Button) * BUTTON_COUNT);
 
 	const Button backButton = createButton(550, 315, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 7, onButtonInQuestClicked);
+	const Button upButton = createButton(2225, 650, FILE_SCROLL_UP_BUTTON, FILE_SCROLL_UP_BUTTON_HOVER, FILE_SCROLL_UP_BUTTON_CLICK, 8, onButtonInQuestClicked);
+	const Button downButton = createButton(2225, 850, FILE_SCROLL_DOWN_BUTTON, FILE_SCROLL_DOWN_BUTTON_HOVER, FILE_SCROLL_DOWN_BUTTON_CLICK, 9, onButtonInQuestClicked);
 	buttons[0] = backButton;
+	buttons[1] = upButton;
+	buttons[2] = downButton;
 	for (int i = 0; i < questButtonCount; i++) {
-		buttons[i + 1] = createButton(736, 551 + 144 * i, FILE_QUEST_ITEM_BUTTON, FILE_QUEST_ITEM_BUTTON_HOVER, FILE_QUEST_ITEM_BUTTON_CLICK, i + 8, onButtonInQuestClicked);
+		buttons[i + 3] = createButton(736, getQuestButtonY(i), FILE_QUEST_ITEM_BUTTON, FILE_QUEST_ITEM_BUTTON_HOVER, FILE_QUEST_ITEM_BUTTON_CLICK, i + 10, onButtonInQuestClicked);
 	}
 
 	Image firstOffice, myBuilding, casino, estate;
 	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
 
-	Image images[12] = {
+	Image images[14] = {
 		{FILE_MAP, 0, 0}, //0
 		firstOffice, myBuilding, casino, estate, //4
 		{FILE_QUEST_OPEN, 450, 225},
 		{FILE_QUEST_ITEMS_FRAME, 720, 535},
-		{backButton.normal, backButton.x, backButton.y} //7
+		{backButton.normal, backButton.x, backButton.y},
+		{upButton.normal, upButton.x, upButton.y},
+		{downButton.normal, downButton.x, downButton.y} //9
 	};
 	for (int i = 0; i < questButtonCount; i++) {
-		Button tmp = buttons[i + 1];
-		images[i + 8] = (Image){ tmp.normal, tmp.x, tmp.y };
+		Button tmp = buttons[i + 3];
+		images[i + 10] = (Image){ tmp.normal, tmp.x, tmp.y };
 	}
 	layer.images = images;
 	layer.applyToDC = applyToDcInQuestScreen;
-	layer.imageCount = 8 + questButtonCount;
+	layer.imageCount = 10 + questButtonCount;
 
 	startButtonListener(buttons, BUTTON_COUNT, &layer);
 }
