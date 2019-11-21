@@ -518,7 +518,7 @@ void beginQuestScreen() {
 	const Button backButton = createButton(550, 315, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 7, onButtonInQuestClicked);
 	buttons[0] = backButton;
 	for (int i = 0; i < questButtonCount; i++) {
-		buttons[i + 1] = createButton(736, 551 + 144 * i, FILE_QUEST_ITEM_BUTTON, FILE_QUEST_ITEM_BUTTON_HOVER, FILE_QUEST_ITEM_BUTTON_CLICK, i + 7, onButtonInQuestClicked);
+		buttons[i + 1] = createButton(736, 551 + 144 * i, FILE_QUEST_ITEM_BUTTON, FILE_QUEST_ITEM_BUTTON_HOVER, FILE_QUEST_ITEM_BUTTON_CLICK, i + 8, onButtonInQuestClicked);
 	}
 
 	Image firstOffice, myBuilding, casino, estate;
@@ -533,7 +533,7 @@ void beginQuestScreen() {
 	};
 	for (int i = 0; i < questButtonCount; i++) {
 		Button tmp = buttons[i + 1];
-		images[i + 7] = (Image){ tmp.normal, tmp.x, tmp.y };
+		images[i + 8] = (Image){ tmp.normal, tmp.x, tmp.y };
 	}
 	layer.images = images;
 	layer.applyToDC = NULL;
