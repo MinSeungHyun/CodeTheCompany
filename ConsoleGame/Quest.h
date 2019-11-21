@@ -117,7 +117,7 @@ inline void initQuests() {
 	quests[23] = (Quest){ 23, 42, "누가 이기나 (%d/%d)", des23, 7777777, 30000, 0,7, CONDITION_PLAY_TRICKERY_WIN };
 
 	const char* des24[3] = { "회사가 이렇게 많이 컸는데...", "다른 대기업들처럼 나도 빌딩을 사야겠다!!!", "지금 당장 부동산으로 가서 빌딩을 구매하자!!!!!" };
-	quests[24] = (Quest){ 24, 50, "건물주가 되고싶어 (%d/%d)", des24, 37777, 0,1, CONDITION_BUY_BUILDING };
+	quests[24] = (Quest){ 24, 50, "건물주가 되고싶어 (%d/%d)", des24, 37777, 0555555, 0, 1, CONDITION_BUY_BUILDING };
 
 	loadAllQuestsProgress();
 }
