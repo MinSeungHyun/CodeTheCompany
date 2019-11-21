@@ -17,7 +17,7 @@ typedef struct {
 
 inline int getDPI(HWND hWnd) {
 	const HANDLE user32 = GetModuleHandle(TEXT("user32"));
-	const FARPROC func = GetProcAddress(user32, "GetDpiForWindow");
+	const FARPROC func = GetProcAddress((HMODULE)user32, "GetDpiForWindow");
 	if (func == NULL)
 		return 96;
 	return ((UINT(__stdcall*)(HWND))func)(hWnd);
@@ -43,7 +43,7 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	SelectObject(bitmapDC, bitmap);
 
-	double scale = image.scale;
+	double scale = image.scale * RESOLUTION_MULTIPLIER;
 	if (scale == 0) scale = DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER;
 
 	const int x = (int)(image.x * RESOLUTION_MULTIPLIER);
