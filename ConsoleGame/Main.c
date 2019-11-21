@@ -7,7 +7,7 @@
 #include "SaveFileManager.h"
 #include "Quest.h"
 
-#define ENABLE_DEVELOPMENT_MODE 1
+#define ENABLE_DEVELOPMENT_MODE 0
 
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
@@ -27,6 +27,7 @@ void beginMapScreen(int);
 void beginStoryScreen();
 void beginEstateScreen();
 void beginQuestScreen();
+void begindQuestDetailScreen(int);
 
 char lastName[100], firstName[100], companyName[100];
 BigInt money, userExp, mps;
@@ -434,6 +435,7 @@ void initMapScreen(Image* images, int isFirstShow) {
 
 void beginMapScreen(int isFirstShow) {
 	stopButtonListener();
+	layer.applyToDC = NULL;
 	Image images[MAP_IMAGE_COUNT];
 	initMapScreen(images, isFirstShow);
 
@@ -517,8 +519,7 @@ void onButtonInQuestClicked(Button* clickedButton) {
 		for (int i = 0; i < questButtonCount; i++) {
 			if (clickedButton->y == getQuestButtonY(i)) {
 				const int questIndex = firstQuestIndex + i;
-				stopButtonListener();
-				printf("%s", quests[questIndex].title);
+				begindQuestDetailScreen(questIndex);
 				break;
 			}
 		}
@@ -586,6 +587,52 @@ void beginQuestScreen() {
 	layer.imageCount = 10 + questButtonCount;
 
 	startButtonListener(buttons, BUTTON_COUNT, &layer);
+}
+
+void onButtonInQuestDetailClicked(Button* clickedButton) {
+	if (clickedButton->normal == FILE_QUEST_DETIAL_CLOSE_BUTTON) {
+		beginQuestScreen();
+	}
+}
+
+int questIndex;
+void applyToDcInQuestDetail(HDC hdc) {
+	const Quest quest = quests[questIndex];
+	char title[100];
+	sprintf(title, quest.title, quest.progress, quest.maxProgress);
+
+	printText(hdc, 1440, 590, 69, 0, QUEST_TEXT_COLOR, TA_CENTER, title);
+
+	for (int i = 0; i < quest.descriptionLineCount; i++) {
+		const int descriptionIndex = quest.descriptionLineCount - i-1;
+		printText(hdc, 1440, 900 - i * 60, 50, 400, QUEST_TEXT_COLOR, TA_CENTER, (char*)quest.descriptions[descriptionIndex]);
+	}
+
+	char rewardText[100];
+	sprintf(rewardText, "º¸»ó %lld¿ø, %lldxp", quest.rewardMoney, quest.rewardXP);
+	printText(hdc, 1440, 1050, 70, 400, QUEST_TEXT_COLOR, TA_CENTER, rewardText);
+}
+
+void begindQuestDetailScreen(int index) {
+	stopButtonListener();
+	questIndex = index;
+
+	const Button closeButton = createButton(2140, 428, FILE_QUEST_DETIAL_CLOSE_BUTTON, FILE_QUEST_DETIAL_CLOSE_BUTTON_HOVER, FILE_QUEST_DETIAL_CLOSE_BUTTON_CLICK, 6, onButtonInQuestDetailClicked);
+	Button buttons[1] = { closeButton };
+
+	Image firstOffice, myBuilding, casino, estate;
+	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
+	Image images[7] = {
+		{FILE_MAP, 0, 0}, //0
+		firstOffice, myBuilding, casino, estate, //4
+		{FILE_QUEST_DETAIL, 566, 326, 19},
+		{closeButton.normal, closeButton.x, closeButton.y}
+	};
+	layer.images = images;
+	layer.applyToDC = applyToDcInQuestDetail;
+	layer.imageCount = 7;
+
+	startButtonListener(buttons, 1, &layer);
 }
 
 void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text) {

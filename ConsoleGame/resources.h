@@ -61,3 +61,8 @@
 #define FILE_SCROLL_UP_BUTTON "resources/quest/quest_scroll_up.bmp"
 #define FILE_SCROLL_UP_BUTTON_HOVER "resources/quest/quest_scroll_up_hover.bmp"
 #define FILE_SCROLL_UP_BUTTON_CLICK "resources/quest/quest_scroll_up_clicked.bmp"
+
+#define FILE_QUEST_DETAIL "resources/quest/quest_window.bmp"
+#define FILE_QUEST_DETIAL_CLOSE_BUTTON "resources/quest/quest_close.bmp"
+#define FILE_QUEST_DETIAL_CLOSE_BUTTON_HOVER "resources/quest/quest_close_hover.bmp"
+#define FILE_QUEST_DETIAL_CLOSE_BUTTON_CLICK "resources/quest/quest_close_clicked.bmp"
