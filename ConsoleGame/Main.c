@@ -490,20 +490,37 @@ void getBuildingImages(Image* firstOffice, Image* myBuilding, Image* casino, Ima
 	*estate = (Image){ FILE_ESTATE, 1368, 284 };
 }
 
+int questButtonCount;
+int* activeQuestIndex;
+int firstQuestIndex = 0;
+
 void onButtonInQuestClicked(Button* clickedButton) {
 	char* clickedButtonName = clickedButton->normal;
+
 	if (clickedButtonName == FILE_BACK_BUTTON) {
 		beginMapScreen(0);
+	}
+}
+
+void applyToDcInQuestScreen(HDC hdc) {
+	printText(hdc, 1440, 280, 200, 0, QUEST_TEXT_COLOR, TA_CENTER, "QUEST");
+
+	for (int i = 0; i < questButtonCount; i++) {
+		const Quest tmp = quests[activeQuestIndex[i + firstQuestIndex]];
+		const char* questTitle = tmp.title;
+		char formatedTitle[100];
+		sprintf(formatedTitle, questTitle, tmp.progress, tmp.maxProgress);
+		printText(hdc, 800, 590 + 145 * i, 60, 0, RGB(0, 0, 0), TA_LEFT, formatedTitle);
 	}
 }
 
 void beginQuestScreen() {
 	stopButtonListener();
 	const int activeQuestCount = updateAllQuestsActiveState(level);
-	int questButtonCount = activeQuestCount;
+	questButtonCount = activeQuestCount;
 	if (activeQuestCount > 4) questButtonCount = 4;
 
-	int* activeQuestIndex = (int*)malloc(sizeof(int) * activeQuestCount);
+	activeQuestIndex = (int*)malloc(sizeof(int) * activeQuestCount);
 
 	for (int i = 0, index = 0; i < QUEST_COUNT; i++) {
 		if (quests[i].isActivated) {
@@ -536,7 +553,7 @@ void beginQuestScreen() {
 		images[i + 8] = (Image){ tmp.normal, tmp.x, tmp.y };
 	}
 	layer.images = images;
-	layer.applyToDC = NULL;
+	layer.applyToDC = applyToDcInQuestScreen;
 	layer.imageCount = 8 + questButtonCount;
 
 	startButtonListener(buttons, BUTTON_COUNT, &layer);
