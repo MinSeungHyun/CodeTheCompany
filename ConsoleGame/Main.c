@@ -6,6 +6,7 @@
 #include "ButtonUtils/Button.h"
 #include "SaveFileManager.h"
 #include "Quest.h"
+#include "SoundPlayer.h"
 
 #define ENABLE_DEVELOPMENT_MODE 0
 
@@ -70,6 +71,7 @@ void onButtonClick(Button* clickedButton) {
 }
 
 void beginStartScreen() {
+	playBGM(SOUND_START_BGM);
 	const Button startButton = createButton(1114, 1150, FILE_START_BUTTON, FILE_START_BUTTON_HOVER, FILE_START_BUTTON_CLICK, 2, onButtonClick);
 	Button buttons[1] = { startButton };
 
@@ -83,6 +85,7 @@ void beginStartScreen() {
 	layer.renderAll(&layer);
 
 	startButtonListener(buttons, 1, &layer);
+	stopBGM();
 }
 
 void initUserNameScreen(const int x) {
@@ -164,6 +167,7 @@ void printStory3Text(HDC hdc) {
 }
 
 void beginStoryScreen() {
+	playBGM(SOUND_STORY_BGM);
 	Image images[1] = { {"", 0, 0} };
 	layer.imageCount = 1;
 	layer.images = images;
@@ -193,6 +197,7 @@ void beginStoryScreen() {
 	Sleep(2000);
 	layer.images[0].fileName = "";
 	layer.renderAll(&layer);
+	stopBGM();
 }
 
 #define MAP_IMAGE_COUNT 10
@@ -319,6 +324,7 @@ void onButtonInMapHovered(Button* hoveredButton) {
 }
 
 void onButtonInMapClicked(Button* clickedButton) {
+	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = clickedButton->normal;
 	if (clickedButtonName == FILE_ESTATE) {
 		beginEstateScreen();
@@ -446,7 +452,10 @@ void beginMapScreen(int isFirstShow) {
 	initMapUI();
 	updateUserValues();
 
-	if (isFirstShow) startSecondClock(onEverySecond);
+	if (isFirstShow) {
+		startSecondClock(onEverySecond);
+		playBGM(SOUND_MAIN_BGM);
+	}
 
 	startButtonListener(buttons, MAP_BUTTON_COUNT, &layer);
 }
@@ -456,6 +465,7 @@ void beginMapScreen(int isFirstShow) {
 #define ESTATE_IMAGE_COUNT 2
 
 void onButtonInEstateClicked(Button* button) {
+	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = button->normal;
 	if (clickedButtonName == FILE_BACK_BUTTON) {
 		beginMapScreen(0);
@@ -503,6 +513,7 @@ int* activeQuestIndex;
 int firstQuestIndex = 0;
 
 void onButtonInQuestClicked(Button* clickedButton) {
+	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = clickedButton->normal;
 
 	if (clickedButtonName == FILE_BACK_BUTTON) {
@@ -593,6 +604,7 @@ void beginQuestScreen() {
 }
 
 void onButtonInQuestDetailClicked(Button* clickedButton) {
+	playSound(SOUND_BUTTON_CLICK);
 	if (clickedButton->normal == FILE_QUEST_DETIAL_CLOSE_BUTTON) {
 		beginQuestScreen();
 	}
@@ -607,7 +619,7 @@ void applyToDcInQuestDetail(HDC hdc) {
 	printText(hdc, 1440, 590, 69, 0, QUEST_TEXT_COLOR, TA_CENTER, title);
 
 	for (int i = 0; i < quest.descriptionLineCount; i++) {
-		const int descriptionIndex = quest.descriptionLineCount - i-1;
+		const int descriptionIndex = quest.descriptionLineCount - i - 1;
 		printText(hdc, 1440, 900 - i * 60, 50, 400, QUEST_TEXT_COLOR, TA_CENTER, (char*)quest.descriptions[descriptionIndex]);
 	}
 

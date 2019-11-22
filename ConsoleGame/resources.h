@@ -66,3 +66,9 @@
 #define FILE_QUEST_DETIAL_CLOSE_BUTTON "resources/quest/quest_close.bmp"
 #define FILE_QUEST_DETIAL_CLOSE_BUTTON_HOVER "resources/quest/quest_close_hover.bmp"
 #define FILE_QUEST_DETIAL_CLOSE_BUTTON_CLICK "resources/quest/quest_close_clicked.bmp"
+
+#define SOUND_NULL "resources/sounds/null_sound.wav"
+#define SOUND_START_BGM "resources/sounds/start_bgm.wav"
+#define SOUND_STORY_BGM "resources/sounds/story_bgm.wav"
+#define SOUND_MAIN_BGM "resources/sounds/main_bgm.wav"
+#define SOUND_BUTTON_CLICK "resources/sounds/button_click.wav"
