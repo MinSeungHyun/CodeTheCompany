@@ -612,6 +612,7 @@ int activeQuestCount;
 int questButtonCount;
 int* activeQuestIndex;
 int firstQuestIndex = 0;
+int questIdInList[4];
 
 //퀘스트 목록 화면에서 버튼을 클릭했을 때 호출되는 함수
 void onButtonInQuestClicked(Button* clickedButton) {
@@ -632,8 +633,7 @@ void onButtonInQuestClicked(Button* clickedButton) {
 	else if (clickedButtonName) {
 		for (int i = 0; i < questButtonCount; i++) {
 			if (clickedButton->y == getQuestButtonY(i)) {
-				const int questIndex = firstQuestIndex + i;
-				begindQuestDetailScreen(questIndex);
+				begindQuestDetailScreen(questIdInList[i]);
 				break;
 			}
 		}
@@ -647,6 +647,7 @@ void applyToDcInQuestScreen(HDC hdc) {
 	for (int i = 0; i < questButtonCount; i++) {
 		const Quest tmp = quests[activeQuestIndex[i + firstQuestIndex]];
 		const char* questTitle = tmp.title;
+		questIdInList[i] = tmp.questID;
 		char formatedTitle[100];
 		sprintf(formatedTitle, questTitle, tmp.progress, tmp.maxProgress);
 		printText(hdc, 800, 590 + 145 * i, 60, 0, RGB(0, 0, 0), TA_LEFT, formatedTitle);
