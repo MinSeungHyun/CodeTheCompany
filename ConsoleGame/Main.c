@@ -906,7 +906,7 @@ void beginLeveUpScreen() {
 
 	char levelText[100];
 	sprintf(levelText, "Lv.%d", level);
-	printText(layer._consoleDC, 1440, 568, 200, 0, RGB(0, 0, 0), TA_CENTER, levelText);
+	printText(layer._consoleDC, 1440, 568, 200, 0, RGB(0, 0, 0), TA_CENTER, levelText);	printText(layer._consoleDC, 1452, 982, 100, 0, RGB(251, 192, 45), TA_CENTER, "LEVEL UP!");
 	Sleep(2000);
 	beginMapScreen(0);
 }
