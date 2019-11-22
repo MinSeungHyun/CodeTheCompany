@@ -49,6 +49,11 @@
 #define FILE_SETTING_BUTTON_CLICK "resources/other/setting_button_clicked.bmp"
 
 #define FILE_ESTATE_BACKGROUND "resources/estate/estate_background.bmp"
+#define FILE_ESTATE_ITEM_BACKGROUND_UNLOCKED "resources/estate/estate_item_unlocked.bmp"
+#define FILE_ESTATE_BUY_BUTTON "resources/estate/estate_buy_button.bmp"
+#define FILE_ESTATE_BUY_BUTTON_HOVER "resources/estate/estate_buy_button_hover.bmp"
+#define FILE_ESTATE_BUY_BUTTON_CLICK "resources/estate/estate_buy_button_clicked.bmp"
+#define FILE_ESTATE_BOUGHT_BUTTON "resources/estate/estate_item_button_bought.bmp"
 
 #define FILE_QUEST_OPEN "resources/quest/quest_open.bmp"
 #define FILE_QUEST_ITEMS_FRAME "resources/quest/quest_items_frame.bmp"

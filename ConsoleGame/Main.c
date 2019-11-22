@@ -16,11 +16,13 @@
 #include "SaveFileManager.h"
 #include "Quest.h"
 #include "SoundPlayer.h"
+#include "Estate.h"
 
 #define ENABLE_DEVELOPMENT_MODE 0
 
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
+#define DEFAULT_EXP 400
 #define DEFAULT_MONEY 100000
 #define DEFAULT_MPS 10
 #define COMPANY_NAME_MAX_LENGTH 20
@@ -39,6 +41,7 @@ void beginEstateScreen();
 void beginQuestScreen();
 void begindQuestDetailScreen(int);
 void beginSettingScreen();
+void beginEstateBuyScreen(int);
 
 char lastName[100], firstName[100], companyName[100];
 BigInt money, userExp, mps;
@@ -51,6 +54,7 @@ void mainProcess() {
 	_mkdir(DIR_SAVE);
 	initLayer();
 	initQuests();
+	initEstateItems();
 	Sleep(300);
 
 	if (ENABLE_DEVELOPMENT_MODE) {
@@ -388,7 +392,7 @@ void onButtonInMapClicked(Button* clickedButton) {
 //메인 화면에서 UI를 초기화 하기 위한 함수 
 void initMapUI() {
 	if (!isFileExist(DIR_MONEY_AND_EXP))
-		saveMoneyAndExp(DEFAULT_MONEY, 0);
+		saveMoneyAndExp(DEFAULT_MONEY, DEFAULT_EXP);
 	if (!isFileExist(DIR_MPS))
 		saveMPS(DEFAULT_MPS);
 	updateUserValues();
@@ -517,8 +521,8 @@ void beginMapScreen(int isFirstShow) {
 }
 
 #define BACK_BUTTON_INDEX_OF_LAYER 1
-#define ESTATE_BUTTON_COUNT 1
-#define ESTATE_IMAGE_COUNT 2
+#define ESTATE_BUTTON_COUNT 2
+#define ESTATE_IMAGE_COUNT 5
 
 //부동산 화면에 있는 버튼을 클릭했을 때 호출됨
 void onButtonInEstateClicked(Button* button) {
@@ -527,6 +531,17 @@ void onButtonInEstateClicked(Button* button) {
 	if (clickedButtonName == FILE_BACK_BUTTON) {
 		beginMapScreen(0);
 	}
+	else if (clickedButtonName == FILE_ESTATE_BUY_BUTTON) {
+		beginEstateBuyScreen(0);
+	}
+}
+
+//부동산 화면에서 글씨를 출력하기 위해 호출되는 함수
+void applyToDcInEstate(HDC hdc) {
+	char firstOfficePrice[100] = "이미 구매함";
+	if(!isFirstOfficeEnabled) sprintf(firstOfficePrice, "%lld원", estateItems[0].price);
+	printText(hdc, 1440, 1220, 80, 0, RGB(255, 255, 255), TA_CENTER, firstOfficePrice);
+	printText(hdc, 1440, 950, 60, 0, RGB(0, 0, 0), TA_CENTER, estateItems[0].itemName);
 }
 
 //부동산 화면을 시작하는 함수
@@ -534,18 +549,28 @@ void beginEstateScreen() {
 	stopButtonListener();
 
 	const Button backButton = createButton(100, 1280, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, BACK_BUTTON_INDEX_OF_LAYER, onButtonInEstateClicked);
-	Button buttons[ESTATE_BUTTON_COUNT] = { backButton };
+	Button buyButton;
+	
+	if(isFirstOfficeEnabled)
+		buyButton = createButton(1176, 1180, FILE_ESTATE_BOUGHT_BUTTON, FILE_ESTATE_BOUGHT_BUTTON, FILE_ESTATE_BOUGHT_BUTTON, 4, onButtonInEstateClicked);
+	else
+		buyButton = createButton(1176, 1180, FILE_ESTATE_BUY_BUTTON, FILE_ESTATE_BUY_BUTTON_HOVER, FILE_ESTATE_BUY_BUTTON_CLICK, 4, onButtonInEstateClicked);
+
+	Button buttons[ESTATE_BUTTON_COUNT] = { backButton, buyButton };
 
 	Image images[ESTATE_IMAGE_COUNT] = {
 		{FILE_ESTATE_BACKGROUND, 0, 0},
-		{backButton.normal, backButton.x, backButton.y}
+		{backButton.normal, backButton.x, backButton.y},
+		{FILE_ESTATE_ITEM_BACKGROUND_UNLOCKED, 1090, 614},
+		{FILE_FIRST_OFFICE, 1270, 620},
+		{buyButton.normal, buyButton.x, buyButton.y} //4
 	};
 	layer.images = images;
 	layer.imageCount = ESTATE_IMAGE_COUNT;
-	layer.applyToDC = NULL;
+	layer.applyToDC = applyToDcInEstate;
 	layer.renderAll(&layer);
 
-	startButtonListener(buttons, 1, &layer);
+	startButtonListener(buttons, ESTATE_BUTTON_COUNT, &layer);
 }
 
 //빌딩의 이미지들을 잠금해제 상태에 맞게 만들어주는 함수
@@ -767,6 +792,46 @@ void beginSettingScreen() {
 	layer.imageCount = 9;
 
 	startButtonListener(buttons, 3, &layer);
+}
+
+//부동산에서 아이템을 구매할 때 뜨는 화면
+void beginEstateBuyScreen(int buyItemIndex) {
+	stopButtonListener();
+
+	Image firstOffice, myBuilding, casino, estate;
+	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
+	Image images[6] = {
+		{FILE_MAP, 0, 0}, //0
+		firstOffice, myBuilding, casino, estate, //4
+		{FILE_QUEST_WINDOW_NO_TITLE, 712, 404}
+	};
+	layer.images = images;
+	layer.applyToDC = NULL;
+	layer.imageCount = 6;
+
+	int buySuccess = 0;
+	if (money > estateItems[buyItemIndex].price) {
+		money -= estateItems[buyItemIndex].price;
+		saveMoneyAndExp(money, userExp);
+		buySuccess = 1;
+
+	}
+	if (buySuccess) {
+		switch (buyItemIndex) {
+		case 0:
+			isFirstOfficeEnabled = 1;
+			saveBuildingState(isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled);
+		}
+	}
+
+	char resultText[100];
+	if (buySuccess) sprintf(resultText, "%s", "구매하셨습니다.");
+	else sprintf(resultText, "%s", "돈이 부족합니다.");
+
+	layer.renderAll(&layer);
+	printText(layer._consoleDC, 1440, 712, 100, 0, QUEST_TEXT_COLOR, TA_CENTER, resultText);
+	Sleep(1500);
+	beginMapScreen(0);
 }
 
 //imagePositionTester처럼 적절한 글씨 위치를 찾기 위해 만든 함수
