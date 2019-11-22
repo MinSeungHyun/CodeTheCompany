@@ -1,3 +1,12 @@
+/*
+ * 제작 : 민승현(개발), 이혜원(디자인)
+ * https://github.com/MinSeungHyun/console-game
+ * 게임 이름 : Code The Company
+ * 직접 회사를 경영하고, 키워갈 수 있는 게임이다.
+ * 이름과 회사 이름을 입력하는 부분을 제외하고 모든 조작은 마우스로만 이루어지며,
+ * 클릭할 수 있는 부분은 마우스를 올리면 강조된다.
+ */
+
 #include <conio.h>
 #include "Initializer.h"
 #include "resources.h"
@@ -36,6 +45,7 @@ BigInt money, userExp, mps;
 int level;
 int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
+//게임의 메인 진행이다. (나중에 게임 다시시작할 때 필요해서 분리했다.)
 void mainProcess() {
 	initialize();
 	_mkdir(DIR_SAVE);
@@ -64,11 +74,18 @@ void mainProcess() {
 	}
 }
 
+/*
+ * mainProcess함수를 실행시킨다.
+ * mainProcess에서는 게임을 하기 위한 기본 설정을 한 뒤, 시작 화면부터 차근차근 진행되는데,
+ * beginMapScreen으로 메인 화면이 띄어지게된 후 부터는 사용자의 입력에 맞게 진행되어야 하므로
+ * 메인 함수에서 게임이 진행되는 것이 아니라 각각의 화면에서 사용자의 입력에 맞게 진행된다.
+ */
 int main() {
 	mainProcess();
 }
 
-void onButtonClick(Button* clickedButton) {
+//시작 화면에 있는 버튼이 클릭되었을 때 호출됨
+void onButtonInStartScreenClicked(Button* clickedButton) {
 	playSound(SOUND_BUTTON_CLICK);
 	if (clickedButton->normal == FILE_START_BUTTON) {
 		layer.fadeOut(&layer, NULL);
@@ -76,9 +93,10 @@ void onButtonClick(Button* clickedButton) {
 	}
 }
 
+//시작화면을 시작함
 void beginStartScreen() {
 	playBGM(SOUND_START_BGM);
-	const Button startButton = createButton(1114, 1150, FILE_START_BUTTON, FILE_START_BUTTON_HOVER, FILE_START_BUTTON_CLICK, 2, onButtonClick);
+	const Button startButton = createButton(1114, 1150, FILE_START_BUTTON, FILE_START_BUTTON_HOVER, FILE_START_BUTTON_CLICK, 2, onButtonInStartScreenClicked);
 	Button buttons[1] = { startButton };
 
 	Image titleImages[3] = {
@@ -94,6 +112,7 @@ void beginStartScreen() {
 	stopBGM();
 }
 
+//사용자 이름 입력받는 화면 초기화
 void initUserNameScreen(const int x) {
 	layer.renderAll(&layer);
 	printText(layer._consoleDC, 1440, 300, 80, 0, RGB(0, 0, 0), TA_CENTER, "성, 이름을 입력해주세요");
@@ -101,6 +120,7 @@ void initUserNameScreen(const int x) {
 	printText(layer._consoleDC, x, 800, 60, 0, RGB(0, 0, 0), TA_LEFT, "이름 :");
 }
 
+//사용자 이름 입력받는 화면을 시작함
 void getUserName() {
 	const int x = 1250;
 	firstName[0] = '\0';
@@ -149,21 +169,25 @@ void getUserName() {
 	saveName(trim(lastName), trim(firstName));
 }
 
+//스토리 첫번째 화면 시작
 void printStoryStartText(HDC hdc) {
 	char name[100];
 	sprintf(name, "23살 1인 앱 개발자 %s%s...", lastName, firstName);
 	printText(hdc, 1440, 750, 60, 0, RGB(255, 255, 255), TA_CENTER, name);
 }
 
+//스토리 첫번째 화면 시작
 void printStory1Text(HDC hdc) {
 	printText(hdc, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, "밥 먹고 코딩하는 게 일상이었던 나...");
 	printText(hdc, 100, 200, 60, 0, RGB(0, 0, 0), TA_LEFT, "여느 때와 다름없이 오늘도 앱을 개발하고 스토어에 올렸다.");
 }
 
+//스토리 첫번째 화면 시작
 void printStoryAfterText(HDC hdc) {
 	printText(hdc, 1440, 750, 60, 0, RGB(255, 255, 255), TA_CENTER, TEXT("한달 후..."));
 }
 
+//스토리 두번째 화면 시작
 void printStory2Text(HDC hdc) {
 	const int x = 2800, y = 1250;
 	printText(hdc, x, y, 60, 0, RGB(0, 0, 0), TA_RIGHT, TEXT("이게 뭐야!!!!"));
@@ -171,10 +195,12 @@ void printStory2Text(HDC hdc) {
 	printText(hdc, x, y + 140, 60, 0, RGB(0, 0, 0), TA_RIGHT, TEXT("가파른 상승곡선을 이루고 있었다!!"));
 }
 
+//스토리 세번째 화면 시작
 void printStory3Text(HDC hdc) {
 	printText(hdc, 1000, 250, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("좋았어 이제 회사를 차려보자!!"));
 }
 
+//스토리 화면 시작
 void beginStoryScreen() {
 	playBGM(SOUND_STORY_BGM);
 	Image images[1] = { {"", 0, 0} };
@@ -226,6 +252,7 @@ void beginStoryScreen() {
 #define SETTING_BUTTON_INDEX_IN_LAYER 9
 #define SETTING_BUTTON_INDEX_IN_BUTTON 6
 
+//회사 이름 입력받는 화면을 초기화함
 void initGetCompanyNameScreen() {
 	layer.images[5] = (Image){ FILE_QUEST_WINDOW_NO_TITLE, 730, 380 };
 	layer.imageCount = 6;
@@ -234,6 +261,7 @@ void initGetCompanyNameScreen() {
 	printText(layer._consoleDC, 1440, 500, 70, 0, QUEST_TEXT_COLOR, TA_CENTER, "회사 이름을 입력해주세요");
 }
 
+//회사 이름 입력받는 화면 시작
 void getCompanyNameIfNotExist() {
 	if (isFileExist(DIR_COMPANY_NAME)) return;
 	initGetCompanyNameScreen();
@@ -270,6 +298,7 @@ void getCompanyNameIfNotExist() {
 	saveCompanyName(companyName);
 }
 
+//돈과, 경험치, 초당 들어오는 돈을 갱신함
 void updateUserValues() {
 	loadMoneyAndExp(&money, &userExp);
 	level = (int)sqrtl((long double)(userExp / 400));
@@ -277,24 +306,29 @@ void updateUserValues() {
 	loadMPS(&mps);
 }
 
+//현재 레벨의 경험치를 반환함
 BigInt getExpForLevel(int level) {
 	return (BigInt)(400 * (pow(level, 2)));
 }
 
+//현재 레벨에서 다음 레벨까지 가기 위한 경험치를 반환함
 BigInt getTotalExpForLevel(int level) {
 	return getExpForLevel(level + 1) - getExpForLevel(level);
 }
 
+//현재 레벨에서 다음레벨까지 가기 위해 모은 경험치를 반환함
 BigInt getAchievedExp() {
 	return userExp - getExpForLevel(level);
 }
 
+//현재 레벨부터 다음 레벨까지의 진행도를 0부터 10까지 중에 반환해줌
 int getProgressFromExp() {
 	const BigInt totalExp = getTotalExpForLevel(level);
 	const BigInt achievedExp = getAchievedExp();
 	return (int)((long double)achievedExp / totalExp * 10);
 }
 
+//메인화면에서 경험치바 위에 마우스를 올리면 호출되어 수치를 나타내주는 함수
 void displayExpDetail(HDC hdc) {
 	char expText[100];
 	sprintf(expText, "%lld/%lld", getAchievedExp(), getTotalExpForLevel(level));
@@ -302,6 +336,7 @@ void displayExpDetail(HDC hdc) {
 }
 
 int isExpDetailShow = 0;
+//메인화면에서 화면에 글씨를 출력하기 위해 호출되는 함수
 void applyUserValuesToDC(HDC hdc) {
 	static char LEVEL_PROGRESS_FILE_NAME[100];
 	sprintf(LEVEL_PROGRESS_FILE_NAME, FILE_LEVEL_PROGRESS, getProgressFromExp());
@@ -330,10 +365,12 @@ void applyUserValuesToDC(HDC hdc) {
 
 Button buttons[MAP_BUTTON_COUNT];
 
+//레벨바에 마우스를 올렸을 때 호출되는 함수
 void onButtonInMapHovered(Button* hoveredButton) {
 	if (hoveredButton->normal == FILE_LEVEL_PROGRESS_DEFAULT) isExpDetailShow = 1;
 }
 
+//메인 화면에 있는 버튼을 클릭했을 때 호출되는 함수
 void onButtonInMapClicked(Button* clickedButton) {
 	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = clickedButton->normal;
@@ -348,6 +385,7 @@ void onButtonInMapClicked(Button* clickedButton) {
 	}
 }
 
+//메인 화면에서 UI를 초기화 하기 위한 함수 
 void initMapUI() {
 	if (!isFileExist(DIR_MONEY_AND_EXP))
 		saveMoneyAndExp(DEFAULT_MONEY, 0);
@@ -382,6 +420,7 @@ void initMapUI() {
 	layer.applyToDC = applyUserValuesToDC;
 }
 
+//건물들의 잠금 해제 상태를 업데이트 하는 함수
 void updateBuildingState() {
 	if (!isFileExist(DIR_BUILDING_STATE)) {
 		saveBuildingState(0, 0, 0);
@@ -421,11 +460,13 @@ void updateBuildingState() {
 	}
 }
 
+//메 초마다 호출되어 돈을 증가시키는 함수
 void onEverySecond(void* cnt) {
 	saveMoneyAndExp(money + mps, userExp);
 	updateUserValues();
 }
 
+//메인 화면을 초기화 하는 함수
 void initMapScreen(Image* images, int isFirstShow) {
 	const Button firstOffice = createButton(370, 370, FILE_FIRST_OFFICE, FILE_FIRST_OFFICE_HOVER, FILE_FIRST_OFFICE_CLICK, FIRST_OFFICE_INDEX, onButtonInMapClicked);
 	const Button myBuilding = createButton(800, 400, FILE_MY_BUILDING, FILE_MY_BUILDING_HOVER, FILE_MY_BUILDING_CLICK, MY_BUILDING_INDEX, onButtonInMapClicked);
@@ -454,6 +495,7 @@ void initMapScreen(Image* images, int isFirstShow) {
 	else layer.renderAll(&layer);
 }
 
+//메인 화면을 시작하는 함수
 void beginMapScreen(int isFirstShow) {
 	stopButtonListener();
 	layer.applyToDC = NULL;
@@ -478,6 +520,7 @@ void beginMapScreen(int isFirstShow) {
 #define ESTATE_BUTTON_COUNT 1
 #define ESTATE_IMAGE_COUNT 2
 
+//부동산 화면에 있는 버튼을 클릭했을 때 호출됨
 void onButtonInEstateClicked(Button* button) {
 	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = button->normal;
@@ -486,6 +529,7 @@ void onButtonInEstateClicked(Button* button) {
 	}
 }
 
+//부동산 화면을 시작하는 함수
 void beginEstateScreen() {
 	stopButtonListener();
 
@@ -504,6 +548,7 @@ void beginEstateScreen() {
 	startButtonListener(buttons, 1, &layer);
 }
 
+//빌딩의 이미지들을 잠금해제 상태에 맞게 만들어주는 함수
 void getBuildingImages(Image* firstOffice, Image* myBuilding, Image* casino, Image* estate) {
 	if (isFirstOfficeEnabled) *firstOffice = (Image){ FILE_FIRST_OFFICE, 370, 370 };
 	else *firstOffice = (Image){ FILE_FIRST_OFFICE_LOCKED, 370, 370 };
@@ -517,6 +562,7 @@ void getBuildingImages(Image* firstOffice, Image* myBuilding, Image* casino, Ima
 	*estate = (Image){ FILE_ESTATE, 1368, 284 };
 }
 
+//퀘스트 목록 화면에서 인덱스별로 버튼의 Y값을 반환해주는 함수
 inline int getQuestButtonY(int index) {
 	return 551 + 144 * index;
 }
@@ -526,6 +572,7 @@ int questButtonCount;
 int* activeQuestIndex;
 int firstQuestIndex = 0;
 
+//퀘스트 목록 화면에서 버튼을 클릭했을 때 호출되는 함수
 void onButtonInQuestClicked(Button* clickedButton) {
 	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = clickedButton->normal;
@@ -552,6 +599,7 @@ void onButtonInQuestClicked(Button* clickedButton) {
 	}
 }
 
+//퀘스트 목록 화면에서 글자를 출력하기 위해 호출될 함수
 void applyToDcInQuestScreen(HDC hdc) {
 	printText(hdc, 1440, 280, 200, 0, QUEST_TEXT_COLOR, TA_CENTER, "QUEST");
 
@@ -564,6 +612,7 @@ void applyToDcInQuestScreen(HDC hdc) {
 	}
 }
 
+//퀘스트 목록 화면을 시작하는 함수
 void beginQuestScreen() {
 	stopButtonListener();
 	activeQuestCount = updateAllQuestsActiveState(level);
@@ -617,6 +666,7 @@ void beginQuestScreen() {
 	free(buttons);
 }
 
+//퀘스트 상세 화면에서 버튼을 클릭하면 호출되는 함수
 void onButtonInQuestDetailClicked(Button* clickedButton) {
 	playSound(SOUND_BUTTON_CLICK);
 	if (clickedButton->normal == FILE_QUEST_DETIAL_CLOSE_BUTTON) {
@@ -625,6 +675,7 @@ void onButtonInQuestDetailClicked(Button* clickedButton) {
 }
 
 int questIndex;
+//퀘스트 상세 화면에서 글자를 출력하기 위해 호출될 함수
 void applyToDcInQuestDetail(HDC hdc) {
 	const Quest quest = quests[questIndex];
 	char title[100];
@@ -642,6 +693,7 @@ void applyToDcInQuestDetail(HDC hdc) {
 	printText(hdc, 1440, 1050, 70, 400, QUEST_TEXT_COLOR, TA_CENTER, rewardText);
 }
 
+//퀘스트 상세 화면을 시작하는 함수
 void begindQuestDetailScreen(int index) {
 	stopButtonListener();
 	questIndex = index;
@@ -664,11 +716,13 @@ void begindQuestDetailScreen(int index) {
 	startButtonListener(buttons, 1, &layer);
 }
 
+//설정창에서 글씨를 출력하기 위해 호출되는 함수
 void applyToDcInSetting(HDC hdc) {
 	printText(hdc, 1135, 850, 60, 0, RGB(255, 255, 255), TA_CENTER, "게임 초기화");
 	printText(hdc, 1670, 850, 60, 0, RGB(255, 255, 255), TA_CENTER, "게임 나가기");
 }
 
+//설정창에서 버튼이 클릭되면 호출되는 함수
 void onButtonInSettingClicked(Button* clickedButton) {
 	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = clickedButton->normal;
@@ -689,6 +743,7 @@ void onButtonInSettingClicked(Button* clickedButton) {
 	}
 }
 
+//설정창을 시작하는 함수
 void beginSettingScreen() {
 	stopButtonListener();
 
@@ -714,6 +769,7 @@ void beginSettingScreen() {
 	startButtonListener(buttons, 3, &layer);
 }
 
+//imagePositionTester처럼 적절한 글씨 위치를 찾기 위해 만든 함수
 void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text) {
 	while (1) {
 		if (isMouseClicked()) {
@@ -727,6 +783,7 @@ void textPositionTester(int size, int weight, COLORREF textColor, int align, cha
 	}
 }
 
+//이미지 레이어 객체를 초기화 해주는 함수
 void initLayer() {
 	layer = DEFAULT_IMAGE_LAYER;
 	layer.initialize(&layer);
