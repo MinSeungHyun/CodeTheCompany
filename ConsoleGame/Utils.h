@@ -67,11 +67,13 @@ inline int getCurrentSecond() {
 	return getCurrentTime()->tm_sec;
 }
 
+int isSecondClockRunning = 0;
+
 inline void timerThread(void* param) {
 	const _beginthread_proc_type onAlarm = (_beginthread_proc_type)param;
 	int second = 0, cnt = 0;
 	int previousSecond = -1;
-	while (1) {
+	while (isSecondClockRunning) {
 		second = getCurrentSecond();
 		if (second != previousSecond)
 			_beginthread(onAlarm, 0, (void*)cnt++);
@@ -80,7 +82,12 @@ inline void timerThread(void* param) {
 }
 
 inline void startSecondClock(_beginthread_proc_type callback) {
+	isSecondClockRunning = 1;
 	_beginthread(timerThread, 0, callback);
+}
+
+inline void stopSecondClock() {
+	isSecondClockRunning = 0;
 }
 
 inline void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {

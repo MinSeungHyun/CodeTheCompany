@@ -8,7 +8,7 @@
 #include "Quest.h"
 #include "SoundPlayer.h"
 
-#define ENABLE_DEVELOPMENT_MODE 0
+#define ENABLE_DEVELOPMENT_MODE 1
 
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
@@ -29,13 +29,14 @@ void beginStoryScreen();
 void beginEstateScreen();
 void beginQuestScreen();
 void begindQuestDetailScreen(int);
+void beginSettingScreen();
 
 char lastName[100], firstName[100], companyName[100];
 BigInt money, userExp, mps;
 int level;
 int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
-int main() {
+void mainProcess() {
 	initialize();
 	_mkdir(DIR_SAVE);
 	initLayer();
@@ -63,7 +64,12 @@ int main() {
 	}
 }
 
+int main() {
+	mainProcess();
+}
+
 void onButtonClick(Button* clickedButton) {
+	playSound(SOUND_BUTTON_CLICK);
 	if (clickedButton->normal == FILE_START_BUTTON) {
 		layer.fadeOut(&layer, NULL);
 		stopButtonListener();
@@ -331,6 +337,9 @@ void onButtonInMapClicked(Button* clickedButton) {
 	}
 	else if (clickedButtonName == FILE_QUEST_BUTTON) {
 		beginQuestScreen();
+	}
+	else if (clickedButtonName == FILE_SETTING_BUTTON) {
+		beginSettingScreen();
 	}
 }
 
@@ -648,6 +657,54 @@ void begindQuestDetailScreen(int index) {
 	layer.imageCount = 7;
 
 	startButtonListener(buttons, 1, &layer);
+}
+
+void applyToDcInSetting(HDC hdc) {
+	printText(hdc, 1135, 850, 60, 0, RGB(255, 255, 255), TA_CENTER, "게임 초기화");
+	printText(hdc, 1670, 850, 60, 0, RGB(255, 255, 255), TA_CENTER, "게임 나가기");
+}
+
+void onButtonInSettingClicked(Button* clickedButton) {
+	playSound(SOUND_BUTTON_CLICK);
+	char* clickedButtonName = clickedButton->normal;
+	if (clickedButtonName == FILE_SETTING_CLOSE_BUTTON) {
+		beginMapScreen(0);
+	}
+	else if (clickedButtonName == FILE_RESET_BUTTON) {
+		stopButtonListener();
+		stopSecondClock();
+		layer.fadeOut(&layer, NULL);
+		system("RD /S /Q \"saves/\" ");
+		mainProcess();
+	}
+	else if (clickedButtonName == FILE_CLOSE_GAME_BUTTON) {
+		exit(0);
+	}
+}
+
+void beginSettingScreen() {
+	stopButtonListener();
+
+	const Button closeButton = createButton(2006, 460, FILE_SETTING_CLOSE_BUTTON, FILE_SETTING_CLOSE_BUTTON_HOVER, FILE_SETTING_CLOSE_BUTTON_CLICK, 6, onButtonInSettingClicked);
+	const Button resetButton = createButton(1058, 630, FILE_RESET_BUTTON, FILE_RESET_BUTTON_HOVER, FILE_RESET_BUTTON_CLICK, 7, onButtonInSettingClicked);
+	const Button closeGameButton = createButton(1610, 630, FILE_CLOSE_GAME_BUTTON, FILE_CLOSE_GAME_BUTTON_HOVER, FILE_CLOSE_GAME_BUTTON_CLICK, 8, onButtonInSettingClicked);
+	Button buttons[3] = { closeButton, resetButton, closeGameButton };
+
+	Image firstOffice, myBuilding, casino, estate;
+	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
+	Image images[9] = {
+		{FILE_MAP, 0, 0}, //0
+		firstOffice, myBuilding, casino, estate, //4
+		{FILE_SETTING_WINDOW, 700, 382},
+		{closeButton.normal, closeButton.x, closeButton.y},
+		{resetButton.normal, resetButton.x, resetButton.y},
+		{closeGameButton.normal, closeGameButton.x, closeGameButton.y}
+	};
+	layer.images = images;
+	layer.applyToDC = applyToDcInSetting;
+	layer.imageCount = 9;
+	
+	startButtonListener(buttons, 3, &layer);
 }
 
 void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text) {
