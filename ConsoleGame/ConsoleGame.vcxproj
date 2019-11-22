@@ -34,6 +34,7 @@
     <ClInclude Include="Quest.h" />
     <ClInclude Include="resources.h" />
     <ClInclude Include="SaveFileManager.h" />
+    <ClInclude Include="SoundPlayer.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
