@@ -42,6 +42,7 @@ void beginQuestScreen();
 void begindQuestDetailScreen(int);
 void beginSettingScreen();
 void beginEstateBuyScreen(int);
+void beginQuestCompleteScreen(int);
 
 char lastName[100], firstName[100], companyName[100];
 BigInt money, userExp, mps;
@@ -379,7 +380,16 @@ void onButtonInMapClicked(Button* clickedButton) {
 	playSound(SOUND_BUTTON_CLICK);
 	char* clickedButtonName = clickedButton->normal;
 	if (clickedButtonName == FILE_ESTATE) {
-		beginEstateScreen();
+		updateQuestActiveState(&quests[0], level);
+		if (quests[0].isActivated) {
+			quests[0].progress++;
+			saveQuestsProgress(quests[0]);
+			updateQuestActiveState(&quests[0], level);
+			beginQuestCompleteScreen(0);
+		}
+		else {
+			beginEstateScreen();
+		}
 	}
 	else if (clickedButtonName == FILE_QUEST_BUTTON) {
 		beginQuestScreen();
@@ -539,7 +549,7 @@ void onButtonInEstateClicked(Button* button) {
 //부동산 화면에서 글씨를 출력하기 위해 호출되는 함수
 void applyToDcInEstate(HDC hdc) {
 	char firstOfficePrice[100] = "이미 구매함";
-	if(!isFirstOfficeEnabled) sprintf(firstOfficePrice, "%lld원", estateItems[0].price);
+	if (!isFirstOfficeEnabled) sprintf(firstOfficePrice, "%lld원", estateItems[0].price);
 	printText(hdc, 1440, 1220, 80, 0, RGB(255, 255, 255), TA_CENTER, firstOfficePrice);
 	printText(hdc, 1440, 950, 60, 0, RGB(0, 0, 0), TA_CENTER, estateItems[0].itemName);
 }
@@ -550,8 +560,8 @@ void beginEstateScreen() {
 
 	const Button backButton = createButton(100, 1280, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, BACK_BUTTON_INDEX_OF_LAYER, onButtonInEstateClicked);
 	Button buyButton;
-	
-	if(isFirstOfficeEnabled)
+
+	if (isFirstOfficeEnabled)
 		buyButton = createButton(1176, 1180, FILE_ESTATE_BOUGHT_BUTTON, FILE_ESTATE_BOUGHT_BUTTON, FILE_ESTATE_BOUGHT_BUTTON, 4, onButtonInEstateClicked);
 	else
 		buyButton = createButton(1176, 1180, FILE_ESTATE_BUY_BUTTON, FILE_ESTATE_BUY_BUTTON_HOVER, FILE_ESTATE_BUY_BUTTON_CLICK, 4, onButtonInEstateClicked);
@@ -825,11 +835,52 @@ void beginEstateBuyScreen(int buyItemIndex) {
 	}
 
 	char resultText[100];
-	if (buySuccess) sprintf(resultText, "%s", "구매하셨습니다.");
+	if (buySuccess) {
+		sprintf(resultText, "%s", "구매하셨습니다.");
+	}
 	else sprintf(resultText, "%s", "돈이 부족합니다.");
 
 	layer.renderAll(&layer);
 	printText(layer._consoleDC, 1440, 712, 100, 0, QUEST_TEXT_COLOR, TA_CENTER, resultText);
+	Sleep(1500);
+
+	const int currentQuest = 1;
+	updateQuestActiveState(&quests[currentQuest], level);
+	if (quests[currentQuest].isActivated) {
+		quests[currentQuest].progress++;
+		saveQuestsProgress(quests[currentQuest]);
+		updateQuestActiveState(&quests[currentQuest], level);
+		beginQuestCompleteScreen(currentQuest);
+	}
+	else {
+		beginMapScreen(0);
+	}
+}
+
+//퀘스트를 완료했을 때 나오는 창이다.
+void beginQuestCompleteScreen(int completedQuestIndex) {
+	const Quest completedQuest = quests[completedQuestIndex];
+	stopButtonListener();
+
+	Image firstOffice, myBuilding, casino, estate;
+	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
+	Image images[6] = {
+		{FILE_MAP, 0, 0}, //0
+		firstOffice, myBuilding, casino, estate, //4
+		{FILE_QUEST_WINDOW_NO_TITLE, 712, 404}
+	};
+	layer.images = images;
+	layer.applyToDC = NULL;
+	layer.imageCount = 6;
+
+	layer.renderAll(&layer);
+	printText(layer._consoleDC, 1440, 492, 120, 0, QUEST_TEXT_COLOR, TA_CENTER, "Misson Complete");
+	char questTitle[100];
+	sprintf(questTitle, completedQuest.title, completedQuest.progress, completedQuest.maxProgress);
+	printText(layer._consoleDC, 1440, 800, 80, 0, QUEST_TEXT_COLOR, TA_CENTER, questTitle);
+	money += completedQuest.rewardMoney;
+	userExp += completedQuest.rewardXP;
+	saveMoneyAndExp(money, userExp);
 	Sleep(1500);
 	beginMapScreen(0);
 }
