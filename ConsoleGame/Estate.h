@@ -16,6 +16,7 @@ EstateItem estateItems[ESTATE_ITEM_COUNT];
 #define ESTATE_ITEM_CASINO "도박장 입장권"
 #define ESTATE_ITEM_MY_BUILDING "내 빌딩"
 
+//부동산 아이템들을 초기화해줌
 inline void initEstateItems() {
 	estateItems[0] = (EstateItem){ ESTATE_ITEM_FIRST_OFFICE, 100000, 0 };
 	estateItems[1] = (EstateItem){ ESTATE_ITEM_EXTEND_OFFICE, 150000, 5 };

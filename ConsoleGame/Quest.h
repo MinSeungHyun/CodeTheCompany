@@ -43,6 +43,7 @@ inline int updateAllQuestsActiveState(int);
 #define QUEST_COUNT 25 //퀘스트 개수
 Quest quests[QUEST_COUNT];
 
+//모든 퀘스트들을 할당하고, 불러옴
 inline void initQuests() {
 	static const char* des0[2] = { "회사를 본격적으로 운영하려면 사무실이 있어야겠지...?","사무실을 알아보러 부동산에 들어가자!" };
 	quests[0] = (Quest){ 0, 1, "부동산 들어가기 (%d/%d)", 2, des0, 100000, 100, 0, 1, CONDITION_ENTER_ESTATE };
@@ -125,6 +126,7 @@ inline void initQuests() {
 #define DIR_QUESTS_FOLDER "saves/quests"
 #define DIR_QUESTS "saves/quests/%d.ctc"
 
+//특정 퀘스트의 진행 상태를 파일로 저장함
 inline void saveQuestsProgress(Quest quest) {
 	char dirName[30];
 	sprintf(dirName, DIR_QUESTS, quest.questID);
@@ -133,6 +135,7 @@ inline void saveQuestsProgress(Quest quest) {
 	fclose(file);
 }
 
+//모든 퀘스트의 진행 상태를 파일로 저장함
 inline void saveAllQuestsProgress() {
 	_mkdir(DIR_QUESTS_FOLDER);
 
@@ -141,6 +144,7 @@ inline void saveAllQuestsProgress() {
 	}
 }
 
+//저장된 특정 퀘스트의 진행 상태를 불러옴
 inline int loadQuestProgress(Quest* quest) {
 	char dirName[30];
 	sprintf(dirName, DIR_QUESTS, quest->questID);
@@ -151,6 +155,7 @@ inline int loadQuestProgress(Quest* quest) {
 	return 1;
 }
 
+//저장된 모든 퀘스트의 진행 상태를 불러옴
 inline void loadAllQuestsProgress() {
 	char dirName[30];
 	sprintf(dirName, DIR_QUESTS, quests[0].questID);
@@ -161,23 +166,28 @@ inline void loadAllQuestsProgress() {
 	}
 }
 
+//퀘스트가 완료되었으면 1을 반환, 아니면 0 반환
 inline int isQuestCompleted(Quest quest) {
 	return quest.progress >= quest.maxProgress;
 }
 
+//퀘스트가 완료되었으면 0을 반환, 아니면 1 반환
 inline int isQuestNotCompleted(Quest quest) {
 	return !isQuestCompleted(quest);
 }
 
+//퀘스트가 수행 가능한 레벨이면 1 반환 아니면 0 반환
 inline int isQuestUnlocked(Quest quest, int level) {
 	return level >= quest.level;
 }
 
+//특정 퀘스트가 수행 가능한지 여부를 업데이트함
 inline int updateQuestActiveState(Quest* quest, int level) {
 	quest->isActivated = isQuestNotCompleted(*quest) && isQuestUnlocked(*quest, level);
 	return quest->isActivated;
 }
 
+//모든 퀘스트가 수행 가능한지 여부를 업데이트함
 inline int updateAllQuestsActiveState(int level) {
 	int activatedQuestCount = 0;
 	for (int i = 0; i < QUEST_COUNT; i++) {

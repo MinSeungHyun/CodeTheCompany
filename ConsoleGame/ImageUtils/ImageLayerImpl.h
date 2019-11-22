@@ -15,6 +15,7 @@ typedef struct {
 	int width, height;
 }Size;
 
+//화면의 dpi값을 반환
 inline int getDPI(HWND hWnd) {
 	const HANDLE user32 = GetModuleHandle(TEXT("user32"));
 	const FARPROC func = GetProcAddress((HMODULE)user32, "GetDpiForWindow");
@@ -23,6 +24,7 @@ inline int getDPI(HWND hWnd) {
 	return ((UINT(__stdcall*)(HWND))func)(hWnd);
 }
 
+//비트맵의 크기를 반환
 inline Size getBitmapSize(HBITMAP bitmap) {
 	BITMAP tmpBitmap;
 	GetObject(bitmap, sizeof(BITMAP), &tmpBitmap);
@@ -30,6 +32,7 @@ inline Size getBitmapSize(HBITMAP bitmap) {
 	return bitmapSize;
 }
 
+//검정색의 새DC를 반환
 inline HDC createNewBackDC(HDC compatibleDC) {
 	const HDC backDC = CreateCompatibleDC(compatibleDC);
 	const HBITMAP backBitmap = CreateCompatibleBitmap(compatibleDC, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -38,6 +41,7 @@ inline HDC createNewBackDC(HDC compatibleDC) {
 	return backDC;
 }
 
+//DC에 이미지를 넣어줌
 inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	const HDC bitmapDC = CreateCompatibleDC(backDC);
 	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
@@ -58,11 +62,13 @@ inline void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	DeleteDC(bitmapDC);
 }
 
+//목표DC에 소스DC를 복사함
 inline void applyToDC(HDC dstDC, HDC srcDC) {
 	BitBlt(dstDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 		srcDC, 0, 0, SRCCOPY);
 }
 
+//이미지 레이어를 초기화 해줌
 inline void _initialize(ImageLayer* self) {
 	self->_windowHandle = GetConsoleWindow();
 	self->_consoleDC = GetDC(self->_windowHandle);
@@ -73,6 +79,7 @@ inline void _initialize(ImageLayer* self) {
 	WINDOW_HEIGHT = (int)(CONSOLE_HEIGHT * 2 * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER);
 }
 
+//모든 이미지들이 들어간 DC를 반환
 inline HDC getRenderedBackDC(ImageLayer* self) {
 	const HDC backDC = createNewBackDC(self->_consoleDC);
 
@@ -82,6 +89,7 @@ inline HDC getRenderedBackDC(ImageLayer* self) {
 	return backDC;
 }
 
+//화면에 이미지 레이어를 출력해줌
 inline void _renderAll(ImageLayer* self) {
 	const HDC backDC = getRenderedBackDC(self);
 	if (self->applyToDC != NULL) self->applyToDC(backDC);
@@ -89,6 +97,7 @@ inline void _renderAll(ImageLayer* self) {
 	DeleteDC(backDC);
 }
 
+//새로운 BLENDFUNCTION을 만들어서 반환
 inline BLENDFUNCTION getBlendFunction() {
 	BLENDFUNCTION bf;
 	bf.AlphaFormat = AC_SRC_ALPHA;
@@ -98,6 +107,7 @@ inline BLENDFUNCTION getBlendFunction() {
 	return bf;
 }
 
+//이미지가 점점 밝아지는 효과를 생성
 inline void _renderAndFadeIn(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	const HDC consoleDC = self->_consoleDC;
 	const HDC backDC = getRenderedBackDC(self);
@@ -120,6 +130,7 @@ inline void _renderAndFadeIn(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	DeleteDC(backDC);
 }
 
+//이미지가 점점 어두워지는 효과를 생성
 inline void _renderAndFadeOut(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	const HDC consoleDC = self->_consoleDC;
 	const HDC backDC = getRenderedBackDC(self);

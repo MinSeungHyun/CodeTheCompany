@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "ImageUtils/ImageLayer.h"
 
+//콘솔에서 어떤 입력이든 있는지 확인함
 inline int hasInput() {
 	INPUT_RECORD input_record;
 	DWORD input_count;
@@ -14,6 +15,7 @@ inline int hasInput() {
 
 INPUT_RECORD rec;
 DWORD dwNOER;
+//마우스가 클릭되었는지 확인함
 inline int isMouseClicked() {
 	ReadConsoleInput(CONSOLE_INPUT, &rec, 1, &dwNOER);
 	if (rec.EventType == MOUSE_EVENT) {
@@ -24,6 +26,7 @@ inline int isMouseClicked() {
 	return 0;
 }
 
+//현재 마우스 커서의 위치를 반환
 inline COORD getMousePosition() {
 	POINT cursorPosition;
 	GetCursorPos(&cursorPosition);
@@ -31,6 +34,7 @@ inline COORD getMousePosition() {
 	return (COORD) { (SHORT)cursorPosition.x * 2, (SHORT)cursorPosition.y * 2 };
 }
 
+//이미지의 적절한 위치를 쉽게 알기 위하여 만든 함수
 inline void imagePositionTester(ImageLayer* layer, int testingIndex) {
 	while (1) {
 		if (isMouseClicked()) {
