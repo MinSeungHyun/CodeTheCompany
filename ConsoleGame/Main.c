@@ -8,7 +8,7 @@
 #include "Quest.h"
 #include "SoundPlayer.h"
 
-#define ENABLE_DEVELOPMENT_MODE 1
+#define ENABLE_DEVELOPMENT_MODE 0
 
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
@@ -103,6 +103,8 @@ void initUserNameScreen(const int x) {
 
 void getUserName() {
 	const int x = 1250;
+	firstName[0] = '\0';
+	lastName[0] = '\0';
 
 	Image images[2] = { { FILE_COIN_BLUR, 0, 0 } };
 	layer.images = images;
@@ -115,6 +117,7 @@ void getUserName() {
 		const int input = _getch();
 
 		if (input == '\r') {
+			if ((editingText == lastName && lastName[0] == '\0') || (editingText == firstName && firstName[0] == '\0')) continue;
 			if (editingText == lastName) {
 				i = 0;
 				editingText = firstName;
@@ -236,11 +239,13 @@ void getCompanyNameIfNotExist() {
 	initGetCompanyNameScreen();
 
 	char companyName[100];
+	companyName[0] = '\0';
 	int i = 0;
 	while (1) {
 		const int input = _getch();
 
 		if (input == '\r') {
+			if (companyName[0] == '\0') continue;
 			break;
 		}
 		if (input == '\b') {
@@ -673,6 +678,8 @@ void onButtonInSettingClicked(Button* clickedButton) {
 	else if (clickedButtonName == FILE_RESET_BUTTON) {
 		stopButtonListener();
 		stopSecondClock();
+		firstName[0] = '\0';
+		lastName[0] = '\0';
 		layer.fadeOut(&layer, NULL);
 		system("RD /S /Q \"saves/\" ");
 		mainProcess();
@@ -703,7 +710,7 @@ void beginSettingScreen() {
 	layer.images = images;
 	layer.applyToDC = applyToDcInSetting;
 	layer.imageCount = 9;
-	
+
 	startButtonListener(buttons, 3, &layer);
 }
 
