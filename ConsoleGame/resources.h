@@ -88,3 +88,5 @@
 #define FILE_CLOSE_GAME_BUTTON "resources/setting_screen/setting_out.bmp"
 #define FILE_CLOSE_GAME_BUTTON_HOVER "resources/setting_screen/setting_out_hover.bmp"
 #define FILE_CLOSE_GAME_BUTTON_CLICK "resources/setting_screen/setting_out_clicked.bmp"
+
+#define FILE_LEVEL_UP_BACKGROUND "resources/other/levelup.bmp"

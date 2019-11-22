@@ -43,6 +43,7 @@ void begindQuestDetailScreen(int);
 void beginSettingScreen();
 void beginEstateBuyScreen(int);
 void beginQuestCompleteScreen(int);
+void beginLeveUpScreen();
 
 char lastName[100], firstName[100], companyName[100];
 BigInt money, userExp, mps;
@@ -476,8 +477,8 @@ void updateBuildingState() {
 
 //메 초마다 호출되어 돈을 증가시키는 함수
 void onEverySecond(void* cnt) {
-	saveMoneyAndExp(money + mps, userExp);
-	updateUserValues();
+	money += mps;
+	saveMoneyAndExp(money, userExp);
 }
 
 //메인 화면을 초기화 하는 함수
@@ -519,15 +520,20 @@ void beginMapScreen(int isFirstShow) {
 	getCompanyNameIfNotExist();
 	loadCompanyName(companyName);
 
+	const int previousLevel = level;
 	initMapUI();
 	updateUserValues();
-
-	if (isFirstShow) {
-		startSecondClock(onEverySecond);
-		playBGM(SOUND_MAIN_BGM);
+	if (!isFirstShow && level != previousLevel) {
+		beginLeveUpScreen();
 	}
+	else {
+		if (isFirstShow) {
+			startSecondClock(onEverySecond);
+			playBGM(SOUND_MAIN_BGM);
+		}
 
-	startButtonListener(buttons, MAP_BUTTON_COUNT, &layer);
+		startButtonListener(buttons, MAP_BUTTON_COUNT, &layer);
+	}
 }
 
 #define BACK_BUTTON_INDEX_OF_LAYER 1
@@ -882,6 +888,26 @@ void beginQuestCompleteScreen(int completedQuestIndex) {
 	userExp += completedQuest.rewardXP;
 	saveMoneyAndExp(money, userExp);
 	Sleep(1500);
+	beginMapScreen(0);
+}
+
+//레벨업 되었을 시 나오는 화면
+void beginLeveUpScreen() {
+	stopButtonListener();
+
+	Image images[1] = {
+		{FILE_LEVEL_UP_BACKGROUND, 0, 0}
+	};
+	layer.images = images;
+	layer.applyToDC = NULL;
+	layer.imageCount = 1;
+
+	layer.renderAll(&layer);
+
+	char levelText[100];
+	sprintf(levelText, "Lv.%d", level);
+	printText(layer._consoleDC, 1440, 568, 200, 0, RGB(0, 0, 0), TA_CENTER, levelText);
+	Sleep(2000);
 	beginMapScreen(0);
 }
 

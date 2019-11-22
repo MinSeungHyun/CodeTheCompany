@@ -46,10 +46,10 @@ Quest quests[QUEST_COUNT];
 //모든 퀘스트들을 할당하고, 불러옴
 inline void initQuests() {
 	static const char* des0[2] = { "회사를 본격적으로 운영하려면 사무실이 있어야겠지...?","사무실을 알아보러 부동산에 들어가자!" };
-	quests[0] = (Quest){ 0, 1, "부동산 들어가기 (%d/%d)", 2, des0, 100000, 100, 0, 1, CONDITION_ENTER_ESTATE };
+	quests[0] = (Quest){ 0, 1, "부동산 들어가기 (%d/%d)", 2, des0, 100000, 1200, 0, 1, CONDITION_ENTER_ESTATE };
 
 	static const char* des1[3] = { "내 손엔 10만원 밖에 없다...", "마침 10만원 짜리 사무실이 있잖아?!!!","빨리 저 사무실을 구매하자!!" };
-	quests[1] = (Quest){ 1, 1, "내 첫 사무실 (%d/%d)", 3, des1, 20000, 300, 0, 1, CONDITION_BUY_OFFICE };
+	quests[1] = (Quest){ 1, 1, "내 첫 사무실 (%d/%d)", 3, des1, 20000, 3800, 0, 1, CONDITION_BUY_OFFICE };
 
 	static const char* des2[3] = { "드디어 내 사무실이 생겼다ㅠㅠㅠㅠ", "급하게 계약하느라 내부가 어떤지 보지도 못했는데... ", "당장 들어가보자!" };
 	quests[2] = (Quest){ 2, 2, "사무실 집들이 (%d/%d)", 3, des2, 30000, 400, 0, 1, CONDITION_ENTER_OFFICE };
