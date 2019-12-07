@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <time.h>
 #include <process.h>
+#include <stdio.h>
 #include "ImageUtils/ImageLayer.h"
 
 #ifndef UTILS_H
