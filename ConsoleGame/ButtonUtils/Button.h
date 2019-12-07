@@ -2,6 +2,9 @@
 #include "ButtonInterface.h"
 #include "ButtonImpl.h"
 
+#ifndef BUTTON_H
+#define BUTTON_H
+
 //버튼의 onHover함수 포인터에 들어가는 기본값이다
 inline void exampleOnHover(Button* button) {
 }
@@ -10,7 +13,7 @@ inline void exampleOnHover(Button* button) {
 inline void exampleOnClick(Button* button) {
 }
 
-const Button DEFAULT_BUTTON = { 0, 0, NULL, NULL, NULL,
+static const Button DEFAULT_BUTTON = { 0, 0, NULL, NULL, NULL,
 	0, 0, 0, {0, 0}, {0, 0}, _isHovered, _initializeButton, exampleOnHover, exampleOnClick };
 
 //버튼을 만들어주는 함수
@@ -40,3 +43,5 @@ inline Button createCollider(int x, int y, char* normal, void(*onHover)(Button*)
 	button.onHover = onHover;
 	return button;
 }
+
+#endif

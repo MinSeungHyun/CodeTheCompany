@@ -3,13 +3,16 @@
 #include <Windows.h>
 #include "ImageLayer.h"
 
+#ifndef IMAGE_LAYER_IMPL_H
+#define IMAGE_LAYER_IMPL_H
+
 #define CONSOLE_WIDTH 180
 #define CONSOLE_HEIGHT 48
 
 #define DEFAULT_RESOLUTION_SCALE 16
-double RESOLUTION_MULTIPLIER = 1;
-int WINDOW_WIDTH = 0;
-int WINDOW_HEIGHT = 0;
+static double RESOLUTION_MULTIPLIER = 1;
+static int WINDOW_WIDTH = 0;
+static int WINDOW_HEIGHT = 0;
 
 typedef struct {
 	int width, height;
@@ -152,3 +155,5 @@ inline void _renderAndFadeOut(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	DeleteDC(backDC);
 	DeleteDC(blackDC);
 }
+
+#endif

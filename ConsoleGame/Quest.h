@@ -1,5 +1,9 @@
 #pragma once
 #include <direct.h>
+
+#ifndef QUEST_H
+#define QUEST_H
+
 #define Title char*
 #define Description const char**
 #define BigInt unsigned long long
@@ -196,3 +200,5 @@ inline int updateAllQuestsActiveState(int level) {
 	}
 	return activatedQuestCount;
 }
+
+#endif

@@ -4,6 +4,9 @@
 #include "Utils.h"
 #include "ImageUtils/ImageLayer.h"
 
+#ifndef MOUSE_INPUT_H
+#define MOUSE_INPUT_H
+
 //콘솔에서 어떤 입력이든 있는지 확인함
 inline int hasInput() {
 	INPUT_RECORD input_record;
@@ -13,8 +16,8 @@ inline int hasInput() {
 	return input_count;
 }
 
-INPUT_RECORD rec;
-DWORD dwNOER;
+static INPUT_RECORD rec;
+static DWORD dwNOER;
 //마우스가 클릭되었는지 확인함
 inline int isMouseClicked() {
 	ReadConsoleInput(CONSOLE_INPUT, &rec, 1, &dwNOER);
@@ -48,3 +51,5 @@ inline void imagePositionTester(ImageLayer* layer, int testingIndex) {
 		}
 	}
 }
+
+#endif

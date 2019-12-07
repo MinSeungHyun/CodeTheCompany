@@ -3,6 +3,9 @@
 #include <Windows.h>
 #include "Utils.h"
 
+#ifndef INITIALIZER_H
+#define INITIALIZER_H
+
 #define CONSOLE_WIDTH 180
 #define CONSOLE_HEIGHT 48
 
@@ -42,3 +45,5 @@ inline void initialize() {
 	clearCursor();
 	enableMouseInput();
 }
+
+#endif

@@ -1,6 +1,9 @@
 #pragma once
 #include <Windows.h>
 
+#ifndef BUTTON_INTERFACE_H
+#define BUTTON_INTERFACE_H
+
 typedef struct _Button {
 	int x, y;
 	char* normal, * hovered, * clicked;
@@ -12,3 +15,5 @@ typedef struct _Button {
 	void (*onHover)(struct _Button*);
 	void (*onClick)(struct _Button*);
 }Button;
+
+#endif

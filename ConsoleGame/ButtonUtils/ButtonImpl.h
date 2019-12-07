@@ -2,6 +2,11 @@
 #include <Windows.h>
 #include <process.h>
 #include "Button.h"
+#include "../ImageUtils/ImageLayer.h"
+#include "../MouseInput.h"
+
+#ifndef BUTTON_IMPL_H
+#define BUTTON_IMPL_H
 
 //버튼의 크기를 받아줌
 inline void getButtonSize(char* fileName, int* width, int* height) {
@@ -38,7 +43,7 @@ inline void _initializeButton(Button* self) {
 
 //버튼중에서 hover상태인 버튼의 인덱스를 반환해준다
 inline int getHoveredButtonIndex(Button* buttons, int buttonCount) {
-	COORD mousePosition = { 0,0 };
+	COORD mousePosition = (COORD) { 0,0 };
 	for (int i = 0; i < buttonCount; i++) {
 		mousePosition = getMousePosition();
 		if (buttons[i].isHovered(&buttons[i], mousePosition)) {
@@ -48,9 +53,9 @@ inline int getHoveredButtonIndex(Button* buttons, int buttonCount) {
 	return -1;
 }
 
-int isMouseDown = 0;
-int isMouseUp = 0;
-int isListening = 0;
+static int isMouseDown = 0;
+static int isMouseUp = 0;
+static int isListening = 0;
 
 //마우스가 클릭된 상태일 때 호출되어 값을 업데이트 해줌
 inline void onMouseDown() {
@@ -116,3 +121,5 @@ inline void startButtonListener(Button* buttons, int buttonCount, ImageLayer* la
 inline void stopButtonListener() {
 	isListening = 0;
 }
+
+#endif

@@ -1,4 +1,7 @@
 #pragma once
+
+#ifndef ESTATE_H
+#define ESTATE_H
 #define BigInt unsigned long long
 
 typedef struct {
@@ -24,3 +27,5 @@ inline void initEstateItems() {
 	estateItems[4] = (EstateItem){ ESTATE_ITEM_CASINO, 7777777, 20 };
 	estateItems[5] = (EstateItem){ ESTATE_ITEM_MY_BUILDING, 100000000000, 50 };
 }
+
+#endif

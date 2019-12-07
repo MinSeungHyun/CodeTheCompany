@@ -1,6 +1,9 @@
 #pragma once
 #include <direct.h>
 
+#ifndef SAVE_FILE_MANAGER_H
+#define SAVE_FILE_MANAGER_H
+
 #define DIR_SAVE "saves"
 #define DIR_NAME "saves/name.ctc"
 #define DIR_COMPANY_NAME "saves/company_name.ctc"
@@ -89,3 +92,5 @@ inline int loadMPS(unsigned long long* mps) {
 	fclose(file);
 	return 1;
 }
+
+#endif

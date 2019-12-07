@@ -4,6 +4,9 @@
 #include <process.h>
 #include "ImageUtils/ImageLayer.h"
 
+#ifndef UTILS_H
+#define UTILS_H
+
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
 
@@ -76,7 +79,7 @@ inline int getCurrentSecond() {
 	return getCurrentTime()->tm_sec;
 }
 
-int isSecondClockRunning = 0;
+static int isSecondClockRunning = 0;
 
 //매 초마다 특정 함수를 실행시켜주는 함수
 inline void timerThread(void* param) {
@@ -128,3 +131,5 @@ inline void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int 
 inline void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
 	printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
+
+#endif

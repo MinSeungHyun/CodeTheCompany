@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef RESOURCES_H
+#define RESOURCES_H
+
 #define FILE_TITLE "resources/start_screen/title.bmp"
 #define FILE_TITLE_TEXT "resources/start_screen/title_text.bmp"
 #define FILE_START_BUTTON "resources/start_screen/start_button.bmp"
@@ -90,3 +94,5 @@
 #define FILE_CLOSE_GAME_BUTTON_CLICK "resources/setting_screen/setting_out_clicked.bmp"
 
 #define FILE_LEVEL_UP_BACKGROUND "resources/other/levelup.bmp"
+
+#endif

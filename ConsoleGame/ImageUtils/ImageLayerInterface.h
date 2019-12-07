@@ -1,6 +1,9 @@
 #pragma once
 #include <Windows.h>
 
+#ifndef IMAGE_LAYER_INTERFACE_H
+#define IMAGE_LAYER_INTERFACE_H
+
 typedef struct {
 	char* fileName;
 	int x, y;
@@ -23,3 +26,5 @@ typedef struct _ImageLayer {
 	void (*fadeOut)(struct _ImageLayer*, void(*applyToBackDC)(HDC));
 	void (*applyToDC)(HDC);
 }ImageLayer;
+
+#endif

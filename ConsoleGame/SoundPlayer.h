@@ -3,6 +3,9 @@
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
 
+#ifndef SOUND_PLAYER_H
+#define SOUND_PLAYER_H
+
 //PlaySound 함수로 음악을 재생시켜줌
 inline void playBGM(char* fileName) {
 	PlaySound(fileName, NULL, SND_ASYNC | SND_LOOP);
@@ -26,3 +29,5 @@ inline void stopSound(char* fileName) {
 	sprintf(command, "stop %s", fileName);
 	mciSendString(command, NULL, 0, NULL);
 }
+
+#endif
