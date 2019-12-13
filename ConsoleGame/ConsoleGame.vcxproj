@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c" />
+    <ClCompile Include="StartScreen.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonUtils\Button.h" />
     <ClInclude Include="ButtonUtils\ButtonImpl.h" />
     <ClInclude Include="ButtonUtils\ButtonInterface.h" />
+    <ClInclude Include="Defines.h" />
     <ClInclude Include="Estate.h" />
     <ClInclude Include="ImageUtils\ImageLayer.h" />
     <ClInclude Include="ImageUtils\ImageLayerImpl.h" />

@@ -7,29 +7,8 @@
  * 클릭할 수 있는 부분은 마우스를 올리면 강조된다.
  */
 
+#include "Defines.h"
 #include <conio.h>
-#include "Initializer.h"
-#include "resources.h"
-#include "MouseInput.h"
-#include "Utils.h"
-#include "ButtonUtils/Button.h"
-#include "SaveFileManager.h"
-#include "Quest.h"
-#include "SoundPlayer.h"
-#include "Estate.h"
-
-#define ENABLE_DEVELOPMENT_MODE 0
-
-#define BigInt unsigned long long
-#define QUEST_TEXT_COLOR RGB(141,110,99)
-#define DEFAULT_EXP 400
-#define DEFAULT_MONEY 100000
-#define DEFAULT_MPS 10
-#define COMPANY_NAME_MAX_LENGTH 20
-
-HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
-HWND WINDOW_HANDLE;
-ImageLayer layer;
 
 void initLayer();
 void textPositionTester(int, int, COLORREF, int, char*);
@@ -43,12 +22,7 @@ void begindQuestDetailScreen(int);
 void beginSettingScreen();
 void beginEstateBuyScreen(int);
 void beginQuestCompleteScreen(int);
-void beginLeveUpScreen();
-
-char lastName[100], firstName[100], companyName[100];
-BigInt money, userExp, mps;
-int level;
-int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
+void beginLevelUpScreen();
 
 //게임의 메인 진행이다. (나중에 게임 다시시작할 때 필요해서 분리했다.)
 void mainProcess() {
@@ -524,7 +498,7 @@ void beginMapScreen(int isFirstShow) {
 	initMapUI();
 	updateUserValues();
 	if (!isFirstShow && level != previousLevel) {
-		beginLeveUpScreen();
+		beginLevelUpScreen();
 	}
 	else {
 		if (isFirstShow) {
@@ -893,7 +867,7 @@ void beginQuestCompleteScreen(int completedQuestIndex) {
 }
 
 //레벨업 되었을 시 나오는 화면
-void beginLeveUpScreen() {
+void beginLevelUpScreen() {
 	stopButtonListener();
 
 	Image images[1] = {
