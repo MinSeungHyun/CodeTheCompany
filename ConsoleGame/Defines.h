@@ -31,4 +31,6 @@ BigInt money, userExp, mps;
 int level;
 int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
+void beginStartScreen();
+
 #endif
