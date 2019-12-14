@@ -122,6 +122,9 @@
     <ClInclude Include="Utils.h">
       <Filter>헤더 파일\Others</Filter>
     </ClInclude>
+    <ClInclude Include="ImageUtils\ImageFading.h">
+      <Filter>헤더 파일\ImageLayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ImageUtils\README.md" />

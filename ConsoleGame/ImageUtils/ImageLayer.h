@@ -1,6 +1,7 @@
 #pragma once
 #include "ImageLayerInterface.h"
 #include "ImageLayerImpl.h"
+#include "ImageFading.h"
 
 #ifndef IMAGE_LAYER_H
 #define IMAGE_LAYER_H
