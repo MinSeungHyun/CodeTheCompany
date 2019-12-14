@@ -66,6 +66,9 @@
     <ClCompile Include="UserValues.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="EstateScreen.c">
+      <Filter>소스 파일\screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
