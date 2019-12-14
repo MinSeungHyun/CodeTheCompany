@@ -87,7 +87,8 @@ inline HDC getRenderedBackDC(ImageLayer* self) {
 	const HDC backDC = createNewBackDC(self->_consoleDC);
 
 	for (int i = 0; i < self->imageCount; i++) {
-		putBitmapToBackDC(backDC, self->images[i], self->transparentColor);
+		if (!self->images[i].isHide)
+			putBitmapToBackDC(backDC, self->images[i], self->transparentColor);
 	}
 	return backDC;
 }

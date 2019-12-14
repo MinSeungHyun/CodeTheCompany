@@ -8,6 +8,7 @@ typedef struct {
 	char* fileName;
 	int x, y;
 	double scale;
+	int isHide;
 }Image;
 
 typedef struct _ImageLayer {
