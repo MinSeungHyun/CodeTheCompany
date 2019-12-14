@@ -13,8 +13,6 @@
 #include "SoundPlayer.h"
 #include "Utils.h"
 
-#define ENABLE_DEVELOPMENT_MODE 0
-
 #define BigInt unsigned long long
 #define QUEST_TEXT_COLOR RGB(141,110,99)
 #define DEFAULT_EXP 400
