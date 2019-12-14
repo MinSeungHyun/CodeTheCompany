@@ -54,6 +54,9 @@
     <ClCompile Include="SettingScreen.c">
       <Filter>소스 파일\screens</Filter>
     </ClCompile>
+    <ClCompile Include="QuestDetailScreen.c">
+      <Filter>소스 파일\screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
