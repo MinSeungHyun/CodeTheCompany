@@ -42,6 +42,7 @@ void beginQuestDetailScreen(int);
 void beginQuestCompleteScreen(int);
 void beginLevelUpScreen();
 void beginSettingScreen();
+void beginCasinoScreen();
 
 //UserValues
 BigInt getExpForLevel(int);
@@ -53,8 +54,8 @@ void updateUserValues();
 //Others
 void mainProcess();
 void initLayer();
-void textPositionTester(int, int, COLORREF, int, char*);
-void getBuildingImages(Image*, Image*, Image*, Image*);
+void textPositionTester(int size, int weight, COLORREF textColor, int align, char* text);
+void getBuildingImages(Image* firstOffice, Image* myBuilding, Image* casino, Image* estate);
 
 //extern variables in ButtonImple.h
 int isMouseDown;
