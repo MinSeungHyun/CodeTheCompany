@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnterUserNameScreen.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="StartScreen.c" />
   </ItemGroup>

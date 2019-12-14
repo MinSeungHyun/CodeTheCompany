@@ -24,6 +24,9 @@
     <ClCompile Include="StartScreen.c">
       <Filter>소스 파일\screens</Filter>
     </ClCompile>
+    <ClCompile Include="EnterUserNameScreen.c">
+      <Filter>소스 파일\screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Initializer.h">

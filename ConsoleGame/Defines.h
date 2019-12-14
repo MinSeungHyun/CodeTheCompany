@@ -32,5 +32,6 @@ int level;
 int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
 void beginStartScreen();
+void beginEnterUserNameScreen();
 
 #endif
