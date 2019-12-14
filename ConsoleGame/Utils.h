@@ -133,4 +133,9 @@ inline void printText(HDC hdc, int x, int y, int size, int weight, COLORREF text
 	printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
 
+inline int random(int until) {
+	srand(clock());
+	return rand() % until;
+}
+
 #endif
