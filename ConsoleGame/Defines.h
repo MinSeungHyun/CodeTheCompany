@@ -31,6 +31,7 @@ BigInt money, userExp, mps;
 int level;
 int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
+//GameScreens
 void beginStartScreen();
 void beginEnterUserNameScreen();
 void beginStoryScreen();
@@ -41,6 +42,14 @@ void beginQuestCompleteScreen(int);
 void beginLevelUpScreen();
 void beginSettingScreen();
 
+//UserValues
+BigInt getExpForLevel(int);
+BigInt getTotalExpForLevel(int);
+BigInt getAchievedExp();
+int getProgressFromExp();
+void updateUserValues();
+
+//Others
 void mainProcess();
 void initLayer();
 void textPositionTester(int, int, COLORREF, int, char*);
