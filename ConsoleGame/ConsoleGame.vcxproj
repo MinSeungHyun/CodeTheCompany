@@ -22,6 +22,7 @@
     <ClCompile Include="EnterUserNameScreen.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="StartScreen.c" />
+    <ClCompile Include="StoryScreen.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonUtils\Button.h" />

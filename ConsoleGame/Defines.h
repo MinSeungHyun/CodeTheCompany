@@ -33,5 +33,6 @@ int isFirstOfficeEnabled, isMyBuildingEnabled, isCasinoEnabled;
 
 void beginStartScreen();
 void beginEnterUserNameScreen();
+void beginStoryScreen();
 
 #endif
