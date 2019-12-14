@@ -37,5 +37,6 @@ void beginStoryScreen();
 void beginEstateBoughtScreen(int);
 void beginQuestCompleteScreen(int);
 void beginLevelUpScreen();
+void beginSettingScreen();
 
 #endif
