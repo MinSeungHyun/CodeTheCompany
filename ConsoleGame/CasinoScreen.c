@@ -16,7 +16,7 @@ void onButtonInCasinoClick(Button* clickedButton) {
 		beginMapScreen(0);
 	}
 	else if (buttonName == FILE_CASINO_JACKPOT_BUTTON) {
-
+		beginJackpotScreen();
 	}
 	else if (buttonName == FILE_CASINO_TRICKERY_BUTTON) {
 

@@ -43,6 +43,7 @@ void beginQuestCompleteScreen(int);
 void beginLevelUpScreen();
 void beginSettingScreen();
 void beginCasinoScreen();
+void beginJackpotScreen();
 
 //UserValues
 BigInt getExpForLevel(int);

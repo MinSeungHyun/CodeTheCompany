@@ -87,6 +87,9 @@
     <ClCompile Include="CasinoScreen.c">
       <Filter>소스 파일\Screens\Casino</Filter>
     </ClCompile>
+    <ClCompile Include="JackpotScreen.c">
+      <Filter>소스 파일\Screens\Casino</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">

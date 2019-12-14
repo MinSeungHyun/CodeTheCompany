@@ -103,4 +103,11 @@
 #define FILE_CASINO_TRICKERY_BUTTON_HOVER "resources/casino/casino_button_trickery_hover.bmp"
 #define FILE_CASINO_TRICKERY_BUTTON_CLICK "resources/casino/casino_button_trickery_clicked.bmp"
 
+#define FILE_JACKPOT_BACKGROUND "resources/casino/casino_jackpot_background.bmp"
+#define FILE_JACKPOT_LEVER_BUTTON "resources/casino/casino_jackpot_lever.bmp"
+#define FILE_JACKPOT_LEVER_BUTTON_HOVER "resources/casino/casino_jackpot_lever_hover.bmp"
+#define FILE_JACKPOT_LEVER_BUTTON_CLICK "resources/casino/casino_jackpot_lever_clicked.bmp"
+#define FILE_JACKPOT_LEVER_SPINNING "resources/casino/casino_jackpot_lever_spinning.bmp"
+#define FILE_JACKPOT_ARROW "resources/casino/casino_arrow.bmp"
+
 #endif
