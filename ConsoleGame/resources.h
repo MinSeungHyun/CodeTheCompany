@@ -95,4 +95,12 @@
 
 #define FILE_LEVEL_UP_BACKGROUND "resources/other/levelup.bmp"
 
+#define FILE_CASINO_BACKGROUND "resources/casino/casino_inside_background.bmp"
+#define FILE_CASINO_JACKPOT_BUTTON "resources/casino/casino_button_jackpot.bmp"
+#define FILE_CASINO_JACKPOT_BUTTON_HOVER "resources/casino/casino_button_jackpot_hover.bmp"
+#define FILE_CASINO_JACKPOT_BUTTON_CLICK "resources/casino/casino_button_jackpot_clicked.bmp"
+#define FILE_CASINO_TRICKERY_BUTTON "resources/casino/casino_button_trickery.bmp"
+#define FILE_CASINO_TRICKERY_BUTTON_HOVER "resources/casino/casino_button_trickery_hover.bmp"
+#define FILE_CASINO_TRICKERY_BUTTON_CLICK "resources/casino/casino_button_trickery_clicked.bmp"
+
 #endif

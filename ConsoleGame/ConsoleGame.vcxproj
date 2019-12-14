@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CasinoScreen.c" />
     <ClCompile Include="EnterCompanyNameScreen.c" />
     <ClCompile Include="EnterUserNameScreen.c" />
     <ClCompile Include="EstateBoughtScreen.c" />
