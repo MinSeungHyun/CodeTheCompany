@@ -41,4 +41,9 @@ void beginQuestCompleteScreen(int);
 void beginLevelUpScreen();
 void beginSettingScreen();
 
+void mainProcess();
+void initLayer();
+void textPositionTester(int, int, COLORREF, int, char*);
+void getBuildingImages(Image*, Image*, Image*, Image*);
+
 #endif

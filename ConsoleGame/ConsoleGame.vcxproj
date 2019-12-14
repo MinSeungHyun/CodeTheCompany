@@ -29,6 +29,7 @@
     <ClCompile Include="SettingScreen.c" />
     <ClCompile Include="StartScreen.c" />
     <ClCompile Include="StoryScreen.c" />
+    <ClCompile Include="Utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonUtils\Button.h" />
