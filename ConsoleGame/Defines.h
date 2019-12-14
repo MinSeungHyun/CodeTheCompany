@@ -35,6 +35,7 @@ void beginStartScreen();
 void beginEnterUserNameScreen();
 void beginStoryScreen();
 void beginEstateBoughtScreen(int);
+void beginQuestScreen();
 void beginQuestDetailScreen(int);
 void beginQuestCompleteScreen(int);
 void beginLevelUpScreen();
