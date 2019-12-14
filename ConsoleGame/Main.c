@@ -18,7 +18,6 @@ void beginQuestScreen();
 void begindQuestDetailScreen(int);
 void beginSettingScreen();
 void beginEstateBuyScreen(int);
-void beginQuestCompleteScreen(int);
 
 //게임의 메인 진행이다. (나중에 게임 다시시작할 때 필요해서 분리했다.)
 void mainProcess() {
@@ -681,34 +680,6 @@ void beginEstateBuyScreen(int buyItemIndex) {
 	else {
 		beginMapScreen(0);
 	}
-}
-
-//퀘스트를 완료했을 때 나오는 창이다.
-void beginQuestCompleteScreen(int completedQuestIndex) {
-	const Quest completedQuest = quests[completedQuestIndex];
-	stopButtonListener();
-
-	Image firstOffice, myBuilding, casino, estate;
-	getBuildingImages(&firstOffice, &myBuilding, &casino, &estate);
-	Image images[6] = {
-		{FILE_MAP, 0, 0}, //0
-		firstOffice, myBuilding, casino, estate, //4
-		{FILE_QUEST_WINDOW_NO_TITLE, 712, 404}
-	};
-	layer.images = images;
-	layer.applyToDC = NULL;
-	layer.imageCount = 6;
-
-	layer.renderAll(&layer);
-	printText(layer._consoleDC, 1440, 492, 120, 0, QUEST_TEXT_COLOR, TA_CENTER, "Misson Complete");
-	char questTitle[100];
-	sprintf(questTitle, completedQuest.title, completedQuest.progress, completedQuest.maxProgress);
-	printText(layer._consoleDC, 1440, 800, 80, 0, QUEST_TEXT_COLOR, TA_CENTER, questTitle);
-	money += completedQuest.rewardMoney;
-	userExp += completedQuest.rewardXP;
-	saveMoneyAndExp(money, userExp);
-	Sleep(1500);
-	beginMapScreen(0);
 }
 
 //imagePositionTester처럼 적절한 글씨 위치를 찾기 위해 만든 함수

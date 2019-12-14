@@ -22,6 +22,7 @@
     <ClCompile Include="EnterUserNameScreen.c" />
     <ClCompile Include="LevelUpScreen.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="QuestCompleteScreen.c" />
     <ClCompile Include="StartScreen.c" />
     <ClCompile Include="StoryScreen.c" />
   </ItemGroup>
