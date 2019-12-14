@@ -53,9 +53,10 @@ inline int getHoveredButtonIndex(Button* buttons, int buttonCount) {
 	return -1;
 }
 
-static int isMouseDown = 0;
-static int isMouseUp = 0;
-static int isListening = 0;
+//Must be declared in .c file
+extern int isMouseDown;
+extern int isMouseUp;
+extern int isListening;
 
 //마우스가 클릭된 상태일 때 호출되어 값을 업데이트 해줌
 inline void onMouseDown() {

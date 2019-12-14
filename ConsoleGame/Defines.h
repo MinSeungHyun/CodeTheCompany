@@ -57,4 +57,9 @@ void initLayer();
 void textPositionTester(int, int, COLORREF, int, char*);
 void getBuildingImages(Image*, Image*, Image*, Image*);
 
+//extern variables in ButtonImple.h
+int isMouseDown;
+int isMouseUp;
+int isListening;
+
 #endif
