@@ -103,7 +103,7 @@ inline void _renderAll(ImageLayer* self) {
 //새로운 BLENDFUNCTION을 만들어서 반환
 inline BLENDFUNCTION getBlendFunction() {
 	BLENDFUNCTION bf;
-	bf.AlphaFormat = AC_SRC_ALPHA;
+	bf.AlphaFormat = AC_SRC_OVER;
 	bf.BlendFlags = 0;
 	bf.BlendOp = AC_SRC_OVER;
 	bf.SourceConstantAlpha = 0;
@@ -115,21 +115,20 @@ inline void _renderAndFadeIn(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	const HDC consoleDC = self->_consoleDC;
 	const HDC backDC = getRenderedBackDC(self);
 	if (applyToBackDC != NULL) applyToBackDC(backDC);
-
-	const HBRUSH blackBrush = CreateSolidBrush(RGB(0, 0, 0));
-	SelectObject(consoleDC, blackBrush);
+	applyToDC(consoleDC, backDC);
 
 	BLENDFUNCTION bf = getBlendFunction();
-	bf.SourceConstantAlpha = 12;
 
-	Rectangle(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	for (int i = 0; i < 20; i++) {
-		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
+	HDC alphaDC;
+	for (int alpha = 0; alpha <= 255; alpha += 17) {
+		alphaDC = createNewBackDC(consoleDC);
+		bf.SourceConstantAlpha = alpha;
+		AlphaBlend(alphaDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
-		Sleep(30);
+		applyToDC(consoleDC, alphaDC);
+		DeleteDC(alphaDC);
 	}
-	applyToDC(consoleDC, backDC);
-	DeleteObject(blackBrush);
+
 	DeleteDC(backDC);
 }
 
@@ -140,20 +139,19 @@ inline void _renderAndFadeOut(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	if (applyToBackDC != NULL) applyToBackDC(backDC);
 	applyToDC(consoleDC, backDC);
 
-	const HDC blackDC = createNewBackDC(consoleDC);
 	BLENDFUNCTION bf = getBlendFunction();
 
-	for (int i = 255; i >= 0; i -= 20) {
-		bf.SourceConstantAlpha = i;
-		applyToDC(consoleDC, blackDC);
-		AlphaBlend(consoleDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
+	HDC alphaDC;
+	for (int alpha = 255; alpha >= 0; alpha -= 17) {
+		alphaDC = createNewBackDC(consoleDC);
+		bf.SourceConstantAlpha = alpha;
+		AlphaBlend(alphaDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 			backDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, bf);
-		Sleep(60);
+		applyToDC(consoleDC, alphaDC);
+		DeleteDC(alphaDC);
 	}
-	applyToDC(consoleDC, blackDC);
 
 	DeleteDC(backDC);
-	DeleteDC(blackDC);
 }
 
 #endif
