@@ -16,6 +16,18 @@
     <Filter Include="소스 파일\screens">
       <UniqueIdentifier>{313d99a7-4111-430c-8dbf-2155237f465e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\ImageLayer">
+      <UniqueIdentifier>{6b4d4764-a5d1-4ff1-b8dd-867ab2826614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Button">
+      <UniqueIdentifier>{65bbf3e3-2cae-4048-8b3d-4b517820e874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Others">
+      <UniqueIdentifier>{b2a551d0-e874-4eae-af41-1ae84bd587e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\GameResources">
+      <UniqueIdentifier>{0a426e3f-81fc-497a-b1bc-453cbb0fb3ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
@@ -44,50 +56,50 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Initializer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageUtils\ImageLayer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageUtils\ImageLayerImpl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageUtils\ImageLayerInterface.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUtils\Button.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUtils\ButtonImpl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUtils\ButtonInterface.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="resources.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseInput.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SaveFileManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Quest.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Estate.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundPlayer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Defines.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUtils\Button.h">
+      <Filter>헤더 파일\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUtils\ButtonImpl.h">
+      <Filter>헤더 파일\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUtils\ButtonInterface.h">
+      <Filter>헤더 파일\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageUtils\ImageLayer.h">
+      <Filter>헤더 파일\ImageLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageUtils\ImageLayerImpl.h">
+      <Filter>헤더 파일\ImageLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageUtils\ImageLayerInterface.h">
+      <Filter>헤더 파일\ImageLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Estate.h">
+      <Filter>헤더 파일\GameResources</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest.h">
+      <Filter>헤더 파일\GameResources</Filter>
+    </ClInclude>
+    <ClInclude Include="resources.h">
+      <Filter>헤더 파일\GameResources</Filter>
+    </ClInclude>
+    <ClInclude Include="Initializer.h">
+      <Filter>헤더 파일\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>헤더 파일\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveFileManager.h">
+      <Filter>헤더 파일\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundPlayer.h">
+      <Filter>헤더 파일\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>헤더 파일\Others</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
