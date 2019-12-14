@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\screens">
-      <UniqueIdentifier>{313d99a7-4111-430c-8dbf-2155237f465e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\ImageLayer">
       <UniqueIdentifier>{6b4d4764-a5d1-4ff1-b8dd-867ab2826614}</UniqueIdentifier>
     </Filter>
@@ -28,37 +25,37 @@
     <Filter Include="헤더 파일\GameResources">
       <UniqueIdentifier>{0a426e3f-81fc-497a-b1bc-453cbb0fb3ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Screens">
+      <UniqueIdentifier>{313d99a7-4111-430c-8dbf-2155237f465e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Screens\Quest">
+      <UniqueIdentifier>{b322663b-1afc-4d85-9cff-ea38de9b8a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Screens\Estate">
+      <UniqueIdentifier>{f027cbaa-9f87-4c07-88c7-4a9f549658d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Screens\Casino">
+      <UniqueIdentifier>{a851d2ef-abad-47b9-8f4d-c961ef045274}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="StartScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens</Filter>
     </ClCompile>
     <ClCompile Include="EnterUserNameScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens</Filter>
     </ClCompile>
     <ClCompile Include="StoryScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens</Filter>
     </ClCompile>
     <ClCompile Include="LevelUpScreen.c">
-      <Filter>소스 파일\screens</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestCompleteScreen.c">
-      <Filter>소스 파일\screens</Filter>
-    </ClCompile>
-    <ClCompile Include="EstateBoughtScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens</Filter>
     </ClCompile>
     <ClCompile Include="SettingScreen.c">
-      <Filter>소스 파일\screens</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestDetailScreen.c">
-      <Filter>소스 파일\screens</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens</Filter>
     </ClCompile>
     <ClCompile Include="Utils.c">
       <Filter>소스 파일</Filter>
@@ -66,17 +63,29 @@
     <ClCompile Include="UserValues.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="EstateScreen.c">
-      <Filter>소스 파일\screens</Filter>
-    </ClCompile>
     <ClCompile Include="MapScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens</Filter>
     </ClCompile>
     <ClCompile Include="EnterCompanyNameScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestCompleteScreen.c">
+      <Filter>소스 파일\Screens\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestDetailScreen.c">
+      <Filter>소스 파일\Screens\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestScreen.c">
+      <Filter>소스 파일\Screens\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="EstateBoughtScreen.c">
+      <Filter>소스 파일\Screens\Estate</Filter>
+    </ClCompile>
+    <ClCompile Include="EstateScreen.c">
+      <Filter>소스 파일\Screens\Estate</Filter>
     </ClCompile>
     <ClCompile Include="CasinoScreen.c">
-      <Filter>소스 파일\screens</Filter>
+      <Filter>소스 파일\Screens\Casino</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
