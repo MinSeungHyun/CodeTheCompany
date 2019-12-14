@@ -36,6 +36,9 @@
     <ClCompile Include="QuestCompleteScreen.c">
       <Filter>소스 파일\screens</Filter>
     </ClCompile>
+    <ClCompile Include="EstateBoughtScreen.c">
+      <Filter>소스 파일\screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Initializer.h">
