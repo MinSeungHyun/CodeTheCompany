@@ -24,6 +24,7 @@
     <ClCompile Include="EstateScreen.c" />
     <ClCompile Include="LevelUpScreen.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="MapScreen.c" />
     <ClCompile Include="QuestCompleteScreen.c" />
     <ClCompile Include="QuestDetailScreen.c" />
     <ClCompile Include="QuestScreen.c" />
