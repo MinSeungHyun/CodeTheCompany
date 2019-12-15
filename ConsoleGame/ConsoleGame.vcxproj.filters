@@ -37,6 +37,9 @@
     <Filter Include="소스 파일\Screens\Casino">
       <UniqueIdentifier>{a851d2ef-abad-47b9-8f4d-c961ef045274}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Ohters">
+      <UniqueIdentifier>{1b6063a5-b0b8-4d38-aa2f-a4f46c150b1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
@@ -56,12 +59,6 @@
     </ClCompile>
     <ClCompile Include="SettingScreen.c">
       <Filter>소스 파일\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="UserValues.c">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MapScreen.c">
       <Filter>소스 파일\Screens</Filter>
@@ -90,11 +87,14 @@
     <ClCompile Include="JackpotScreen.c">
       <Filter>소스 파일\Screens\Casino</Filter>
     </ClCompile>
+    <ClCompile Include="Utils.c">
+      <Filter>소스 파일\Ohters</Filter>
+    </ClCompile>
+    <ClCompile Include="UserValues.c">
+      <Filter>소스 파일\Ohters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Defines.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonUtils\Button.h">
       <Filter>헤더 파일\Button</Filter>
     </ClInclude>
@@ -139,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="ImageUtils\ImageFading.h">
       <Filter>헤더 파일\ImageLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>소스 파일\Ohters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
