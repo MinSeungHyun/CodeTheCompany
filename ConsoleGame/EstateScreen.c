@@ -19,7 +19,7 @@ void onButtonInEstateClicked(Button* button) {
 //부동산 화면에서 글씨를 출력하기 위해 호출되는 함수
 void applyToDcInEstate(HDC hdc) {
 	char firstOfficePrice[100] = "이미 구매함";
-	if (!isFirstOfficeEnabled) sprintf(firstOfficePrice, "%lld원", estateItems[0].price);
+	if (!isFirstOfficeEnabled) sprintf(firstOfficePrice, "%s원", commify(estateItems[0].price));
 	printText(hdc, 1440, 1220, 80, 0, RGB(255, 255, 255), TA_CENTER, firstOfficePrice);
 	printText(hdc, 1440, 950, 60, 0, RGB(0, 0, 0), TA_CENTER, estateItems[0].itemName);
 }

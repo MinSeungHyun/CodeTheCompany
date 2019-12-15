@@ -17,16 +17,14 @@
 
 #define SLOT_COUNT 3
 #define SLOT_CHAR_COUNT 7
-#define SLOT_CHANGING_DELAY 1000
+#define SLOT_CHANGING_DELAY 100
 
 #define STATE_SPINNING 0
 #define STATE_STOPPED 1
 
 char* mainText = WAITING_MESSAGE;
 void applyToDcInJackpot(HDC hdc) {
-	char moneyString[100];
-	sprintf(moneyString, "%lld", money);
-	printText(hdc, 1990, 75, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
+	printText(hdc, 1990, 75, 70, 0, RGB(255, 255, 255), TA_LEFT, commify(money));
 	printText(hdc, 2680, 85, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
 	printText(hdc, 1380, 365, 70, 0, RGB(255, 255, 255), TA_CENTER, mainText);
 }

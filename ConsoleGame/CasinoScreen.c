@@ -4,9 +4,7 @@
 #define CASINO_IMAGE_COUNT (CASINO_BUTTON_COUNT + 2)
 
 void applyToDcInCasino(HDC hdc) {
-	char moneyString[100];
-	sprintf(moneyString, "%lld", money);
-	printText(hdc, 1990, 75, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
+	printText(hdc, 1990, 75, 70, 0, RGB(255, 255, 255), TA_LEFT, commify(money));
 	printText(hdc, 2680, 85, 50, 0, RGB(255, 255, 255), TA_RIGHT, "¿ø");
 }
 

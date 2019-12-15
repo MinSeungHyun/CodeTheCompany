@@ -23,7 +23,9 @@ void applyToDcInQuestDetail(HDC hdc) {
 	}
 
 	char rewardText[100];
-	sprintf(rewardText, "보상 %lld원, %lldxp", quest.rewardMoney, quest.rewardXP);
+	char rewardXP[30];
+	sprintf(rewardXP, "%s", commify(quest.rewardXP)); //commify함수는 동시에 호출하면 같은 값이 나오므로 미리 생성
+	sprintf(rewardText, "보상 %s원 %sxp", commify(quest.rewardMoney), rewardXP);
 	printText(hdc, 1440, 1050, 70, 400, QUEST_TEXT_COLOR, TA_CENTER, rewardText);
 }
 

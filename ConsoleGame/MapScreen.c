@@ -20,7 +20,7 @@
 //메인화면에서 경험치바 위에 마우스를 올리면 호출되어 수치를 나타내주는 함수
 void displayExpDetail(HDC hdc) {
 	char expText[100];
-	sprintf(expText, "%lld/%lld", getAchievedExp(), getTotalExpForLevel(level));
+	sprintf(expText, "%s/%s", commify(getAchievedExp()), commify(getTotalExpForLevel(level)));
 	printText(hdc, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, expText);
 }
 
@@ -35,13 +35,11 @@ void applyUserValuesToDC(HDC hdc) {
 	sprintf(levelString, "Lv.%d", level);
 	printText(hdc, 242, 125, 100, 0, RGB(0, 0, 0), TA_CENTER, levelString);
 
-	char moneyString[100];
-	sprintf(moneyString, "%lld", money);
-	printText(hdc, 1390, 90, 70, 0, RGB(255, 255, 255), TA_LEFT, moneyString);
+	printText(hdc, 1390, 90, 70, 0, RGB(255, 255, 255), TA_LEFT, commify(money));
 	printText(hdc, 2080, 100, 50, 0, RGB(255, 255, 255), TA_RIGHT, "원");
 
 	char mpsString[100];
-	sprintf(mpsString, "%lld원/초", mps);
+	sprintf(mpsString, "%s원/초", commify(mps));
 	printText(hdc, 2080, 200, 40, 300, RGB(255, 255, 255), TA_RIGHT, mpsString);
 
 	if (isExpDetailShow) {
