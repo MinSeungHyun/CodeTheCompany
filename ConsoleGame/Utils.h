@@ -40,7 +40,7 @@ inline char* ltrim(char* str) {
 //문자열의 오른쪽 공백을 없에주는 함수
 inline char* rtrim(char* str) {
 	const char* seps = "\t\n\v\f\r ";
-	int i = strlen(str) - 1;
+	int i = (int)strlen(str) - 1;
 	while (i >= 0 && strchr(seps, str[i]) != NULL) {
 		str[i] = '\0';
 		i--;
