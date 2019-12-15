@@ -63,4 +63,7 @@ int isMouseDown;
 int isMouseUp;
 int isListening;
 
+//extern varialbe in Utils.h
+int isSecondClockRunning;
+
 #endif

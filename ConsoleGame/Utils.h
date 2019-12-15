@@ -80,7 +80,7 @@ inline int getCurrentSecond() {
 	return getCurrentTime()->tm_sec;
 }
 
-static int isSecondClockRunning = 0;
+extern int isSecondClockRunning;
 
 //매 초마다 특정 함수를 실행시켜주는 함수
 inline void timerThread(void* param) {
