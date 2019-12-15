@@ -1,6 +1,7 @@
 #pragma once
 #ifndef DEFINES_H
 #define DEFINES_H
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "ButtonUtils/Button.h"
 #include "Estate.h"
