@@ -25,6 +25,8 @@ void onButtonInCasinoClick(Button* clickedButton) {
 
 void beginCasinoScreen() {
 	stopButtonListener();
+	updateUserValues();
+
 	Button backButton = createButton(100, 50, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 2, onButtonInCasinoClick);
 	Button jackpotButton = createButton(400, 140, FILE_CASINO_JACKPOT_BUTTON, FILE_CASINO_JACKPOT_BUTTON_HOVER, FILE_CASINO_JACKPOT_BUTTON_CLICK, 3, onButtonInCasinoClick);
 	Button trickeryButton = createButton(1500, 590, FILE_CASINO_TRICKERY_BUTTON, FILE_CASINO_TRICKERY_BUTTON_HOVER, FILE_CASINO_TRICKERY_BUTTON_CLICK, 4, onButtonInCasinoClick);
