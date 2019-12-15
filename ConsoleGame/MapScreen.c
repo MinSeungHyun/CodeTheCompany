@@ -20,7 +20,9 @@
 //메인화면에서 경험치바 위에 마우스를 올리면 호출되어 수치를 나타내주는 함수
 void displayExpDetail(HDC hdc) {
 	char expText[100];
-	sprintf(expText, "%s/%s", commify(getAchievedExp()), commify(getTotalExpForLevel(level)));
+	char totalExp[30];
+	sprintf(totalExp, "%s", commify(getTotalExpForLevel(level)));
+	sprintf(expText, "%s/%s", commify(getAchievedExp()), totalExp);
 	printText(hdc, 540, 100, 50, 10, RGB(255, 255, 255), TA_LEFT, expText);
 }
 
