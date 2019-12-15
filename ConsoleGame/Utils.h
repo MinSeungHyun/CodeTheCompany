@@ -138,10 +138,11 @@ inline int random(int until) {
 	return rand() % until;
 }
 
-inline void commify(unsigned long long n, char* out) {
+inline char* commify(unsigned long long n) {
 	int c;
-	char buf[30];
+	static char buf[30], tmp[30];
 	char* p;
+	char* out = tmp;
 
 	sprintf(buf, "%llu", n);
 	c = 2 - strlen(buf) % 3;
@@ -153,6 +154,7 @@ inline void commify(unsigned long long n, char* out) {
 		c = (c + 1) % 3;
 	}
 	*--out = 0;
+	return tmp;
 }
 
 #endif
