@@ -138,4 +138,21 @@ inline int random(int until) {
 	return rand() % until;
 }
 
+inline void commify(unsigned long long n, char* out) {
+	int c;
+	char buf[30];
+	char* p;
+
+	sprintf(buf, "%llu", n);
+	c = 2 - strlen(buf) % 3;
+	for (p = buf; *p != 0; p++) {
+		*out++ = *p;
+		if (c == 1) {
+			*out++ = ',';
+		}
+		c = (c + 1) % 3;
+	}
+	*--out = 0;
+}
+
 #endif
