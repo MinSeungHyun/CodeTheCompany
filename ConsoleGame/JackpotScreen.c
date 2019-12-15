@@ -1,10 +1,11 @@
 #include "Defines.h"
 #include <conio.h>
 
-#define WAITING_MESSAGE "레버를 눌러주세요."
+#define WAITING_MESSAGE "레버를 눌러주세요. (비용 30,000원)"
 #define PLAING_MESSAGE "키보드의 1, 2, 3을 눌러 슬롯을 멈춰주세요!"
 #define SUCCESS_MESSAGE "당첨되었습니다! %s원 획득!"
 #define FAILED_MESSAGE "아쉽지만 다음 기회에~"
+#define MONEY_LACK_MESSAGE "돈이 부족합니다."
 #define DELAY_AFTER_FINISHED 2000
 
 #define DEFAULT_REWARD 0
@@ -17,7 +18,7 @@
 
 #define SLOT_COUNT 3
 #define SLOT_CHAR_COUNT 7
-#define SLOT_CHANGING_DELAY 100
+#define SLOT_CHANGING_DELAY 30
 
 #define STATE_SPINNING 0
 #define STATE_STOPPED 1
@@ -109,6 +110,12 @@ void startJackpotGame() {
 	beginJackpotScreen();
 }
 
+void whenMoneyLack(void* param) {
+	mainText = MONEY_LACK_MESSAGE;
+	Sleep(1000);
+	mainText = WAITING_MESSAGE;
+}
+
 void onButtonInJackpotClicked(Button* clickedButton) {
 	char* buttonName = clickedButton->normal;
 	if (buttonName == FILE_BACK_BUTTON) {
@@ -121,7 +128,7 @@ void onButtonInJackpotClicked(Button* clickedButton) {
 			startJackpotGame();
 		}
 		else {
-			//TODO
+			_beginthread(whenMoneyLack, 0, NULL);
 		}
 	}
 }
