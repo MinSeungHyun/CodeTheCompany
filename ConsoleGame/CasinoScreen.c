@@ -9,6 +9,7 @@ void applyToDcInCasino(HDC hdc) {
 }
 
 void onButtonInCasinoClick(Button* clickedButton) {
+	playSound(SOUND_BUTTON_CLICK);
 	char* buttonName = clickedButton->normal;
 	if (buttonName == FILE_BACK_BUTTON) {
 		playBGM(SOUND_MAIN_BGM);

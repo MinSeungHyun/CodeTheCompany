@@ -129,6 +129,7 @@ void whenMoneyLack(void* param) {
 void onButtonInJackpotClicked(Button* clickedButton) {
 	char* buttonName = clickedButton->normal;
 	if (buttonName == FILE_BACK_BUTTON) {
+		playSound(SOUND_BUTTON_CLICK);
 		beginCasinoScreen();
 	}
 	else if (buttonName == FILE_JACKPOT_LEVER_BUTTON) {
