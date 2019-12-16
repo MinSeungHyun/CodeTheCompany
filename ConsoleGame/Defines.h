@@ -37,6 +37,7 @@ void beginEnterCompanyNameScreen();
 void beginMapScreen(int);
 void beginEstateScreen();
 void beginEstateBoughtScreen(int);
+void beginOfficeScreen();
 void beginQuestScreen();
 void beginQuestDetailScreen(int);
 void beginQuestCompleteScreen(int);

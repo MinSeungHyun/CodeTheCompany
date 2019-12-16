@@ -9,7 +9,7 @@
 
 #include "Defines.h"
 
-#define ENABLE_DEVELOPMENT_MODE 1
+#define ENABLE_DEVELOPMENT_MODE 0
 
 //게임의 메인 진행이다. (나중에 게임 다시시작할 때 필요해서 분리했다.)
 void mainProcess() {

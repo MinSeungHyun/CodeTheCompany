@@ -81,6 +81,9 @@ void onButtonInMapClicked(Button* clickedButton) {
 	else if (clickedButtonName == FILE_SETTING_BUTTON) {
 		beginSettingScreen();
 	}
+	else if (clickedButtonName == FILE_FIRST_OFFICE) {
+		beginOfficeScreen();
+	}
 }
 
 //메인 화면에서 UI를 초기화 하기 위한 함수 

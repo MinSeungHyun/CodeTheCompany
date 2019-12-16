@@ -24,6 +24,7 @@
     <ClCompile Include="EnterUserNameScreen.c" />
     <ClCompile Include="EstateBoughtScreen.c" />
     <ClCompile Include="EstateScreen.c" />
+    <ClCompile Include="OfficeScreen.c" />
     <ClCompile Include="JackpotScreen.c" />
     <ClCompile Include="LevelUpScreen.c" />
     <ClCompile Include="Main.c" />
