@@ -96,6 +96,9 @@
     <ClCompile Include="OfficeScreen.c">
       <Filter>소스 파일\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="ComputerScreen.c">
+      <Filter>소스 파일\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonUtils\Button.h">

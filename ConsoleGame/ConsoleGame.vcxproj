@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CasinoScreen.c" />
+    <ClCompile Include="ComputerScreen.c" />
     <ClCompile Include="EnterCompanyNameScreen.c" />
     <ClCompile Include="EnterUserNameScreen.c" />
     <ClCompile Include="EstateBoughtScreen.c" />

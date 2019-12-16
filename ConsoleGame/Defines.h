@@ -38,6 +38,7 @@ void beginMapScreen(int);
 void beginEstateScreen();
 void beginEstateBoughtScreen(int);
 void beginOfficeScreen();
+void beginComputerScreen();
 void beginQuestScreen();
 void beginQuestDetailScreen(int);
 void beginQuestCompleteScreen(int);

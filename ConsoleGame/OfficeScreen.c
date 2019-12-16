@@ -10,7 +10,7 @@ void onButtonInOfficeClick(Button* clickedButton) {
 		beginMapScreen(0);
 	}
 	else if (clickedButtonName == FILE_OFFICE_COMPUTER) {
-
+		beginComputerScreen();
 	}
 }
 
