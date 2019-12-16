@@ -98,6 +98,7 @@ void startJackpotGame() {
 	while (1) {
 		if (_kbhit()) {
 			char input = _getch();
+			if (input == '1' || input == '2' || input == '3') playSound(FILE_JACKPOT_SLOT_STOP_SOUND);
 			switch (input) {
 			case '1':
 				slotState[0] = STATE_STOPPED;
@@ -144,6 +145,7 @@ void onButtonInJackpotClicked(Button* clickedButton) {
 
 void beginJackpotScreen() {
 	stopButtonListener();
+
 	Button backButton = createButton(100, 50, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 2, onButtonInJackpotClicked);
 	Button leverButton = createButton(2048, 434, FILE_JACKPOT_LEVER_BUTTON, FILE_JACKPOT_LEVER_BUTTON_HOVER, FILE_JACKPOT_LEVER_BUTTON_CLICK, LEVER_INDEX, onButtonInJackpotClicked);
 	Button buttons[JACKPOT_BUTTON_COUNT] = { backButton, leverButton };

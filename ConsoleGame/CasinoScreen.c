@@ -11,9 +11,11 @@ void applyToDcInCasino(HDC hdc) {
 void onButtonInCasinoClick(Button* clickedButton) {
 	char* buttonName = clickedButton->normal;
 	if (buttonName == FILE_BACK_BUTTON) {
+		playBGM(SOUND_MAIN_BGM);
 		beginMapScreen(0);
 	}
 	else if (buttonName == FILE_CASINO_JACKPOT_BUTTON) {
+		playBGM(FILE_JACKPOT_BGM);
 		beginJackpotScreen();
 	}
 	else if (buttonName == FILE_CASINO_TRICKERY_BUTTON) {
@@ -24,6 +26,8 @@ void onButtonInCasinoClick(Button* clickedButton) {
 void beginCasinoScreen() {
 	stopButtonListener();
 	updateUserValues();
+
+	playBGM(FILE_CASINO_BGM);
 
 	Button backButton = createButton(100, 50, FILE_BACK_BUTTON, FILE_BACK_BUTTON_HOVER, FILE_BACK_BUTTON_CLICK, 2, onButtonInCasinoClick);
 	Button jackpotButton = createButton(400, 140, FILE_CASINO_JACKPOT_BUTTON, FILE_CASINO_JACKPOT_BUTTON_HOVER, FILE_CASINO_JACKPOT_BUTTON_CLICK, 3, onButtonInCasinoClick);
