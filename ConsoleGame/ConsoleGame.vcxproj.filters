@@ -37,7 +37,7 @@
     <Filter Include="소스 파일\Ohters">
       <UniqueIdentifier>{1b6063a5-b0b8-4d38-aa2f-a4f46c150b1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\GameResources\ImageLayer">
+    <Filter Include="헤더 파일\ImageLayer">
       <UniqueIdentifier>{6b4d4764-a5d1-4ff1-b8dd-867ab2826614}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -111,13 +111,13 @@
       <Filter>헤더 파일\Button</Filter>
     </ClInclude>
     <ClInclude Include="ImageUtils\ImageLayer.h">
-      <Filter>헤더 파일\GameResources\ImageLayer</Filter>
+      <Filter>헤더 파일\ImageLayer</Filter>
     </ClInclude>
     <ClInclude Include="ImageUtils\ImageLayerImpl.h">
-      <Filter>헤더 파일\GameResources\ImageLayer</Filter>
+      <Filter>헤더 파일\ImageLayer</Filter>
     </ClInclude>
     <ClInclude Include="ImageUtils\ImageLayerInterface.h">
-      <Filter>헤더 파일\GameResources\ImageLayer</Filter>
+      <Filter>헤더 파일\ImageLayer</Filter>
     </ClInclude>
     <ClInclude Include="Estate.h">
       <Filter>헤더 파일\GameResources</Filter>
@@ -144,7 +144,7 @@
       <Filter>헤더 파일\Others</Filter>
     </ClInclude>
     <ClInclude Include="ImageUtils\ImageFading.h">
-      <Filter>헤더 파일\GameResources\ImageLayer</Filter>
+      <Filter>헤더 파일\ImageLayer</Filter>
     </ClInclude>
     <ClInclude Include="Defines.h">
       <Filter>소스 파일\Ohters</Filter>
