@@ -7,6 +7,7 @@
 #define FAILED_MESSAGE "아쉽지만 다음 기회에~"
 #define MONEY_LACK_MESSAGE "돈이 부족합니다."
 #define DELAY_AFTER_FINISHED 2000
+#define EMPHASIZE_COLOR RGB(255, 222, 48)
 
 #define DEFAULT_REWARD 0
 #define JACKPOT_PLAY_PRICE 30000
@@ -18,16 +19,18 @@
 
 #define SLOT_COUNT 3
 #define SLOT_CHAR_COUNT 7
-#define SLOT_CHANGING_DELAY 30
+#define SLOT_CHANGING_DELAY 1000
 
 #define STATE_SPINNING 0
 #define STATE_STOPPED 1
 
 char* mainText = WAITING_MESSAGE;
+COLORREF mainTextColor = RGB(255, 255, 255);
+
 void applyToDcInJackpot(HDC hdc) {
 	printText(hdc, 1990, 75, 70, 0, RGB(255, 255, 255), TA_LEFT, commify(money));
 	printText(hdc, 2680, 85, 50, 0, RGB(255, 255, 255), TA_RIGHT, "원");
-	printText(hdc, 1380, 365, 70, 0, RGB(255, 255, 255), TA_CENTER, mainText);
+	printText(hdc, 1380, 365, 70, 0, mainTextColor, TA_CENTER, mainText);
 }
 
 char AVAILABLE_CHARS[SLOT_CHAR_COUNT][3] = { "$", "7", "@", "♠", "♣", "◆", "♥" };
@@ -72,6 +75,22 @@ void initJacpotGame() {
 	}
 }
 
+void endJackpotGame() {
+	BigInt reward = getReward();
+	if (reward == 0) mainText = FAILED_MESSAGE;
+	else {
+		mainTextColor = EMPHASIZE_COLOR;
+		char tmp[50];
+		sprintf(tmp, SUCCESS_MESSAGE, commify(reward));
+		mainText = tmp;
+	}
+	layer.renderAll(&layer);
+	Sleep(DELAY_AFTER_FINISHED);
+	mainTextColor = RGB(255, 255, 255);
+	money += reward;
+	saveMoneyAndExp(money, userExp);
+}
+
 void startJackpotGame() {
 	stopButtonListener();
 	initJacpotGame();
@@ -95,17 +114,7 @@ void startJackpotGame() {
 		layer.renderAll(&layer);
 	}
 
-	BigInt reward = getReward();
-	if (reward == 0) mainText = FAILED_MESSAGE;
-	else {
-		char tmp[50];
-		sprintf(tmp, SUCCESS_MESSAGE, commify(reward));
-		mainText = tmp;
-	}
-	layer.renderAll(&layer);
-	Sleep(DELAY_AFTER_FINISHED);
-	money += reward;
-	saveMoneyAndExp(money, userExp);
+	endJackpotGame();
 
 	beginJackpotScreen();
 }
