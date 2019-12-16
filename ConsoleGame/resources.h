@@ -113,4 +113,9 @@
 #define FILE_JACKPOT_SLOT_STOP_SOUND "resources/sounds/casino_slot_stop.wav"
 #define FILE_JACKPOT_BGM "resources/sounds/casino_jackpot_bgm.wav"
 
+#define FILE_OFFICE_BACKGROUND "resources/company_screen/first_office_inside.bmp"
+#define FILE_OFFICE_COMPUTER "resources/company_screen/button_computer.bmp"
+#define FILE_OFFICE_COMPUTER_HOVER "resources/company_screen/button_computer_hover.bmp"
+#define FILE_OFFICE_COMPUTER_CLICK "resources/company_screen/button_computer_clicked.bmp"
+
 #endif
